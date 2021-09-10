@@ -1,28 +1,19 @@
 <template>
-    <div
-      class="noTask"
+  <div
+    class="no-tasks"
+  >
+    <v-icon
+      size="100"
+      color="primary"
     >
-      <v-icon
-        size=150
-      >
-        mdi-check-circle-outline
-      </v-icon>
-      <div
-      class="text-h5 white--text"
-      > 
-      Nothing to do!! 
-      </div>
-    </div>
+      mdi-check
+    </v-icon>
+    <div class="text-h5 primary--text">No tasks</div>
+  </div>
 </template>
 
-<script>
-export default {
-
-}
-</script>
-
 <style lang="sass">
-  .noTask
+  .no-tasks
     position: absolute
     left: 50%
     top: 50%
