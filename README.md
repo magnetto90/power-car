@@ -1,4 +1,4 @@
-# vuetify-todo
+# Power-Car
 
 ## Project setup
 ```

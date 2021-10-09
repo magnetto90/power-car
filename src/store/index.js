@@ -1,47 +1,35 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import contract from './contract'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    tasks: [
-      {
-        id: 1,
-        title: 'Wake up',
-        done: false
-      },
-      {
-        id: 2,
-        title: 'Get bananas',
-        done: false
-      },
-      {
-        id: 3,
-        title: 'Eat bananas',
-        done: false
-      }
-    ],
+    web3: false,
+    wallet: {
+      address: '',
+      short: '',
+      unlocked: false
+    },
+    network: {
+      id: null
+    },
     snackbar: {
       show: false,
       text: ''
     }
   },
   mutations: {
-    addTask(state, newTaskTitle) {
-      let newTask = {
-        id: Date.now(),
-        title: newTaskTitle,
-        done: false
-      }
-      state.tasks.push(newTask)
+    setNetworkId (state, id){
+      state.network.id = id;
     },
-    doneTask(state, id) {
-      let task = state.tasks.filter(task => task.id === id)[0]
-      task.done = !task.done
-    },
-    deleteTask(state, id) {
-      state.tasks = state.tasks.filter(task => task.id !== id)
+    //Captura el address de Metamask y lo muestra en donde estaba el boton UnlockWallet
+    showAddress (state, address){
+      state.wallet.address = address;
+      state.wallet.short = address.substring(0, 4)+"..."+address.substring(address.length -4, address.length);
+      state.wallet.unlocked = true;
+      sessionStorage.setItem("isLogged", true)
     },
     showSnackbar(state, text) {
       let timeout = 0
@@ -58,17 +46,70 @@ export default new Vuex.Store({
       state.snackbar.show = false
     }
   },
-  actions: {
-    addTask({ commit }, newTaskTitle) {
-      commit('addTask', newTaskTitle)
-      commit('showSnackbar', 'Task added!')
+  actions: {    
+    getNetworkId (){
+      web3.eth.getChainId().then(id => {
+        this.commit("setNetworkId",id)
+      });
     },
-    deleteTask({ commit }, id) {
-      commit('deleteTask', id)
-      commit('showSnackbar', 'Task deleted!')
-    }
-  },
-  getters: {
+    getAddress(){
+      web3.eth.requestAccounts().then(addresses => {
+        this.commit("showAddress",addresses[0])
+      })
+    },
+    async addChain(){
+      try {
+        await ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0x334' }],
+        });
+      } catch (switchError) {
+        // This error code indicates that the chain has not been added to MetaMask.
+        if (switchError.code === 4902) {
+          try {
+            await ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [{ 
+                chainId: '0x334', 
+                chainName: 'Callisto',
+                nativeCurrency: {
+                  name: 'Callisto',
+                  symbol: 'CLO',
+                  decimals: 18,
+                },
+                rpcUrls: ['https://clo-geth.0xinfra.com/'],
+                blockExplorerUrls: ['https://explorer.callisto.network/']
 
+              }],
+            });
+          } catch (addError) {
+            // handle "add" error
+          }
+        }
+        // handle other "switch" errors
+      }
+    },
+    async addToken (){
+      ethereum
+      .request({
+        method: 'wallet_watchAsset',
+        params: {
+          type: 'ERC20',
+          options: {
+            address: '0xE2E4Cf144F4365AAa023da04918A64072C284201',
+            symbol: 'CRL',
+            decimals: 2
+          },
+        },
+      })
+      .then((success) => {
+        if (success) {
+          console.log('CRL successfully added to wallet!')
+        } else {
+          throw new Error('Something went wrong.')
+        }
+      })
+      .catch(console.error)
+    }
   }
 })

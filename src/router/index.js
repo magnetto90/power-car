@@ -1,23 +1,34 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Todo from '../views/Todo.vue'
+import DragRace from '../views/DragRace.vue'
+import Market from '../views/Market.vue'
+import PowerPlant from '../views/PowerPlant.vue'
+import WhitePaper from '../views/WhitePaper.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'Todo',
-    component: Todo
+    path: '/white-paper',
+    name: 'WhitePaper',
+    component: WhitePaper
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    path: '/market',
+    name: 'Market',
+    component: Market
+  },
+  {
+    path: '/power-plant',
+    name: 'PowerPlant',
+    component: PowerPlant
+  },
+  {
+    path: '/drag-race',
+    name: 'DragRace',
+    component: DragRace
+  },
+
 ]
 
 const router = new VueRouter({
