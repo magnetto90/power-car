@@ -4,6 +4,7 @@ import DragRace from '../views/DragRace.vue'
 import Market from '../views/Market.vue'
 import PowerPlant from '../views/PowerPlant.vue'
 import WhitePaper from '../views/WhitePaper.vue'
+import PageNotFound from '../views/PageNotFound.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/drag-race',
     name: 'DragRace',
     component: DragRace
+  },
+  {
+    path: '/*',
+    name: '404',
+    component: PageNotFound
   },
 
 ]
