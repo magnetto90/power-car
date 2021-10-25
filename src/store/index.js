@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import contract from './contract'
+import Power from './power'
+import Car from './car'
 
 Vue.use(Vuex)
 
@@ -18,7 +19,11 @@ export default new Vuex.Store({
     snackbar: {
       show: false,
       text: ''
-    }
+    },
+    cars: [
+      {id: 0},
+      {id: 1}
+    ]
   },
   mutations: {
     setNetworkId (state, id){
@@ -44,7 +49,7 @@ export default new Vuex.Store({
     },
     hideSnackbar(state) {
       state.snackbar.show = false
-    }
+    },
   },
   actions: {    
     getNetworkId (){
@@ -97,14 +102,14 @@ export default new Vuex.Store({
           type: 'ERC20',
           options: {
             address: '0xE2E4Cf144F4365AAa023da04918A64072C284201',
-            symbol: 'CRL',
+            symbol: 'POWER',
             decimals: 2
           },
         },
       })
       .then((success) => {
         if (success) {
-          console.log('CRL successfully added to wallet!')
+          console.log('POWER successfully added to wallet!')
         } else {
           throw new Error('Something went wrong.')
         }

@@ -1,8 +1,15 @@
 <template>
     <v-btn
-        class="mx-1 rigth"
+        class="rigth"
         color="#20272F"
     >
+        <v-icon
+            
+            color="yellow rounded-circle"
+            class="mr-4"
+        >
+            mdi-key-variant
+        </v-icon>
         {{$store.state.wallet.short}}   
     </v-btn>
   

@@ -1,11 +1,17 @@
 <template>
     <v-btn
         @click="unlockWallet"
-        class="mx-1 rigth"
+        class="rigth"
         color="#20272F"
         
     >
-        Unlock Wallet
+        <v-icon
+            
+            color="yellow rounded-circle"
+            class="mr-4"
+        >
+            mdi-key-variant
+        </v-icon> Unlock Wallet
     </v-btn>
 </template>
 

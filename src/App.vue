@@ -33,6 +33,32 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+              <template v-slot:append>
+        <div class="pa-2">
+            <v-btn
+              class="mx-2 mt-2"
+              width="95%"
+              color="grey"
+              outlined
+              rounded
+              small
+              @click="$store.dispatch('addChain')"
+            >
+              Agregar Red
+            </v-btn>
+            <v-btn
+              class="mx-2 mt-2"
+              width="95%"
+              color="grey"
+              outlined
+              rounded
+              small
+              @click="$store.dispatch('addToken')"
+            >
+              Configurar Token
+            </v-btn>
+        </div>
+      </template>
     </v-navigation-drawer>
 
     <v-app-bar
@@ -68,10 +94,9 @@
     data: () => ({
       drawer: null,
       items: [
-        { title: 'White Paper', icon: 'mdi-file-outline', to: '/white-paper' },
-        { title: 'Market', icon: 'mdi-cart', to: '/market' },
+        { title: 'White Paper', icon: 'mdi-file-outline', to: '/' },
+        { title: 'Car List', icon: 'mdi-car', to: '/car-list' },
         { title: 'Power Plant', icon: 'mdi-wind-turbine', to: '/power-plant' },
-        { title: 'Drag Race', icon: 'mdi-flag-checkered', to: '/drag-race' },
       ],
     }),
     components: {
