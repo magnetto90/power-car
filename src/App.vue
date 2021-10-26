@@ -6,11 +6,12 @@
     >
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="title">
-            CloCars
+          <v-list-item-title class="title" >
+            <p class="myFont ma-0">Power Cars</p>
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+
 
       <v-divider></v-divider>
 
@@ -72,7 +73,7 @@
       </template>
 
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
+      <collect />
       <v-spacer></v-spacer>
       <unlock-wallet
         v-if="!$store.state.wallet.unlocked"
@@ -102,7 +103,14 @@
     components: {
       'unlock-wallet': require('@/components/Shared/UnlockWallet.vue').default,
       'wallet': require('@/components/Shared/Wallet.vue').default,
-      'snackbar': require('@/components/Shared/Snackbar.vue').default
+      'snackbar': require('@/components/Shared/Snackbar.vue').default,
+      'collect': require('@/components/Shared/Collect.vue').default
     }
   }
 </script>
+
+<style>
+.myFont {
+  font-family: 'Press Start 2P', cursive;; 
+}
+</style>

@@ -12,7 +12,7 @@
         </v-icon>
         {{$store.state.wallet.short}}   
     </v-btn>
-  
+ 
 </template>
 
 <script>

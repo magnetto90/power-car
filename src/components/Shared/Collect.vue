@@ -1,13 +1,23 @@
 <template>
-    <div>
-        <div>Charge Car</div>
-        <div>Buy Power</div>
-    </div>
+    <v-btn
+        class="left"
+        color="#20272F"
+        @click="claim()"
+    >
+        <v-icon
+            
+            color="yellow rounded-circle"
+            class="mr-4"
+        >
+            mdi-cash
+        </v-icon>
+        Claim: CLO {{amount}}
+    </v-btn>
+ 
 </template>
 
 <script>
 import Car from '@/store/car'
-import Power from '@/store/power'
 export default {
     data() {
       return {
