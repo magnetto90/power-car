@@ -24,9 +24,10 @@ export default {
         amount: 0
       }
     },
-    beforeMount(){
-        Car.methods.getSalesBalance().call((err, res) => {
+    Mounted(){
+        Car.methods.getSalesBalance().call({from: this.$store.state.wallet.address}, (err, res) => {
           this.amount = res/(10**18)
+          console.log(res)
         })
     },
     methods: {

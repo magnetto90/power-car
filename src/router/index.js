@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Market from '../views/CarList.vue'
-import PowerPlant from '../views/PowerPlant.vue'
-import WhitePaper from '../views/WhitePaper.vue'
+import CarList from '../views/CarList.vue'
 import PageNotFound from '../views/PageNotFound.vue'
 
 Vue.use(VueRouter)
@@ -10,18 +8,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'WhitePaper',
-    component: WhitePaper
-  },
-  {
-    path: '/car-list',
     name: 'Car List',
-    component: Market
-  },
-  {
-    path: '/power-plant',
-    name: 'PowerPlant',
-    component: PowerPlant
+    component: CarList
   },
   {
     path: '/*',

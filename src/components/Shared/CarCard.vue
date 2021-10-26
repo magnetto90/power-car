@@ -1,107 +1,161 @@
 <template>
   <v-card
-    width="20vw"
-    height="350px"
-    min-width="250px" 
-    :color="$store.state.wallet.address == owner ? 'green' : 'blue'" 
+    align="center"
+    width="250px"
+    height="300px"
     class="float-sm-left ma-10 pa-5"
-    :disabled="false"
+    :style="$store.state.wallet.address == owner ? 'border: 2px solid green;' : 'border: 2px solid red;'"
   >
-    <img 
-      width="90%"
-      :src="imagePath"
-      center
-    >
-    <br>
-    <p>Car Battery: {{carBattery}}</p>
-     <v-btn
-      class="mr-3 black--text" 
-      v-if="carState == 1 && $store.state.wallet.address != owner"
-      color="yellow"
-      @click="buyCar()"
-    >
-      BUY
-    </v-btn>
-    <div v-if="carState == 0 && $store.state.wallet.address == owner" class="d-flex">
+    <div>   
+      <v-btn 
+        class="float-sm-left" 
+        shapped
+        color="blue"
+        >
+        CAR {{car.id}}
+      </v-btn>
 
-      <v-text-field
-        v-model="amount"
-        background-color="black"
-        color="yellow"
-        solo
-        class="ml-0"
-        outlined
-        hide-details
-        type="number"
-        step="1"
-        min="1"
-        dense
+      <img 
+        width="100%"
+        :src="imagePath"
       >
-      </v-text-field>
-            <v-btn
+      <p :title="owner">
+        Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
+      </p>
+    </div>
+
+     <v-btn
+        class="black--text" 
+        v-if="carState == 1 && $store.state.wallet.address != owner"
+        color="yellow"
+        @click="buyCar()"
+      >
+        BUY
+      </v-btn>
+
+        <v-overlay
+          :absolute="absolute"
+          :value="sellOverlay"
+          opacity="90"
+        >
+        <p>Set the CAR price:</p>
+        <v-text-field
+          v-model="amount"
+          background-color="black"
+          color="yellow"
+          solo
+          class="ml-0"
+          outlined
+          hide-details
+          type="number"
+          step="1"
+          min="1"
+          dense
+        >
+        </v-text-field>
+          <v-btn
+            color="success"
+            @click="sellCar()"
+          >
+            Confirm
+          </v-btn>
+          <v-btn
+            color="error"
+            @click="sellOverlay = false"
+          >
+            Cancel
+          </v-btn>
+        </v-overlay>
+
+
+
+      <v-btn
+        v-if="carState == 0 && $store.state.wallet.address == owner"
         class="mr-0 black--text" 
         color="yellow"
-        @click="sellCar()"
+        @click="sellOverlay = true"
+        width="100%"
       >
         SELL
       </v-btn>
-    </div>
+
     <v-btn
-      class="mr-3 black--text" 
+      class=" black--text" 
       v-if="carState == 1 && $store.state.wallet.address == owner"
       color="yellow"
       @click="cancelSell()"
+      width="100%"
     >
       CANCEL SELL
     </v-btn>
     <v-btn
-      class="mr-3 black--text" 
+      class="black--text" 
       v-if="carState == 0 && $store.state.wallet.address == owner"
       color="red"
       @click="createRace()"
+      width="100%"
     >
       RACE
     </v-btn>
-    <div v-if="carState == 3 && $store.state.wallet.address != owner">
+
+
+        <v-overlay
+          :absolute="absolute"
+          :value="raceOverlay"
+          opacity="90"
+        >
+         <p>Enter your car ID to race:</p>
+        <v-text-field
+          v-model="betCar"
+          background-color="black"
+          color="yellow"
+          solo
+          class="ml-0"
+          outlined
+          hide-details
+          type="number"
+          step="1"
+          min="1"
+          dense
+        >
+        </v-text-field>
+
+
           <v-btn
-      class="mr-3 black--text" 
-      
+            color="success"
+            @click="acceptRace()"
+          >
+            Confirm
+          </v-btn>
+          <v-btn
+            color="error"
+            @click="raceOverlay = false"
+          >
+            Cancel
+          </v-btn>
+        </v-overlay>
+          <v-btn
+          v-if="carState == 3 && $store.state.wallet.address != owner"
+      class=" black--text" 
       color="red"
-      @click="acceptRace()"
+      @click="raceOverlay = true"
+      width="100%"
     >
       ACCEPT RACE
     </v-btn>
-    <v-text-field
-      v-model="betCar"
-      background-color="black"
-      color="yellow"
-      solo
-      class="ml-0"
-      outlined
-      hide-details
-      type="number"
-      step="1"
-      min="1"
-      dense
-      width="50%"
-      label="Your Card ID"
-    >
-    </v-text-field>
-    </div>
+ 
 
     <v-btn
-      class="mr-3 black--text" 
+      class=" black--text" 
       v-if="carState == 3 && $store.state.wallet.address == owner"
       color="yellow"
       @click="cancelRace()"
+      width="100%"
     >
       CANCEL RACE
     </v-btn>
     <p v-if="carPrice > 0">
-      Price: CLO: {{carPrice}}
-    </p>
-    <p :title="owner">
-      Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
+      Price: CLO {{carPrice}}
     </p>
   </v-card>
 </template>
@@ -119,14 +173,14 @@ export default {
         amount: 0,
         betCar: 0,
         carBattery: '',
+        absolute: true,
+        sellOverlay: false,
+        raceOverlay: false
       }
     },
     beforeMount(){
         Car.methods.tokenURI(this.car.id).call((err, res) => {
           this.imagePath = res
-        })
-        Car.methods.carBattery(this.car.id).call((err, res) => {
-          this.carBattery = res.status+'/'+res.amount
         })
         Car.methods.carState(this.car.id).call((err, res) => {
           this.carState = res;
@@ -138,16 +192,21 @@ export default {
         })
         Car.methods.ownerOf(this.car.id).call((err, res) => {
           this.owner = res
+          if(res+'' == this.$store.state.wallet.address+''){
+            this.$store.state.carsOwned.push(this.car.id);
+          }
         })
     },
     methods: {
       sellCar () {
-        Car.methods.createCarSale(this.car.id, this.amount).send({from: this.$store.state.wallet.address})         
+         Car.methods.createCarSale(this.car.id, this.amount).send({from: this.$store.state.wallet.address})         
         .on('confirmation', function(){
             location.reload()
+            this.sellOverlay = false;
         })
         .on('error', function(error){
             this.$store.commit('showSnackbar', 'Car is not on sale ' + error);
+            this.sellOverlay = false;
         });
       },
       cancelSell () {
@@ -192,9 +251,11 @@ export default {
         Car.methods.acceptDragRace(this.car.id, this.betCar).send({from: this.$store.state.wallet.address})         
         .on('confirmation', function(){
             location.reload()
+            this.raceOverlay = false;
         })
         .on('error', function(error){
             this.$store.commit('showSnackbar', 'Can not perform this acction ' + error);
+            this.raceOverlay = false;
         });
       }      
     }
@@ -204,8 +265,9 @@ export default {
 
 <style>
 p {
-  margin: 0; 
-
+  margin: 0;
+  padding: 0;
 }
+
 </style>
 

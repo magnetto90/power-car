@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Power from './power'
 import Car from './car'
 
 Vue.use(Vuex)
@@ -28,8 +27,10 @@ export default new Vuex.Store({
       {id: 4},
       {id: 5},
       {id: 6},
-      {id: 7}
-    ]
+      {id: 7},
+      {id: 25}
+    ],
+    carsOwned: [],
   },
   mutations: {
     setNetworkId (state, id){
@@ -99,28 +100,6 @@ export default new Vuex.Store({
         }
         // handle other "switch" errors
       }
-    },
-    async addToken (){
-      ethereum
-      .request({
-        method: 'wallet_watchAsset',
-        params: {
-          type: 'ERC20',
-          options: {
-            address: '0xE2E4Cf144F4365AAa023da04918A64072C284201',
-            symbol: 'POWER',
-            decimals: 2
-          },
-        },
-      })
-      .then((success) => {
-        if (success) {
-          console.log('POWER successfully added to wallet!')
-        } else {
-          throw new Error('Something went wrong.')
-        }
-      })
-      .catch(console.error)
     }
   }
 })
