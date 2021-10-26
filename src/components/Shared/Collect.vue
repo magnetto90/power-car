@@ -24,11 +24,12 @@ export default {
         amount: 0
       }
     },
-    Mounted(){
-        Car.methods.getSalesBalance().call({from: this.$store.state.wallet.address}, (err, res) => {
+    beforeMount(){
+      web3.eth.requestAccounts().then(addresses => {
+        Car.methods.getSalesBalance().call({from: addresses[0]}, (err, res) => {
           this.amount = res/(10**18)
-          console.log(res)
         })
+      })
     },
     methods: {
       claim () {
@@ -39,7 +40,7 @@ export default {
         .on('error', function(error){
             this.$store.commit('showSnackbar', 'Car is not on sale ' + error);
         });
-      }   
+      },
     }
 }
 
