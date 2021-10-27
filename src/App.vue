@@ -12,7 +12,7 @@
 
       <collect />
       <v-spacer></v-spacer>
-      <h1 class="myFont">WheelsBits</h1>
+      <h1 class="myFont">PowerC</h1>
       <v-spacer></v-spacer>
       <unlock-wallet
         v-if="!$store.state.wallet.unlocked"

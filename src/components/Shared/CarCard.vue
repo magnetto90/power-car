@@ -133,6 +133,7 @@
           >
             Cancel
           </v-btn>
+          <p>*If you loose the race you loose your car.</p>
         </v-overlay>
           <v-btn
           v-if="carState == 3 && $store.state.wallet.address != owner"
