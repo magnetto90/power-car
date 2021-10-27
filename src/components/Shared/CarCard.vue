@@ -180,7 +180,6 @@ export default {
         carPrice: 0,
         amount: 0,
         betCar: 0,
-        carBattery: '',
         absolute: true,
         sellOverlay: false,
         raceOverlay: false,
@@ -211,65 +210,78 @@ export default {
         this.sellOverlay = false;
         this.progressOverlay = true;
          Car.methods.createCarSale(this.car.id, this.amount).send({from: this.$store.state.wallet.address})         
-        .on('confirmation', function(){
-            location.reload()
-            this.progressOverlay = false;
+        .then(value => {
+          sessionStorage.setItem("lastTx", value.transactionHash) 
+          location.reload()
         })
-        .on('error', function(error){
-            this.$store.commit('showSnackbar', 'Car is not on sale ' + error);
-            this.progressOverlay = false;
-        });
+        .catch(err => {
+          this.$store.commit('showSnackbar', err.message);
+          this.progressOverlay = false;
+          });
+
       },
       cancelSell () {
+        this.progressOverlay = true;
         Car.methods.endSale(this.car.id).send({from: this.$store.state.wallet.address})         
-        .on('confirmation', function(){
-            location.reload()
+        .then(value => {
+          sessionStorage.setItem("lastTx", value.transactionHash) 
+          location.reload()
         })
-        .on('error', function(error){
-            this.$store.commit('showSnackbar', 'Can not perform this acction ' + error);
-        });
+        .then(value => { console.log(value) })
+        .catch(err => {
+          this.$store.commit('showSnackbar', err.message);
+          this.progressOverlay = false;
+          });
       },
       buyCar () {
-          const amountToSend = web3.utils.toWei(this.carPrice+'', "ether"); 
+        this.progressOverlay = true;
+        let amountToSend = web3.utils.toWei(this.carPrice+'', "ether"); 
         Car.methods.buyCar(this.car.id).send({from: this.$store.state.wallet.address, value: amountToSend})         
-          .on('confirmation', function(){
-              location.reload()
-          })
-          .on('error', function(error){
-              this.$store.commit('showSnackbar', error);
-        });
+        .then(value => {
+          sessionStorage.setItem("lastTx", value.transactionHash) 
+          location.reload()
+        })
+        .catch(err => {
+          this.$store.commit('showSnackbar', err.message);
+          this.progressOverlay = false;
+          });
       },
       createRace () {
+        this.progressOverlay = true;
         Car.methods.createDragRace(this.car.id).send({from: this.$store.state.wallet.address})         
-        .on('confirmation', function(){
-            location.reload()
+        .then(value => {
+          sessionStorage.setItem("lastTx", value.transactionHash) 
+          location.reload()
         })
-        .on('error', function(error){
-            this.$store.commit('showSnackbar', 'Can not perform this acction ' + error);
-        });
+        .catch(err => {
+          this.$store.commit('showSnackbar', err.message);
+          this.progressOverlay = false;
+          });
       },
       cancelRace () {
+        this.progressOverlay = true;
         Car.methods.cancelRace(this.car.id).send({from: this.$store.state.wallet.address})         
-        .on('confirmation', function(){
-            location.reload()
+        .then(value => {
+          sessionStorage.setItem("lastTx", value.transactionHash) 
+          location.reload()
         })
-        .on('error', function(error){
-            this.$store.commit('showSnackbar', 'Can not perform this acction ' + error);
-        });
-
+        .catch(err => {
+          this.$store.commit('showSnackbar', err.message);
+          this.progressOverlay = false;
+          });
       },
       acceptRace () {
         this.raceOverlay = false;
         this.progressOverlay = true;
         Car.methods.acceptDragRace(this.car.id, this.betCar).send({from: this.$store.state.wallet.address})         
-        .on('confirmation', function(){
-            location.reload()
-            this.progressOverlay = false;
+        .then(value => {
+          sessionStorage.setItem("lastTx", value.transactionHash) 
+          location.reload()
         })
-        .on('error', function(error){
-            this.$store.commit('showSnackbar', 'Can not perform this acction ' + error);
-            this.progressOverlay = false;
-        });
+        .catch(err => {
+          this.$store.commit('showSnackbar', err.message);
+          this.progressOverlay = false;
+          });
       }      
     }
 }

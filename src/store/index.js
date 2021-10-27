@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Car from './car'
 
 Vue.use(Vuex)
 
@@ -47,7 +46,7 @@ export default new Vuex.Store({
       let timeout = 0
       if (state.snackbar.show) {
         state.snackbar.show = false
-        timeout = 300
+        timeout = 3000
       }
       setTimeout(() => {
         state.snackbar.show = true
