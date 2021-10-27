@@ -157,6 +157,14 @@
     <p v-if="carPrice > 0">
       Price: CLO {{carPrice}}
     </p>
+
+    <v-overlay
+      :absolute="absolute"
+      :value="progressOverlay"
+      opacity="90"
+    >
+    <img src="@/assets/Fuel.gif">
+    </v-overlay>
   </v-card>
 </template>
 
@@ -175,7 +183,8 @@ export default {
         carBattery: '',
         absolute: true,
         sellOverlay: false,
-        raceOverlay: false
+        raceOverlay: false,
+        progressOverlay: false
       }
     },
     beforeMount(){
@@ -199,14 +208,16 @@ export default {
     },
     methods: {
       sellCar () {
+        this.sellOverlay = false;
+        this.progressOverlay = true;
          Car.methods.createCarSale(this.car.id, this.amount).send({from: this.$store.state.wallet.address})         
         .on('confirmation', function(){
             location.reload()
-            this.sellOverlay = false;
+            this.progressOverlay = false;
         })
         .on('error', function(error){
             this.$store.commit('showSnackbar', 'Car is not on sale ' + error);
-            this.sellOverlay = false;
+            this.progressOverlay = false;
         });
       },
       cancelSell () {
@@ -248,14 +259,16 @@ export default {
 
       },
       acceptRace () {
+        this.raceOverlay = false;
+        this.progressOverlay = true;
         Car.methods.acceptDragRace(this.car.id, this.betCar).send({from: this.$store.state.wallet.address})         
         .on('confirmation', function(){
             location.reload()
-            this.raceOverlay = false;
+            this.progressOverlay = false;
         })
         .on('error', function(error){
             this.$store.commit('showSnackbar', 'Can not perform this acction ' + error);
-            this.raceOverlay = false;
+            this.progressOverlay = false;
         });
       }      
     }
@@ -267,6 +280,10 @@ export default {
 p {
   margin: 0;
   padding: 0;
+}
+
+.v-progress-circular {
+  margin: 1rem;
 }
 
 </style>
