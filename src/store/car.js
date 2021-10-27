@@ -765,7 +765,7 @@ if(typeof web3 == 'undefined')
                 "type": "function"
             }
         ],
-        "0x8C3a198929E8796a09f017d11B56f684679A4721"
+        "0x2A54EEfF8B3611Bc5d4364188CF3980D8AB6235d"
     );
 }
 
