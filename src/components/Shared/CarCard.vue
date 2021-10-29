@@ -32,7 +32,9 @@
         color="yellow"
         @click="buyCar()"
       >
-        BUY
+      
+        BUY for CLO {{carPrice}}
+
       </v-btn>
 
         <v-overlay
@@ -157,9 +159,7 @@
     >
       CANCEL RACE
     </v-btn>
-    <p v-if="carPrice > 0">
-      Price: CLO {{carPrice}}
-    </p>
+
 
     <v-overlay
       :absolute="absolute"
