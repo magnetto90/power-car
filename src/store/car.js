@@ -415,6 +415,32 @@ if(typeof web3 == 'undefined')
             {
                 "inputs": [
                     {
+                        "internalType": "uint256",
+                        "name": "_newRate",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "setFeeRate",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address payable",
+                        "name": "_withdrawalWallet",
+                        "type": "address"
+                    }
+                ],
+                "name": "setwithdrawalWallet",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
                         "internalType": "address",
                         "name": "from",
                         "type": "address"
@@ -493,6 +519,25 @@ if(typeof web3 == 'undefined')
                         "type": "uint256"
                     }
                 ],
+                "name": "carBonus",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
                 "name": "carSales",
                 "outputs": [
                     {
@@ -541,6 +586,30 @@ if(typeof web3 == 'undefined')
                         "type": "uint256"
                     }
                 ],
+                "name": "carWinRate",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "total",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "wins",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
                 "name": "dragRaces",
                 "outputs": [
                     {
@@ -562,6 +631,19 @@ if(typeof web3 == 'undefined')
                         "internalType": "address",
                         "name": "pilotTwo",
                         "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "feeRate",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
                     }
                 ],
                 "stateMutability": "view",
@@ -765,7 +847,7 @@ if(typeof web3 == 'undefined')
                 "type": "function"
             }
         ],
-        "0x576D4bB6e5F49980CA1b7b6b7D42f2Af759D221a"
+        "0x2f9649bae7E29E85a32546fd1Afb9EE901038B04"
     );
 }
 

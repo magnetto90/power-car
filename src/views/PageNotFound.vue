@@ -9,9 +9,10 @@
       >
          <div>   
             <v-btn 
-            class="float-sm-left" 
+            class="float-sm-left mb-2" 
             shapped
             color="blue"
+            width="100%"
             >
             CAR 404
             </v-btn>
@@ -23,6 +24,9 @@
             <p :title="owner">
             Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
             </p>
+                  
+        <p>Win Rate: {{wins+"/"+total}} Bonus: +{{bonus}}</p>
+      
          </div>
 
          <v-btn
@@ -75,7 +79,7 @@
             class="mr-0 black--text" 
             color="yellow"
             @click="sellOverlay = true"
-            width="100%"
+            width="50%"
             >
             SELL
             </v-btn>
@@ -94,7 +98,7 @@
             v-if="carState == 0 && $store.state.wallet.address == owner"
             color="red"
             @click="createRace()"
-            width="100%"
+            width="50%"
          >
             RACE
          </v-btn>
@@ -189,12 +193,22 @@ export default {
         absolute: true,
         sellOverlay: false,
         raceOverlay: false,
-        progressOverlay: false
+        progressOverlay: false,
+        bonus: 0,
+        wins: 0,
+        total: 0
       }
     },
     beforeMount(){
         Car.methods.tokenURI(404).call((err, res) => {
           this.imagePath = res
+        })
+        Car.methods.carBonus(404).call((err, res) => {
+          this.bonus = res
+        })
+        Car.methods.carWinRate(404).call((err, res) => {
+          this.wins = res.wins
+          this.total = res.total
         })
         Car.methods.carState(404).call((err, res) => {
           this.carState = res;
