@@ -23,7 +23,10 @@
       <p :title="owner">
         Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
       </p>
-      <p>Win Rate: {{wins+"/"+total}} Bonus: +{{bonus}}</p>
+      <p>
+        <span v-if="total>0">Win Rate: {{(wins*100/total).toFixed(0)}}% </span>
+        <span v-if="bonus>0"> Bonus: +{{bonus}}</span>
+      </p>
     </div>
 
      <v-btn
