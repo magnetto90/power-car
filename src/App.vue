@@ -14,6 +14,13 @@
       <v-spacer></v-spacer>
       <h1 class="myFont">PowerC</h1>
       <v-spacer></v-spacer>
+      <v-btn icon href="https://twitter.com/PowercNFT" target="_blank">
+        <v-icon>mdi-twitter</v-icon> 
+      </v-btn>
+      <v-btn icon href="https://explorer.callisto.network/address/0x2f9649bae7E29E85a32546fd1Afb9EE901038B04/contracts" target="_blank">
+        <v-icon>mdi-code-tags</v-icon> 
+      </v-btn>
+
       <unlock-wallet
         v-if="!$store.state.wallet.unlocked"
        />
@@ -47,7 +54,7 @@
       'wallet': require('@/components/Shared/Wallet.vue').default,
       'snackbar': require('@/components/Shared/Snackbar.vue').default,
       'collect': require('@/components/Shared/Collect.vue').default
-    }
+      }
   }
 </script>
 
