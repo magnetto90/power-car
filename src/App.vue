@@ -54,6 +54,9 @@
       'wallet': require('@/components/Shared/Wallet.vue').default,
       'snackbar': require('@/components/Shared/Snackbar.vue').default,
       'collect': require('@/components/Shared/Collect.vue').default
+      },
+      beforeMount(){
+        this.$store.commit('getFeeRate');
       }
   }
 </script>

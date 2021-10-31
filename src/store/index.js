@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Car from './car'
 
 Vue.use(Vuex)
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
       show: false,
       text: ''
     },
+    feeRate: 0,
     cars: [
       {id: 0},
       {id: 1},
@@ -97,6 +99,15 @@ export default new Vuex.Store({
     hideSnackbar(state) {
       state.snackbar.show = false
     },
+    getFeeRate (state) {
+      Car.methods.feeRate().call((err, res) => {
+        if(res > 0){
+          state.feeRate = 100/res
+        }
+
+      })
+    }
+
   },
   actions: {    
     getNetworkId (){

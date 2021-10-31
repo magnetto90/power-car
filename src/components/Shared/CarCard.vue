@@ -45,6 +45,7 @@
           :value="sellOverlay"
           opacity="90"
         >
+        <p>Fee: {{$store.state.feeRate}}%</p>
         <p>Set the CAR price:</p>
         <v-text-field
           v-model="amount"
@@ -207,8 +208,6 @@ export default {
           if(this.car.id >= 10 && this.car.id < 100){
             this.plate = "0" + this.car.id 
           } 
-
-
         })
         Car.methods.carBonus(this.car.id).call((err, res) => {
           this.bonus = res

@@ -46,6 +46,7 @@
                :value="sellOverlay"
                opacity="90"
             >
+            <p>Fee: {{$store.state.feeRate}}%</p>
             <p>Set the CAR price:</p>
             <v-text-field
                v-model="amount"
