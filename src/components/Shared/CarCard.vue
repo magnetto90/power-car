@@ -24,7 +24,7 @@
         Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
       </p>
       <p>
-        <span v-if="total>0">Win Rate: {{(wins*100/total).toFixed(0)}}% </span>
+        <span :class="winRateColor()" v-if="total>0">Win Rate: {{(wins*100/total).toFixed(0)}}% </span>
         <span v-if="bonus>0"> Bonus: +{{bonus}}</span>
       </p>
     </div>
@@ -232,6 +232,18 @@ export default {
         })
     },
     methods: {
+      winRateColor(){
+         let winRate = this.wins*100/this.total
+         if(winRate <= 100 && winRate > 66){
+            return "green--text"
+         }
+         if(winRate <= 65 && winRate > 33){
+            return "yellow--text"
+         }
+         if(winRate <= 33 && winRate >= 0){
+            return "red--text"
+         }
+      },
       sellCar () {
         this.sellOverlay = false;
         this.progressOverlay = true;
