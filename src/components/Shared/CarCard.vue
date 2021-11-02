@@ -3,7 +3,7 @@
     align="center"
     width="250px"
     height="300px"
-    class="float-sm-left ma-10 pa-5"
+    class="float-sm-left ma-10"
     :style="$store.state.wallet.address == owner ? 'border: 2px solid green;' : 'border: 2px solid red;'"
   >
     <div>   
@@ -17,7 +17,7 @@
       </v-btn>
 
       <img 
-        width="100%"
+        width="85%"
         :src="imagePath"
       >
       <p :title="owner">

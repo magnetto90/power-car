@@ -240,6 +240,11 @@ if(typeof web3 == 'undefined')
                         "internalType": "string",
                         "name": "_tokenURI",
                         "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_carTier",
+                        "type": "uint256"
                     }
                 ],
                 "name": "carFactory",
@@ -847,7 +852,7 @@ if(typeof web3 == 'undefined')
                 "type": "function"
             }
         ],
-        "0x2f9649bae7E29E85a32546fd1Afb9EE901038B04"
+        "0x37C5e6ca6107887BB33EC5D73058d6c76717280b"
     );
 }
 

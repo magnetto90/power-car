@@ -17,7 +17,7 @@
       <v-btn icon href="https://twitter.com/PowercNFT" target="_blank">
         <v-icon>mdi-twitter</v-icon> 
       </v-btn>
-      <v-btn icon href="https://explorer.callisto.network/address/0x2f9649bae7E29E85a32546fd1Afb9EE901038B04/contracts" target="_blank">
+      <v-btn icon href="https://explorer.callisto.network/address/0x37C5e6ca6107887BB33EC5D73058d6c76717280b/contracts" target="_blank">
         <v-icon>mdi-code-tags</v-icon> 
       </v-btn>
 
