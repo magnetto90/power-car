@@ -1,10 +1,17 @@
 <template>
-   <div>    
-      <v-card
+   <div>  
+      <div
+         v-if="$store.state.network.id == 820"
+         align="center"
+         width="100vw"
+      >
+      <h1 class="myFont mt-10">Page Not Found</h1>
+      <h2 class="myFont">...but you found a car.</h2>
+         <v-card
          align="center"
          width="250px"
          height="300px"
-         class="float-sm-left ma-10"
+         class="ma-10"
          :style="$store.state.wallet.address == owner ? 'border: 2px solid green;' : 'border: 2px solid red;'"
       >
          <div>   
@@ -176,6 +183,8 @@
          <img src="@/assets/Fuel.gif">
          </v-overlay>
       </v-card>
+      </div>  
+      
       <error-overlay
       v-if="$store.state.network.id != 820 || !$store.state.web3"
       />
@@ -345,6 +354,11 @@ p {
 .v-progress-circular {
   margin: 1rem;
 }
+
+.myFont {
+  font-family: 'Press Start 2P', cursive;; 
+}
+
 
 </style>
 

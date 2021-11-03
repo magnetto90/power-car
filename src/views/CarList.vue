@@ -1,12 +1,17 @@
 <template>
 <div>
-  <car-card
-  v-for="car in $store.state.cars"
-  :key="car.id"
-  :car="car"
-   />
+  <div
+    v-if="$store.state.network.id == 820"
+  >  
+    <car-card
+      v-for="car in $store.state.cars"
+      :key="car.id"
+      :car="car"
+    />
+  </div>
+
   <error-overlay
-      v-if="$store.state.network.id != 820 || !$store.state.web3"
+    v-if="$store.state.network.id != 820 || !$store.state.web3"
   />
 </div>
 </template>
