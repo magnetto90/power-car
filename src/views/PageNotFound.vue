@@ -37,7 +37,7 @@
            v-if="total>0"
            :class="winRateColor()"
          >Win Rate: {{(wins*100/total).toFixed(0)}}% </span>
-        <span v-if="bonus>0"> Bonus: +{{bonus}}</span>
+        <span v-if="bonus>0"> Bonus: +{{bonus}}</span><br>
         <span v-if="carState == 1 && $store.state.wallet.address == owner">Price: {{carPrice}}</span>
       </p>
       
