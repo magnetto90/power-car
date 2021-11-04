@@ -2,8 +2,8 @@
   <v-card
     align="center"
     width="250px"
-    height="300px"
-    class="float-sm-left ma-10"
+    min-height="300px"
+    class="float-sm-left ma-5"
     :style="$store.state.wallet.address == owner ? 'border: 2px solid green;' : 'border: 2px solid red;'"
   >
     <div>   
@@ -13,13 +13,23 @@
         color="blue"
         width="100%"
         >
-        CAR {{plate}}
+        CAR {{car.id}}
       </v-btn>
 
-      <img 
-        width="85%"
-        :src="imagePath"
+      <v-lazy
+        v-model="isActive"
+        :options="{
+          threshold: .5
+        }"
+        transition="fade-transition"
       >
+        <v-img 
+          width="85%"
+          :src="imagePath"
+          :key="componentKey"
+          @error="errorHandler()"
+        ></v-img>
+      </v-lazy>
       <p :title="owner">
         Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
       </p>
@@ -195,20 +205,13 @@ export default {
         bonus: 0,
         wins: 0,
         total: 0,
-        plate: ""
+        isActive: false,
+        componentKey: 0,
       }
     },
     beforeMount(){
         Car.methods.tokenURI(this.car.id).call((err, res) => {
           this.imagePath = res
-
-          if(this.car.id >= 0 && this.car.id < 10){
-            this.plate = "00" + this.car.id 
-          } 
-
-          if(this.car.id >= 10 && this.car.id < 100){
-            this.plate = "0" + this.car.id 
-          } 
         })
         Car.methods.carBonus(this.car.id).call((err, res) => {
           this.bonus = res
@@ -233,6 +236,9 @@ export default {
         })
     },
     methods: {
+      errorHandler () {
+        this.componentKey += 1;
+      },
       winRateColor(){
          let winRate = this.wins*100/this.total
          if(winRate <= 100 && winRate > 66){
