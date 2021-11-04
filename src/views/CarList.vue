@@ -7,7 +7,7 @@
     <v-pagination
       class="mt-5"
       v-model="page"
-      :length="10"
+      :length="5"
       circle
       @input="setCurrentPage(0)"
       @next="setCurrentPage(1)"
@@ -43,37 +43,6 @@
       :key="car.id"
       :car="car"
     /></div> 
-    <div v-if="page == 6">
-      <car-card
-      v-for="car in $store.state.cars6"
-      :key="car.id"
-      :car="car"
-    /></div>
-    <div v-if="page == 7">
-      <car-card
-      v-for="car in $store.state.cars7"
-      :key="car.id"
-      :car="car"
-    /></div> 
-    <div v-if="page == 8">
-      <car-card
-      v-for="car in $store.state.cars8"
-      :key="car.id"
-      :car="car"
-    /></div> 
-    <div v-if="page == 9">
-      <car-card
-      v-for="car in $store.state.cars9"
-      :key="car.id"
-      :car="car"
-    /></div> 
-    <div v-if="page == 10">
-      <car-card
-      v-for="car in $store.state.cars10"
-      :key="car.id"
-      :car="car"
-    /></div>  
-
   </div>
 
   <error-overlay
