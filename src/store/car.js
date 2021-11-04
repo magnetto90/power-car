@@ -852,7 +852,7 @@ if(typeof web3 == 'undefined')
                 "type": "function"
             }
         ],
-        "0x37C5e6ca6107887BB33EC5D73058d6c76717280b"
+        "0x5d2aE663E93956B8f51068Cb79EC58b6086dB21c"
     );
 }
 
