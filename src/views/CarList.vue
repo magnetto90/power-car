@@ -67,8 +67,9 @@ export default {
     }else{
       this.$store.state.web3 = false
     }
-    this.page = parseInt(sessionStorage.getItem("currentPage"))
-
+    if(sessionStorage.getItem("currentPage")){
+      this.page = parseInt(sessionStorage.getItem("currentPage"))
+    }
   },methods: {
     setCurrentPage(){
       sessionStorage.setItem("currentPage", this.page)
