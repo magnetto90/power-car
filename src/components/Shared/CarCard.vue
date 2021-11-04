@@ -35,7 +35,7 @@
       </p>
       <p>
         <span :class="winRateColor()" v-if="total>0">Win Rate: {{(wins*100/total).toFixed(0)}}% </span>
-        <span v-if="bonus>0"> Bonus: +{{bonus}}</span><br>
+        <span v-if="bonus>0" title="This number helps you win races!!"> Bonus: +{{bonus}}</span><br>
         <span v-if="carState == 1 && $store.state.wallet.address == owner"> Price: {{carPrice}}</span>
       </p>
     </div>
@@ -113,6 +113,7 @@
       color="red"
       @click="createRace()"
       width="50%"
+      title="If you run a race you can lose your car! Or win your oponent car!"
     >
       RACE
     </v-btn>
@@ -152,7 +153,7 @@
           >
             Cancel
           </v-btn>
-          <p>*If you loose the race you loose your car.</p>
+          <p>*If you lose the race you lose your car.</p>
         </v-overlay>
           <v-btn
           v-if="carState == 3 && $store.state.wallet.address != owner"
