@@ -8,7 +8,7 @@
         <v-icon
             
             color="yellow rounded-circle"
-            class="mr-4"
+            class="mr-1"
         >
             mdi-key-variant
         </v-icon> Unlock Wallet
