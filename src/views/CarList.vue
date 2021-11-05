@@ -44,8 +44,7 @@
       :car="car"
     /></div> 
   </div>
-  <p background="grey"  >* Attention!, do not buy from a Ledger wallet. CAR NFTs are not supported.</p>
-  <error-overlay
+   <error-overlay
     v-if="$store.state.network.id != 820 || !$store.state.web3"
   />
 </div>
