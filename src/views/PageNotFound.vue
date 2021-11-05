@@ -49,7 +49,7 @@
             color="yellow"
             @click="buyCar()"
             >
-            BUY ({{carPrice.toFixed(2)}} CLO)
+            BUY ({{carPrice.toFixed()}} CLO)
             </v-btn>
 
             <v-overlay

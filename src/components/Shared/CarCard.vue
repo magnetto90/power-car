@@ -47,7 +47,7 @@
         @click="buyCar()"
       >
       
-        BUY ({{carPrice.toFixed(2)}} CLO)
+        BUY ({{carPrice.toFixed(0)}} CLO)
 
       </v-btn>
 
