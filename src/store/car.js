@@ -233,6 +233,19 @@ if(typeof web3 == 'undefined')
                 "inputs": [
                     {
                         "internalType": "uint256",
+                        "name": "tokenId",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "cancelDragRace",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
                         "name": "newId",
                         "type": "uint256"
                     },
@@ -243,7 +256,7 @@ if(typeof web3 == 'undefined')
                     },
                     {
                         "internalType": "uint256",
-                        "name": "_carTier",
+                        "name": "_carBonus",
                         "type": "uint256"
                     }
                 ],
@@ -852,7 +865,7 @@ if(typeof web3 == 'undefined')
                 "type": "function"
             }
         ],
-        "0x5d2aE663E93956B8f51068Cb79EC58b6086dB21c"
+        "0xE830AFDAe4Dba5b3b6c6b3506138C373Eb6CE73C"
     );
 }
 

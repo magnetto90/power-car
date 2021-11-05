@@ -306,7 +306,7 @@ export default {
       },
       cancelRace () {
         this.progressOverlay = true;
-        Car.methods.cancelRace(this.car.id).send({from: this.$store.state.wallet.address})         
+        Car.methods.cancelDragRace(this.car.id).send({from: this.$store.state.wallet.address})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()
