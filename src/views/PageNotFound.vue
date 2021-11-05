@@ -10,7 +10,7 @@
          <v-card
          align="center"
          width="250px"
-         height="300px"
+         min-height="300px"
          class="ma-10"
          :style="$store.state.wallet.address == owner ? 'border: 2px solid green;' : 'border: 2px solid red;'"
       >
@@ -49,7 +49,7 @@
             color="yellow"
             @click="buyCar()"
             >
-            BUY for CLO {{carPrice}}
+            BUY ({{carPrice.toFixed(2)}} CLO)
             </v-btn>
 
             <v-overlay
