@@ -207,7 +207,7 @@ export default {
         wins: 0,
         total: 0,
         isActive: false,
-        componentKey: 0,
+        componentKey: 0
       }
     },
     beforeMount(){

@@ -33,6 +33,7 @@
       <router-view></router-view>
       <snackbar />
     </v-main>
+     <p class="ml-5">* Attention!, do not buy from a Ledger wallet. CAR NFTs are not supported.</p>
       <v-btn
     class="mx-2 mt-2"
     color="grey"
