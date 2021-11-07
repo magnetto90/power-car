@@ -80,6 +80,18 @@ export default new Vuex.Store({
       {id: "048"},
       {id: "049"}
     ],
+    cars6: [
+      {id: "050"},
+      {id: "051"},
+      {id: "052"},
+      {id: "053"},
+      {id: "054"},
+      {id: "055"},
+      {id: "056"},
+      {id: "057"},
+      {id: "058"},
+      {id: "059"}
+    ],
     carsOwned: [],
   },
   mutations: {

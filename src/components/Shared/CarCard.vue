@@ -1,16 +1,16 @@
 <template>
   <v-card
     align="center"
-    width="250px"
+    width="300px"
     min-height="300px"
-    class="float-sm-left ma-5"
+    class="float-sm-left mx-9 my-5"
     :style="$store.state.wallet.address == owner ? 'border: 2px solid green;' : 'border: 2px solid red;'"
   >
     <div>   
       <v-btn 
         class="float-sm-left mb-2" 
         shapped
-        color="blue"
+        :color="car.id == 59 ? 'red' : 'blue'"
         width="100%"
         >
         CAR {{car.id}}
@@ -24,7 +24,7 @@
         transition="fade-transition"
       >
         <v-img 
-          width="85%"
+          width="75%"
           :src="imagePath"
           :key="componentKey"
           @error="errorHandler()"

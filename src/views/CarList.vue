@@ -7,7 +7,7 @@
     <v-pagination
       class="mt-5"
       v-model="page"
-      :length="5"
+      :length="6"
       circle
       @input="setCurrentPage(0)"
       @next="setCurrentPage(1)"
@@ -43,6 +43,12 @@
       :key="car.id"
       :car="car"
     /></div> 
+    <div v-if="page == 6">
+      <car-card
+      v-for="car in $store.state.cars6"
+      :key="car.id"
+      :car="car"
+    /></div>
   </div>
    <error-overlay
     v-if="$store.state.network.id != 820 || !$store.state.web3"
