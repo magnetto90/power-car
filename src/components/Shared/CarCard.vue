@@ -3,17 +3,20 @@
     align="center"
     width="300px"
     min-height="300px"
-    class="float-sm-left mx-9 my-5"
+    class="float-left mx-9 my-5"
     :style="$store.state.wallet.address == owner ? 'border: 2px solid green;' : 'border: 2px solid red;'"
   >
     <div>   
       <v-btn 
-        class="float-sm-left mb-2" 
+        class="float-left mb-2" 
         shapped
-        :color="car.id == 59 ? 'red' : 'blue'"
+        :color="car.id == 59? 'red' : 'blue'"
         width="100%"
         >
+        <img v-if="car.id <= 59 && car.id >= 55" src="@/assets/MusicNote.gif" class="music-note">
+        <v-spacer></v-spacer>
         CAR {{car.id}}
+        <v-spacer></v-spacer>
       </v-btn>
 
       <v-lazy
@@ -160,7 +163,7 @@
       class=" black--text" 
       color="red"
       @click="raceOverlay = true"
-      width="100%"
+      
     >
       ACCEPT RACE
     </v-btn>
@@ -342,6 +345,11 @@ p {
 
 .v-progress-circular {
   margin: 1rem;
+}
+
+.music-note{
+ position: absolute;
+ left: 0;
 }
 
 </style>
