@@ -3,7 +3,7 @@
     <v-pagination
       class="mt-5"
       v-model="page"
-      :length="1"
+      :length="6"
       circle
       @input="setCurrentPage(0)"
       @next="setCurrentPage(1)"
@@ -15,13 +15,42 @@
       :key="car.id"
       :car="car"
     /></div> 
+        <div v-if="page == 2">
+      <car-card
+      v-for="car in $store.state.cars2"
+      :key="car.id"
+      :car="car"
+    /></div> 
+    <div v-if="page == 3">
+      <car-card
+      v-for="car in $store.state.cars3"
+      :key="car.id"
+      :car="car"
+    /></div> 
+    <div v-if="page == 4">
+      <car-card
+      v-for="car in $store.state.cars4"
+      :key="car.id"
+      :car="car"
+    /></div>
+    <div v-if="page == 5">
+      <car-card
+      v-for="car in $store.state.cars5"
+      :key="car.id"
+      :car="car"
+    /></div> 
+    <div v-if="page == 6">
+      <car-card
+      v-for="car in $store.state.cars6"
+      :key="car.id"
+      :car="car"
+    /></div>
 </div>
 
 </template>
 
 <script>
 import Web3 from 'web3'
-import carMob from '@/store/carMobile'
 export default {
       data () {
       return {
