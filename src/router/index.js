@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import CarList from '../views/CarList.vue'
 import PageNotFound from '../views/PageNotFound.vue'
+import MetaMob from '../views/MetaMob.vue'
 
 Vue.use(VueRouter)
 
@@ -10,12 +11,18 @@ const routes = [
     path: '/',
     name: 'Car List',
     component: CarList
+  },  
+  {
+    path: '/metamask',
+    name: 'metamask-mobile',
+    component: MetaMob
   },
   {
     path: '/*',
     name: '404',
     component: PageNotFound
   },
+
 
 ]
 
