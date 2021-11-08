@@ -1,5 +1,11 @@
 import Web3 from 'web3'
 
+if(typeof web3 == 'undefined')
+{
+    console.log("No tenes Metamask Capo!")
+
+}else{
+
     web3 = new Web3(window.ethereum);
 
     var contract = new web3.eth.Contract(
@@ -861,6 +867,6 @@ import Web3 from 'web3'
         ],
         "0xE830AFDAe4Dba5b3b6c6b3506138C373Eb6CE73C"
     );
-
+}
 
 export default contract;
