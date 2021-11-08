@@ -1,6 +1,11 @@
 import Web3 from 'web3'
 
-if (window.ethereum) {
+if(typeof web3 == 'undefined')
+{
+    console.log("No tenes Metamask Capo!")
+
+}else{
+
     web3 = new Web3(window.ethereum);
 
     var contract = new web3.eth.Contract(
@@ -862,27 +867,6 @@ if (window.ethereum) {
         ],
         "0xE830AFDAe4Dba5b3b6c6b3506138C373Eb6CE73C"
     );
-  } else {
-    window.addEventListener('ethereum#initialized', handleEthereum, {
-      once: true,
-    });
-  
-    // If the event is not dispatched by the end of the timeout,
-    // the user probably doesn't have MetaMask installed.
-    setTimeout(handleEthereum, 3000); // 3 seconds
-  }
-
-  function handleEthereum() {
-    const { ethereum } = window;
-    if (ethereum && ethereum.isMetaMask) {
-      console.log('Ethereum successfully detected!');
-      // Access the decentralized web!
-    } else {
-      alert('Please install MetaMask!');
-    }
-  }
-
-
-
+}
 
 export default contract;
