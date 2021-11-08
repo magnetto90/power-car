@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import Web3 from 'web3'
 export default {
     mounted() {
         if (window.ethereum) {
@@ -20,12 +21,14 @@ export default {
             function handleEthereum() {
             const { ethereum } = window;
                 if (ethereum && ethereum.isMetaMask) {
-                    alert('Ethereum successfully detected!');
+                    console.log('Ethereum successfully detected!');
                     // Access the decentralized web!
                 } else {
                     console.log('Please install MetaMask!');
             }
         }
+        var web3 = new Web3(Web3.givenProvider);
+        web3.eth.getChainId().then(id => {alert(id)});
     },
 }
 </script>
