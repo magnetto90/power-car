@@ -1,11 +1,33 @@
 <template>
-    <p>Test</p>
+<div>     
+    <v-pagination
+      class="mt-5"
+      v-model="page"
+      :length="1"
+      circle
+      @input="setCurrentPage(0)"
+      @next="setCurrentPage(1)"
+      @previous="setCurrentPage(-1)"
+    ></v-pagination> 
+    <div v-if="page == 1">
+      <car-card
+      v-for="car in $store.state.cars1"
+      :key="car.id"
+      :car="car"
+    /></div> 
+</div>
+
 </template>
 
 <script>
 import Web3 from 'web3'
 import carMob from '@/store/carMobile'
 export default {
+      data () {
+      return {
+        page: 1,
+      }
+    },
     mounted() {
         if (window.ethereum) {
             handleEthereum();
@@ -31,11 +53,16 @@ export default {
         console.log(Web3.givenProvider)
         var web3 = new Web3(Web3.givenProvider);
         //web3.eth.getChainId().then(id => {alert(id)});
-        //web3.eth.requestAccounts().then(addresses => {alert(addresses[0])})
+       //web3.eth.requestAccounts().then(addresses => {alert(addresses[0])})
 
-        carMob.methods.tokenURI(0).call((err, res) => {
-          alert(res)
-        })
     },
+    methods: {
+    setCurrentPage(){
+      sessionStorage.setItem("currentPage", this.page)
+    }
+    },
+    components: {
+        'car-card': require('@/components/Shared/CarCard.vue').default,
+    }
 }
 </script>
