@@ -4,6 +4,7 @@
 
 <script>
 import Web3 from 'web3'
+import carMob from '@/store/carMobile'
 export default {
     mounted() {
         if (window.ethereum) {
@@ -27,8 +28,14 @@ export default {
                     console.log('Please install MetaMask!');
             }
         }
+        console.log(Web3.givenProvider)
         var web3 = new Web3(Web3.givenProvider);
-        web3.eth.getChainId().then(id => {alert(id)});
+        //web3.eth.getChainId().then(id => {alert(id)});
+        //web3.eth.requestAccounts().then(addresses => {alert(addresses[0])})
+
+        carMob.methods.tokenURI(0).call((err, res) => {
+          alert(res)
+        })
     },
 }
 </script>
