@@ -288,6 +288,7 @@ export default {
       },
       buyCar () {
         this.progressOverlay = true;
+        var web3 = new Web3(Web3.givenProvider);
         let amountToSend = web3.utils.toWei(this.carPrice+'', "ether"); 
         CarMob.methods.buyCar(this.car.id).send({from: this.address, value: amountToSend})         
         .then(value => {
