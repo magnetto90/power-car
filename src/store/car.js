@@ -26,7 +26,7 @@ function handleEthereum() {
 
 if(ok){
 
-    web3 = new Web3(window.ethereum);
+    web3 = new Web3(window.ethereum  || Web3.givenProvider);
 
     var contract = new web3.eth.Contract(
         [
