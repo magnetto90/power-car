@@ -91,7 +91,7 @@ export default {
     }
     },
     components: {
-        'car-card': require('@/components/Shared/CarCard.vue').default,
+        'car-card': require('@/components/Shared/CarCardMob.vue').default,
     }
 }
 </script>
