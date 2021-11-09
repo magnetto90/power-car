@@ -1,12 +1,32 @@
 import Web3 from 'web3'
 
-if(typeof web3 == 'undefined')
-{
-    console.log("No tenes Metamask Capo!")
+var ok = false;
 
-}else{
+if (window.ethereum) {
+    handleEthereum();
+} else {
+    window.addEventListener('ethereum#initialized', handleEthereum, {
+        once: true,
+    });
 
-    web3 = new Web3(window.ethereum || Web3.givenProvider);
+    // If the event is not dispatched by the end of the timeout,
+    // the user probably doesn't have MetaMask installed.
+    setTimeout(handleEthereum, 3000); // 3 seconds
+}
+
+function handleEthereum() {
+    const { ethereum } = window;
+        if (ethereum) {
+            console.log('Ethereum successfully detected!');
+            ok = true;
+        } else {
+            console.log('Please install Wallet!');
+    }
+}
+
+if(ok){
+
+    web3 = new Web3(window.ethereum);
 
     var contract = new web3.eth.Contract(
         [
