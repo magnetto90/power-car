@@ -192,6 +192,7 @@
 
 <script>
 import CarMob from '@/store/carMobile'
+import Web3 from 'web3'
 export default {
     props: ['car'],
     data() {
@@ -215,6 +216,7 @@ export default {
       }
     },
     beforeMount(){
+        var web3 = new Web3(Web3.givenProvider);
         web3.eth.requestAccounts().then(addresses => {this.address = addresses[0]})
         CarMob.methods.tokenURI(this.car.id).call((err, res) => {
           this.imagePath = res
