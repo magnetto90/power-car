@@ -231,7 +231,7 @@ export default {
         CarMob.methods.carState(this.car.id).call((err, res) => {
           this.carState = res;
           if(res == 1){
-            Car.methods.carSales(this.car.id).call((err, res) => {
+            CarMob.methods.carSales(this.car.id).call((err, res) => {
               this.carPrice = res.carPrice/(10**18)
             })
           }
