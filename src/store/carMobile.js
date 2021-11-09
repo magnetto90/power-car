@@ -1,5 +1,7 @@
 import Web3 from 'web3'
 
+    alert(typeof web3)
+
     var web3 = new Web3(Web3.givenProvider);
 
     var contract_mobile = new web3.eth.Contract(
