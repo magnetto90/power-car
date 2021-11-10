@@ -50,7 +50,9 @@
       :car="car"
     /></div>
   </div>
-
+   <error-overlay
+    v-if="$store.state.network.id != 820 || !$store.state.web3"
+  />
 </div>
 </template>
 
@@ -64,6 +66,12 @@ export default {
       }
     },
   beforeMount(){
+    if(Car){
+      this.$store.state.web3 = true
+
+    }else{
+      this.$store.state.web3 = false
+    }
     if(sessionStorage.getItem("currentPage")){
       this.page = parseInt(sessionStorage.getItem("currentPage"))
     }

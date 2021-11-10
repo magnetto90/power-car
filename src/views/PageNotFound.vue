@@ -234,9 +234,6 @@ export default {
         })
         Car.methods.ownerOf(404).call((err, res) => {
           this.owner = res
-          if(res+'' == this.$store.state.wallet.address+''){
-            this.$store.state.carsOwned.push(404);
-          }
         })
     },
     methods: {

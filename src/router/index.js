@@ -10,7 +10,7 @@ const routes = [
     path: '/',
     name: 'Car List',
     component: CarList
-  },
+  },  
   {
     path: '/*',
     name: '404',
