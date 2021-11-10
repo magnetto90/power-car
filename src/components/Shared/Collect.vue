@@ -34,12 +34,13 @@ export default {
     methods: {
       claim () {
         Car.methods.claimSalesBalance().send({from: this.$store.state.wallet.address})         
-        .on('confirmation', function(){
-            location.reload()
+        .then(value => {
+          sessionStorage.setItem("lastTx", value.transactionHash) 
+          location.reload()
         })
-        .on('error', function(error){
-            this.$store.commit('showSnackbar', 'Car is not on sale ' + error);
-        });
+        .catch(err => {
+          this.$store.commit('showSnackbar', err.message);
+          });
       },
     }
 }
