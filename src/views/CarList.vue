@@ -68,7 +68,7 @@ import Car from '@/store/car'
 export default {
   data () {
       return {
-        page: 1,
+        page: 7,
         random: []
       }
     },
