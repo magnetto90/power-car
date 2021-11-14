@@ -41,6 +41,7 @@
           @error="errorHandler()"
         ></v-img>
       </v-lazy>
+      
       <p :title="owner" v-if="owner != '0x8C3a198929E8796a09f017d11B56f684679A4721'">
         Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
       </p>
