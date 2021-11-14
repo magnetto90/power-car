@@ -4,15 +4,6 @@
     v-if="$store.state.network.id == 820"
     align="center"
   >
-    <v-pagination
-      class="mt-5"
-      v-model="page"
-      :length="6"
-      circle
-      @input="setCurrentPage(0)"
-      @next="setCurrentPage(1)"
-      @previous="setCurrentPage(-1)"
-    ></v-pagination> 
     <div v-if="page == 1">
       <car-card
       v-for="car in $store.state.cars1"
@@ -49,6 +40,21 @@
       :key="car.id"
       :car="car"
     /></div>
+    <div v-if="page == 7">
+      <car-card
+      v-for="car in random"
+      :key="car.id"
+      :car="car"
+    /></div>   
+    <v-pagination
+      class="my-5"
+      v-model="page"
+      :length="7"
+      circle
+      @input="setCurrentPage(0)"
+      @next="setCurrentPage(1)"
+      @previous="setCurrentPage(-1)"
+    ></v-pagination>  
   </div>
    <error-overlay
     v-if="$store.state.network.id != 820 || !$store.state.web3"
@@ -63,9 +69,15 @@ export default {
   data () {
       return {
         page: 1,
+        random: []
       }
     },
   beforeMount(){
+    for (let i = 0; i <= 9; i++) {
+      this.random[i] = this.$store.state.cars7[i];
+    }
+
+    this.fisherYates(this.random)
     if(Car){
       this.$store.state.web3 = true
 
@@ -78,6 +90,18 @@ export default {
   },methods: {
     setCurrentPage(){
       sessionStorage.setItem("currentPage", this.page)
+      this.fisherYates(this.random)
+    },
+    fisherYates ( myArray ) {
+      var i = myArray.length;
+      if ( i == 0 ) return false;
+      while ( --i ) {
+        var j = Math.floor( Math.random() * ( i + 1 ) );
+        var tempi = myArray[i];
+        var tempj = myArray[j];
+        myArray[i] = tempj;
+        myArray[j] = tempi;
+      }
     }
   },
   components: {

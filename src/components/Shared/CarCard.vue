@@ -2,7 +2,7 @@
   <v-card
     align="center"
     width="300px"
-    min-height="300px"
+    height="310px"
     class="float-left mx-9 my-5"
     :style="$store.state.wallet.address == owner ? 'border: 2px solid green;' : 'border: 2px solid red;'"
   >
@@ -15,7 +15,7 @@
         >
         <img v-if="car.id <= 59 && car.id >= 55" src="@/assets/MusicNote.gif" class="music-note">
         <v-spacer></v-spacer>
-        CAR {{car.id}}
+        <span v-if="car.id < 61 || owner != '0x8C3a198929E8796a09f017d11B56f684679A4721'">CAR {{car.id}}</span> 
         <v-spacer></v-spacer>
       </v-btn>
 
@@ -27,18 +27,26 @@
         transition="fade-transition"
       >
         <v-img 
+          v-if="car.id < 61 || owner != '0x8C3a198929E8796a09f017d11B56f684679A4721'"
           width="75%"
           :src="imagePath"
           :key="componentKey"
           @error="errorHandler()"
         ></v-img>
+        <v-img 
+          v-if="car.id >= 61 && owner == '0x8C3a198929E8796a09f017d11B56f684679A4721'"
+          width="75%"
+          src="@/assets/mystery.gif"
+          :key="componentKey"
+          @error="errorHandler()"
+        ></v-img>
       </v-lazy>
-      <p :title="owner">
+      <p :title="owner" v-if="owner != '0x8C3a198929E8796a09f017d11B56f684679A4721'">
         Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
       </p>
       <p>
         <span :class="winRateColor()" v-if="total>0">Win Rate: {{(wins*100/total).toFixed(0)}}% </span>
-        <span v-if="bonus>0" title="This number helps you win races!!"> Bonus: +{{bonus}}</span><br>
+        <span v-if="bonus>0 && (car.id < 61 || owner != '0x8C3a198929E8796a09f017d11B56f684679A4721')" title="This number helps you win races!!"> Bonus: +{{bonus}}</span><br>
         <span v-if="carState == 1 && $store.state.wallet.address == owner"> Price: {{carPrice}}</span>
       </p>
     </div>
@@ -50,7 +58,7 @@
         @click="buyCar()"
       >
       
-        BUY ({{carPrice.toFixed(0)}} CLO)
+        BUY ({{carPrice}} CLO)
 
       </v-btn>
 
