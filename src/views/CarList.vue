@@ -42,7 +42,7 @@
     /></div>
     <div v-if="page == 7">
       <car-card
-      v-for="car in random"
+      v-for="car in $store.state.cars7"
       :key="car.id"
       :car="car"
     /></div>   
@@ -68,7 +68,7 @@ import Car from '@/store/car'
 export default {
   data () {
       return {
-        page: 7,
+        page: 1,
         random: []
       }
     },
