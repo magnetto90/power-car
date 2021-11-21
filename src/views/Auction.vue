@@ -44,7 +44,7 @@
             <p>Rules:<br>
             1. Highest bidder can not claim funds.<br>
             2. You can add funds to your current bid to surpass the curren highest bid.<br>
-            3. You can bid until block count ends.
+            3. You can bid until block count ends.<br>
             4. NFT owner can not bid.
             </p>
             <h2 v-if="end - actual > 0">Place your bid:</h2>
@@ -77,7 +77,7 @@
                 color="green"
                 @click="bid()"
                 >
-                Place Bid ({{amount + funds}} CLO)
+                Place Bid ({{parseInt(amount) + parseInt(funds)}} CLO)
             </v-btn>
               <v-overlay
                 :absolute="absolute"
