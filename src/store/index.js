@@ -113,7 +113,7 @@ export default new Vuex.Store({
       {id: "075", name: ""},
       {id: "076", name: ""},
       {id: "077", name: ""},
-      {id: "078", name: ""},
+      {id: "078", name: "Total Eclipse"},
       {id: "079", name: ""}
     ],
     carsOwned: [],
