@@ -29,13 +29,13 @@ export default new Vuex.Store({
       {id: "005", name: ""},
       {id: "006", name: ""},
       {id: "007", name: ""},
-      {id: "008", name: ""},
+      {id: "008", name: "Flaco"},
       {id: "009", name: ""},
     ],
     cars2: [
       {id: "010", name: ""},
       {id: "011", name: ""},
-      {id: "012", name: ""},
+      {id: "012", name: "Plastic Car"},
       {id: "013", name: ""},
       {id: "014", name: ""},
       {id: "015", name: ""},
@@ -86,11 +86,11 @@ export default new Vuex.Store({
       {id: "052", name: ""},
       {id: "053", name: ""},
       {id: "054", name: ""},
-      {id: "055", name: ""},
-      {id: "056", name: ""},
-      {id: "057", name: ""},
-      {id: "058", name: ""},
-      {id: "059", name: ""}
+      {id: "055", name: "Thunder"},
+      {id: "056", name: "One more car"},
+      {id: "057", name: "Notorius car"},
+      {id: "058", name: "Nevermint"},
+      {id: "059", name: "One CLOVE"}
     ],
     cars7: [
       {id: "060", name: ""},
@@ -115,6 +115,30 @@ export default new Vuex.Store({
       {id: "077", name: ""},
       {id: "078", name: "Total Eclipse"},
       {id: "079", name: ""}
+    ],
+    cars9: [
+      {id: "080", name: ""},
+      {id: "081", name: ""},
+      {id: "082", name: ""},
+      {id: "083", name: ""},
+      {id: "084", name: ""},
+      {id: "085", name: ""},
+      {id: "086", name: ""},
+      {id: "087", name: ""},
+      {id: "088", name: ""},
+      {id: "089", name: ""}
+    ],
+    cars10: [
+      {id: "090", name: ""},
+      {id: "091", name: ""},
+      {id: "092", name: ""},
+      {id: "093", name: ""},
+      {id: "094", name: ""},
+      {id: "095", name: ""},
+      {id: "096", name: ""},
+      {id: "097", name: ""},
+      {id: "098", name: ""},
+      {id: "099", name: ""}
     ],
     carsOwned: [],
   },
