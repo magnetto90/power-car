@@ -36,12 +36,14 @@
                     <span v-if="bonus>0"> Bonus: +{{bonus}}</span><br>
                 </p>
 
-                <p>
+                <p v-if="end - actual > 0">
                     Blocks to Auctions End: {{end - actual}}
                 </p>
+                <p v-else>Auction Ended</p>
             </div>
-            <h2>Place your bid:</h2>
+            <h2 v-if="end - actual > 0">Place your bid:</h2>
             <v-text-field
+            v-if="end - actual > 0"
             v-model="amount"
             background-color="black"
             color="yellow"
@@ -63,11 +65,12 @@
                 Retire Funds ({{funds}} CLO)
             </v-btn>
             <v-btn
+                v-if="end - actual > 0"
                 class="black--text ma-2" 
                 color="green"
                 @click="bid()"
                 >
-                Place Bid
+                Place Bid ({{amount + funds}} CLO)
             </v-btn>
               <v-overlay
                 :absolute="absolute"
@@ -105,6 +108,7 @@ export default {
       }
     },
     beforeMount(){
+
         Car.methods.tokenURI(999).call((err, res) => {
           this.imagePath = res
         })
@@ -114,7 +118,7 @@ export default {
         Car.methods.carState(999).call((err, res) => {
           this.carState = res;
         })
-        Auction.methods._higghest_bid().call((err, res) => {
+        Auction.methods._highest_bid().call((err, res) => {
           this.hBid = res;
         })
         Auction.methods._highest_bidder().call((err, res) => {

@@ -141,7 +141,7 @@ if(typeof web3 == 'undefined')
             },
             {
                 "inputs": [],
-                "name": "_higghest_bid",
+                "name": "_highest_bid",
                 "outputs": [
                     {
                         "internalType": "uint256",
@@ -310,9 +310,13 @@ if(typeof web3 == 'undefined')
                 "outputs": [],
                 "stateMutability": "nonpayable",
                 "type": "function"
+            },
+            {
+                "stateMutability": "payable",
+                "type": "receive"
             }
         ],
-        "0x9AdE19a295eF0481492533E8EcA2C5aF613E32df"
+        "0xf257922CA1bd93AD15a739b86310d466831bc7f6"
     );
 }
 
