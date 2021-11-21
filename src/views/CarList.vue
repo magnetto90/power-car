@@ -45,11 +45,17 @@
       v-for="car in $store.state.cars7"
       :key="car.id"
       :car="car"
-    /></div>   
+    /></div>
+    <div v-if="page == 8">
+      <car-card
+      v-for="car in $store.state.cars8"
+      :key="car.id"
+      :car="car"
+    /></div>     
     <v-pagination
       class="my-5"
       v-model="page"
-      :length="7"
+      :length="8"
       circle
       @input="setCurrentPage(0)"
       @next="setCurrentPage(1)"

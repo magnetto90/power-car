@@ -3,21 +3,27 @@
     align="center"
     width="300px"
     height="310px"
-    class="float-left mx-9 my-5"
+    :class="time <= 7 ||time >= 19 ? 'float-left mx-9 my-5 night' : 'float-left mx-9 my-5 day'"
     :style="$store.state.wallet.address == owner ? 'border: 2px solid green;' : 'border: 2px solid red;'"
+
   >
     <div>   
-      <v-btn 
-        class="float-left mb-2" 
-        shapped
-        :color="car.id == 59? 'red' : 'blue'"
-        width="100%"
-        >
-        <img v-if="car.id <= 59 && car.id >= 55" src="@/assets/MusicNote.gif" class="music-note">
-        <v-spacer></v-spacer>
-        <span>CAR {{car.id}}</span>
-        <v-spacer></v-spacer>
-      </v-btn>
+      <v-hover
+        v-slot="{ hover }"
+      >
+        <v-btn 
+          class="float-left mb-2" 
+          shapped
+          :color="car.id == 59? 'red' : 'blue'"
+          width="100%"
+          >
+          <img v-if="car.id <= 59 && car.id >= 55" src="@/assets/MusicNote.gif" class="music-note">
+          <v-spacer></v-spacer>
+            <span v-if="hover && car.name != ''">{{car.name}}</span>
+            <span v-else>CAR {{car.id}}</span>
+          <v-spacer></v-spacer>
+        </v-btn>
+      </v-hover>
 
       <v-lazy
         v-model="isActive"
@@ -211,10 +217,15 @@ export default {
         wins: 0,
         total: 0,
         isActive: false,
-        componentKey: 0
+        componentKey: 0,
+        time: 0
       }
     },
     beforeMount(){
+    
+        var today = new Date();
+        this.time = today.getHours();
+
         Car.methods.tokenURI(this.car.id).call((err, res) => {
           this.imagePath = res
         })
@@ -349,6 +360,15 @@ p {
  position: absolute;
  left: 0;
 }
+
+.night{
+      background: url( '../../assets/night.png') no-repeat center center;
+}
+
+.day{
+        background: url( '../../assets/day.png') no-repeat center center;
+}
+
 
 </style>
 

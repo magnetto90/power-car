@@ -66,11 +66,10 @@
 
         <v-card-text>
           1. 100 Cars are going to be minted before 31/12/2021 <br>
-          2. After 31/12/2021 Only 1 Car is going to be minted per month.<br>
-          3. Race Rules: If you run a race and lose, you also lose your car. But if you win, you also win your oponent´s car.<br>
-          4. Bonus: Increase the chances of wining a race. For example +5 gives a 10% more chances to win.<br>
-          5. Collection Rules: If you are the first in completing a Collection (buy 4 cars) you will be given the Special car of that collection.<br>
-          6. Fee, at the beginning, for selling a car is 5%, it will never be higher, it is written in the smart contract. It can only decrease.
+          2. Race Rules: If you run a race and lose, you also lose your car. But if you win, you also win your oponent´s car.<br>
+          3. Bonus: Increase the chances of wining a race. For example +5 gives a 10% more chances to win.<br>
+          4. Collection Rules: If you are the first in completing a Collection (buy 4 cars) you will be given the Special car of that collection.<br>
+          5. Fee, at the beginning, for selling a car is 5%, it will never be higher, it is written in the smart contract. It can only decrease.
         </v-card-text>
 
         <v-divider></v-divider>
