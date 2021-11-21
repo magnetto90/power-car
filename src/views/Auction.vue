@@ -41,6 +41,12 @@
                 </p>
                 <p v-else>Auction Ended</p>
             </div>
+            <p>Rules:<br>
+            1. Highest bidder can not claim funds.<br>
+            2. You can add funds to your current bid to surpass the curren highest bid.<br>
+            3. You can bid until block count ends.
+            4. NFT owner can not bid.
+            </p>
             <h2 v-if="end - actual > 0">Place your bid:</h2>
             <p>* this amount will be added to your current funds ({{funds}} CLO)</p>
             <v-text-field
