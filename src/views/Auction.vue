@@ -42,6 +42,7 @@
                 <p v-else>Auction Ended</p>
             </div>
             <h2 v-if="end - actual > 0">Place your bid:</h2>
+            <p>* this amount will be added to your current funds ({{funds}} CLO)</p>
             <v-text-field
             v-if="end - actual > 0"
             v-model="amount"
