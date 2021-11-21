@@ -52,7 +52,7 @@ export default new Vuex.Store({
       {id: "024", name: ""},
       {id: "025", name: ""},
       {id: "026", name: ""},
-      {id: "027", name: ""},
+      {id: "027", name: "Woody"},
       {id: "028", name: ""},
       {id: "029", name: ""},
     ],
