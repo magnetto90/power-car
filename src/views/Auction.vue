@@ -45,13 +45,15 @@
             1. Highest bidder can not claim funds.<br>
             2. You can add funds to your current bid to surpass the current highest bid.<br>
             3. You can bid until block count ends.<br>
-            4. NFT owner can not bid.
-            5. If someone bid when there are ten or less blocks remaining, ten more blocks will be added.
-            6. Bid Increase must be at least 1 CLO.
+            4. NFT owner can not bid.<br>
+            5. If someone bid when there are ten or less blocks remaining, ten more blocks will be added.<br>
+            6. Bid Increase must be at least 1 CLO.<br>
             7. You can retire your funds any time if you are not the highest bidder.
             </p>
-            <h2 v-if="end - actual > 0">Place your bid:</h2>
-            <p>* this amount will be added to your current funds ({{funds}} CLO)</p>
+            <div v-if="end - actual > 0">
+              <h2 >Place your bid:</h2>
+              <p>* this amount will be added to your current funds ({{funds}} CLO)</p>
+            </div>
             <v-text-field
             v-if="end - actual > 0"
             v-model="amount"

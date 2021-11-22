@@ -32,7 +32,7 @@
      
 
 
-  <v-footer padless color="black">
+  <v-footer app fixed padless color="black">
 <v-btn class="d-none d-md-flex" icon href="https://twitter.com/PowercNFT" target="_blank">
         <v-icon>mdi-twitter</v-icon> 
       </v-btn>
