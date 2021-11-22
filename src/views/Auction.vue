@@ -21,7 +21,7 @@
                 color="blue"
                 width="100%"
                 >
-                    DUMMY CAR
+                    CAR 078
                 </v-btn>
                 <img 
                 width="85%"
@@ -43,9 +43,12 @@
             </div>
             <p>Rules:<br>
             1. Highest bidder can not claim funds.<br>
-            2. You can add funds to your current bid to surpass the curren highest bid.<br>
+            2. You can add funds to your current bid to surpass the current highest bid.<br>
             3. You can bid until block count ends.<br>
             4. NFT owner can not bid.
+            5. If someone bid when there are ten or less blocks remaining, ten more blocks will be added.
+            6. Bid Increase must be at least 1 CLO.
+            7. You can retire your funds any time if you are not the highest bidder.
             </p>
             <h2 v-if="end - actual > 0">Place your bid:</h2>
             <p>* this amount will be added to your current funds ({{funds}} CLO)</p>
@@ -116,13 +119,13 @@ export default {
     },
     beforeMount(){
 
-        Car.methods.tokenURI(999).call((err, res) => {
+        Car.methods.tokenURI(78).call((err, res) => {
           this.imagePath = res
         })
-        Car.methods.carBonus(999).call((err, res) => {
+        Car.methods.carBonus(78).call((err, res) => {
           this.bonus = res
         })
-        Car.methods.carState(999).call((err, res) => {
+        Car.methods.carState(78).call((err, res) => {
           this.carState = res;
         })
         Auction.methods._highest_bid().call((err, res) => {

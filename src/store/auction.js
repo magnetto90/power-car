@@ -316,7 +316,7 @@ if(typeof web3 == 'undefined')
                 "type": "receive"
             }
         ],
-        "0xf257922CA1bd93AD15a739b86310d466831bc7f6"
+        "0x5A02A3D5feC6b73136E143EF2C7e532B410aE5Ab"
     );
 }
 
