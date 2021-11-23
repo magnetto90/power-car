@@ -20,7 +20,7 @@ export default new Vuex.Store({
       text: ''
     },
     feeRate: 0,
-    cars1: [
+    cars: [
       {id: "000", name: ""},
       {id: "001", name: ""},
       {id: "002", name: ""},
@@ -31,8 +31,6 @@ export default new Vuex.Store({
       {id: "007", name: ""},
       {id: "008", name: "Flaco"},
       {id: "009", name: ""},
-    ],
-    cars2: [
       {id: "010", name: ""},
       {id: "011", name: ""},
       {id: "012", name: "Plastic Car"},
@@ -43,8 +41,6 @@ export default new Vuex.Store({
       {id: "017", name: ""},
       {id: "018", name: ""},
       {id: "019", name: ""},
-    ],
-    cars3: [
       {id: "020", name: ""},
       {id: "021", name: "CLOE Williams"},
       {id: "022", name: ""},
@@ -55,8 +51,6 @@ export default new Vuex.Store({
       {id: "027", name: "Woody"},
       {id: "028", name: ""},
       {id: "029", name: ""},
-    ],
-    cars4: [
       {id: "030", name: ""},
       {id: "031", name: ""},
       {id: "032", name: ""},
@@ -67,8 +61,6 @@ export default new Vuex.Store({
       {id: "037", name: ""},
       {id: "038", name: ""},
       {id: "039", name: ""},
-    ],
-    cars5: [
       {id: "040", name: ""},
       {id: "041", name: ""},
       {id: "042", name: ""},
@@ -78,9 +70,7 @@ export default new Vuex.Store({
       {id: "046", name: ""},
       {id: "047", name: ""},
       {id: "048", name: ""},
-      {id: "049", name: ""}
-    ],
-    cars6: [
+      {id: "049", name: ""},
       {id: "050", name: ""},
       {id: "051", name: ""},
       {id: "052", name: ""},
@@ -90,9 +80,7 @@ export default new Vuex.Store({
       {id: "056", name: "One more car"},
       {id: "057", name: "Notorius car"},
       {id: "058", name: "Nevermint"},
-      {id: "059", name: "One CLOVE"}
-    ],
-    cars7: [
+      {id: "059", name: "One CLOVE"},
       {id: "060", name: ""},
       {id: "061", name: ""},
       {id: "062", name: ""},
@@ -102,9 +90,7 @@ export default new Vuex.Store({
       {id: "066", name: ""},
       {id: "067", name: ""},
       {id: "068", name: ""},
-      {id: "069", name: ""}
-    ],
-    cars8: [
+      {id: "069", name: ""},
       {id: "070", name: ""},
       {id: "071", name: ""},
       {id: "072", name: ""},
@@ -114,9 +100,7 @@ export default new Vuex.Store({
       {id: "076", name: ""},
       {id: "077", name: ""},
       {id: "078", name: "Total Eclipse"},
-      {id: "079", name: ""}
-    ],
-    cars9: [
+      {id: "079", name: ""},
       {id: "080", name: ""},
       {id: "081", name: ""},
       {id: "082", name: ""},
@@ -126,9 +110,7 @@ export default new Vuex.Store({
       {id: "086", name: ""},
       {id: "087", name: ""},
       {id: "088", name: ""},
-      {id: "089", name: ""}
-    ],
-    cars10: [
+      {id: "089", name: ""},
       {id: "090", name: ""},
       {id: "091", name: ""},
       {id: "092", name: ""},

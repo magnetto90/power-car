@@ -1,6 +1,6 @@
 <template>
     <v-btn
-        class="rigth"
+        class="rigth  pa-2"
         color="#20272F"
     >
         <v-icon

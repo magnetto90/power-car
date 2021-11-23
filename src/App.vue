@@ -2,6 +2,8 @@
   <v-app id="inspire">
     <v-app-bar
       app
+      hide-on-scroll
+      short
      >
       <template v-slot:img="{ props }">
         <v-img
@@ -87,10 +89,10 @@
       </v-card>
     </v-dialog>
     <v-spacer></v-spacer>
-    <p class="my-2">* Attention!, do not buy from a Ledger wallet. CAR NFTs are not supported.</p>
+    <p class="d-none d-md-flex my-2">* Attention!, do not buy from a Ledger wallet. CAR NFTs are not supported.</p>
     <v-spacer></v-spacer>
       <v-btn
-        class="mx-2 my-2"
+        class="mx-2 my-2 d-none d-md-flex"
         color="grey"
         outlined
         rounded

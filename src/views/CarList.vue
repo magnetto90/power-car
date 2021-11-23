@@ -4,63 +4,63 @@
     v-if="$store.state.network.id == 820"
     align="center"
   >
+    <v-pagination
+      class="mt-1"
+      v-model="page"
+      :length="8"
+      @input="setCurrentPage(0)"
+      @next="setCurrentPage(1)"
+      @previous="setCurrentPage(-1)"
+    ></v-pagination>  
+
     <div v-if="page == 1">
       <car-card
-      v-for="car in $store.state.cars1"
+      v-for="car in $store.state.cars.slice(0, 10)"
       :key="car.id"
       :car="car"
     /></div> 
     <div v-if="page == 2">
       <car-card
-      v-for="car in $store.state.cars2"
+      v-for="car in $store.state.cars.slice(10, 20)"
       :key="car.id"
       :car="car"
     /></div> 
     <div v-if="page == 3">
       <car-card
-      v-for="car in $store.state.cars3"
+      v-for="car in $store.state.cars.slice(20, 30)"
       :key="car.id"
       :car="car"
     /></div> 
     <div v-if="page == 4">
       <car-card
-      v-for="car in $store.state.cars4"
+      v-for="car in $store.state.cars.slice(30, 40)"
       :key="car.id"
       :car="car"
     /></div>
     <div v-if="page == 5">
       <car-card
-      v-for="car in $store.state.cars5"
+      v-for="car in $store.state.cars.slice(40, 50)"
       :key="car.id"
       :car="car"
     /></div> 
     <div v-if="page == 6">
       <car-card
-      v-for="car in $store.state.cars6"
+      v-for="car in $store.state.cars.slice(50, 60)"
       :key="car.id"
       :car="car"
     /></div>
     <div v-if="page == 7">
       <car-card
-      v-for="car in $store.state.cars7"
+      v-for="car in $store.state.cars.slice(60, 70)"
       :key="car.id"
       :car="car"
     /></div>
     <div v-if="page == 8">
       <car-card
-      v-for="car in $store.state.cars8"
+      v-for="car in $store.state.cars.slice(70, 80)"
       :key="car.id"
       :car="car"
     /></div>     
-    <v-pagination
-      class="my-5"
-      v-model="page"
-      :length="8"
-      circle
-      @input="setCurrentPage(0)"
-      @next="setCurrentPage(1)"
-      @previous="setCurrentPage(-1)"
-    ></v-pagination>  
   </div>
    <error-overlay
     v-if="$store.state.network.id != 820 || !$store.state.web3"
@@ -79,11 +79,12 @@ export default {
       }
     },
   beforeMount(){
+    /*
     for (let i = 0; i <= 9; i++) {
-      this.random[i] = this.$store.state.cars7[i];
+      this.random[i] = this.$store.state.cars[i];
     }
-
     this.fisherYates(this.random)
+    */
     if(Car){
       this.$store.state.web3 = true
 
