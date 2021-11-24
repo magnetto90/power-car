@@ -44,7 +44,7 @@
         Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
       </p>
       <p>
-        <span :class="winRateColor()" v-if="total>0">Win Rate: {{(wins*100/total).toFixed(0)}}% </span>
+        <span v-if="total>0">Win Rate: <span :class="winRateColor()" >{{(wins*100/total).toFixed(0)}}% </span></span>
         <span v-if="bonus>0" title="This number helps you win races!!"> Bonus: +{{bonus}}</span><br>
         <span v-if="carState == 1 && $store.state.wallet.address == owner"> Price: {{carPrice}}</span>
       </p>

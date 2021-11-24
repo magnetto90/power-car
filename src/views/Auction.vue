@@ -1,11 +1,19 @@
 <template>
-   <div>  
+   <div
+   align="center"
+   >  
+    <v-btn
+      class="ma-2"
+      :to="'/'"
+      link
+    >
+      <h1>GO BACK</h1>
+    </v-btn>
         <div
             v-if="$store.state.network.id == 820"
             align="center"
             width="100vw"
         >
-            <h1 class="myFont mt-10">Auction</h1>
             <v-card
                 align="center"
                 width="600px"
@@ -21,7 +29,7 @@
                 color="blue"
                 width="100%"
                 >
-                    CAR 078
+                    CAR 056 - ONE MORE CAR
                 </v-btn>
                 <img 
                 width="85%"
@@ -39,16 +47,15 @@
                 <p v-if="end - actual > 0">
                     Blocks to Auctions End: {{end - actual}}
                 </p>
-                <p v-else>Auction Ended</p>
+                <h1 v-else>Auction Ended</h1>
             </div>
             <p>Rules:<br>
-            1. Highest bidder can not claim funds.<br>
-            2. You can add funds to your current bid to surpass the current highest bid.<br>
-            3. You can bid until block count ends.<br>
-            4. NFT owner can not bid.<br>
-            5. If someone bid when there are ten or less blocks remaining, ten more blocks will be added.<br>
-            6. Bid Increase must be at least 1 CLO.<br>
-            7. You can retire your funds any time if you are not the highest bidder.
+            1. You can add funds to your current bid to surpass the current highest bid.<br>
+            2. You can bid until block count ends.<br>
+            3. NFT owner can not bid.<br>
+            4. If someone bid when there are ten or less blocks remaining, ten more blocks will be added.<br>
+            5. Bid Increase must be at least 1 CLO.<br>
+            6. You can withdraw your funds any time if you are not the highest bidder.
             </p>
             <div v-if="end - actual > 0">
               <h2 >Place your bid:</h2>
@@ -74,7 +81,7 @@
                 color="red"
                 @click="retire()"
                 >
-                Retire Funds ({{funds}} CLO)
+                Withdraw Funds ({{funds}} CLO)
             </v-btn>
             <v-btn
                 v-if="end - actual > 0"
@@ -121,13 +128,13 @@ export default {
     },
     beforeMount(){
 
-        Car.methods.tokenURI(78).call((err, res) => {
+        Car.methods.tokenURI(56).call((err, res) => {
           this.imagePath = res
         })
-        Car.methods.carBonus(78).call((err, res) => {
+        Car.methods.carBonus(56).call((err, res) => {
           this.bonus = res
         })
-        Car.methods.carState(78).call((err, res) => {
+        Car.methods.carState(56).call((err, res) => {
           this.carState = res;
         })
         Auction.methods._highest_bid().call((err, res) => {

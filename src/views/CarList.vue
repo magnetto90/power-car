@@ -4,6 +4,13 @@
     v-if="$store.state.network.id == 820"
     align="center"
   >
+  <v-btn
+    class="ma-2"
+    :to="'/auction'"
+    link
+  >
+    <h1>GO TO AUCTION <v-icon class="mb-1" >mdi-gavel</v-icon> </h1>
+  </v-btn>
     <v-pagination
       class="mt-1"
       v-model="page"
