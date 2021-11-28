@@ -239,7 +239,8 @@ export default {
           this.carState = res;
           if(res == 1){
             Car.methods.carSales(this.car.id).call((err, res) => {
-              this.carPrice = res.carPrice/(10**18)
+              //console.log(res.carPrice.slice(0, -18))
+              this.carPrice = res.carPrice.slice(0, -18)
             })
           }
         })

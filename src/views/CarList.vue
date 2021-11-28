@@ -93,13 +93,6 @@ export default {
       }
     },
   beforeMount(){
-    /*
-    for (let i = 0; i <= 9; i++) {
-      this.random[i] = this.$store.state.cars[i];
-    }
-    this.fisherYates(this.random)
-    */
-  
     for(let i = 0; i <= 79; i++){    
       Car.methods.carBonus(i).call((err, res) => {
         this.$store.state.cars[i].bonus = res
@@ -107,7 +100,7 @@ export default {
       Car.methods.carState(i).call((err, res) => {
         if(res == 1){
           Car.methods.carSales(i).call((err, res) => {
-            this.$store.state.cars[i].carPrice = res.carPrice/10**18
+            this.$store.state.cars[i].carPrice = parseInt(res.carPrice.slice(0, -18))
           })
         }else{
           this.$store.state.cars[i].carPrice = 100**12
@@ -115,12 +108,11 @@ export default {
       })
     }
 
-    console.log(this.$store.state.cars)
+    //console.log(this.$store.state.cars)
 
 
     if(Car){
       this.$store.state.web3 = true
-
     }else{
       this.$store.state.web3 = false
     }
