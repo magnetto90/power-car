@@ -5,6 +5,16 @@
     align="center"
   >
 
+    <v-btn
+      @click="sortByID"
+    >Sort by ID</v-btn>
+    <v-btn
+      @click="sortByPrice"
+    >Sort by Price</v-btn>
+    <v-btn
+      @click="sortByBonus"
+    >Sort by Bonus</v-btn>
+
     <v-pagination
       class="mt-1"
       v-model="page"
@@ -76,7 +86,10 @@ export default {
   data () {
       return {
         page: 1,
-        random: []
+        random: [],
+        ByID: true,
+        ByPrice: false,
+        ByBonus: false
       }
     },
   beforeMount(){
@@ -86,6 +99,25 @@ export default {
     }
     this.fisherYates(this.random)
     */
+  
+    for(let i = 0; i <= 79; i++){    
+      Car.methods.carBonus(i).call((err, res) => {
+        this.$store.state.cars[i].bonus = res
+      })
+      Car.methods.carState(i).call((err, res) => {
+        if(res == 1){
+          Car.methods.carSales(i).call((err, res) => {
+            this.$store.state.cars[i].carPrice = res.carPrice/10**18
+          })
+        }else{
+          this.$store.state.cars[i].carPrice = 100**12
+        }
+      })
+    }
+
+    console.log(this.$store.state.cars)
+
+
     if(Car){
       this.$store.state.web3 = true
 
@@ -110,6 +142,35 @@ export default {
         myArray[i] = tempj;
         myArray[j] = tempi;
       }
+    },
+    sortByID () {
+      if(this.ByID){
+        this.$store.state.cars.sort((a, b) => a.id <= b.id ? 1 : -1);
+        this.ByID = false
+      }else{
+        this.$store.state.cars.sort((a, b) => a.id >= b.id ? 1 : -1);
+        this.ByID = true
+      }
+    },
+    sortByPrice () {
+      if(this.ByPrice){
+        this.$store.state.cars.sort((a, b) => a.carPrice <= b.carPrice ? 1 : -1);
+        this.ByPrice = false
+      }else{
+        this.$store.state.cars.sort((a, b) => a.carPrice >= b.carPrice ? 1 : -1);
+        this.ByPrice = true
+      }
+
+    },
+    sortByBonus () {
+      if(this.ByBonus){
+        this.$store.state.cars.sort((a, b) => a.bonus <= b.bonus ? 1 : -1);
+        this.ByBonus = false
+      }else{
+        this.$store.state.cars.sort((a, b) => a.bonus >= b.bonus ? 1 : -1);
+        this.ByBonus = true
+      } 
+      
     }
   },
   components: {

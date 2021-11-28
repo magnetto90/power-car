@@ -1,13 +1,12 @@
 <template>
   <v-card
-    align="center"
     width="300px"
     height="310px"
     :class="time <= 7 ||time >= 19 ? 'float-left mx-9 my-5 night' : 'float-left mx-9 my-5 day'"
     :style="$store.state.wallet.address == owner ? 'border: 2px solid green;' : 'border: 2px solid red;'"
 
   >
-    <div>   
+    <div align="center">   
       <v-hover
         v-slot="{ hover }"
       >
