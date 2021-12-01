@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import CarList from '../views/CarList.vue'
 import PageNotFound from '../views/PageNotFound.vue'
 import Auction from '../views/Auction.vue'
+import Race from '../views/RaceForCLO.vue'
 
 Vue.use(VueRouter)
 
@@ -17,6 +18,11 @@ const routes = [
     name: 'Auction',
     component: Auction
   },  
+  {
+    path: '/race',
+    name: 'Race',
+    component: Race
+  },
   {
     path: '/*',
     name: '404',
