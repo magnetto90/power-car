@@ -26,7 +26,7 @@
             ></v-rating>
         </td>
         <td>
-            <span v-if="total > 0" :class="winRateColor()" >{{(wins*100/total).toFixed(0)}}%</span>
+            <span :title="wins+'/'+total" v-if="total > 0" :class="winRateColor()" >{{(wins*100/total).toFixed(0)}}%</span>
             <span v-else :class="winRateColor()" >First Race</span>
         </td>
         <td>{{bet}} CLO</td>

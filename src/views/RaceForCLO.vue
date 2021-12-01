@@ -69,7 +69,7 @@
             &nbsp; Rank 3: Car with +4 bonus and with +5<br>
           3. Bonus: Increase the chances of wining a race.<br>
           4. You can cancel the race any time.<br>
-          5. The earnings are not trasnferred automatically. Use claim button.
+          5. The earnings are not trasnferred automatically. Use claim button.<br>
           6. The winner is selected by random numbers. See the code of the contract to see how it does it.           
            <v-btn class="ma-0 pa-0" icon href="https://explorer.callisto.network/address/0xAafF766Ced4aBDB7694BB0921F302F623C34afD2/contracts" target="_blank">
                 <v-icon> mdi-code-tags</v-icon> 
