@@ -109,6 +109,9 @@
                         Bonus
                     </th>
                     <th class="text-left">
+                        Win rate
+                    </th>
+                    <th class="text-left">
                         Bet
                     </th>
                     <th class="text-left">

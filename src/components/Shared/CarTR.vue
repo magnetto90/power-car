@@ -25,6 +25,10 @@
             small
             ></v-rating>
         </td>
+        <td>
+            <span v-if="total > 0" :class="winRateColor()" >{{(wins*100/total).toFixed(0)}}%</span>
+            <span v-else :class="winRateColor()" >First Race</span>
+        </td>
         <td>{{bet}} CLO</td>
         <td
             v-if="$store.state.wallet.address != owner"        
@@ -89,6 +93,8 @@ export default {
         carTwoID: "",
         isActive: false,
         componentKey: 0,
+        wins: 0,
+        total: 0
       }
     },
     beforeMount() {
@@ -110,10 +116,28 @@ export default {
         Car.methods.ownerOf(this.car.id).call((err, res) => {
           this.owner = res
         })
+        Race.methods.carWinRate(this.car.id).call((err, res) => {
+            this.wins = res.wins
+            this.total = res.total 
+          
+          
+        })
     },
     methods: {
         errorHandler () {
             this.componentKey += 1;
+        },
+        winRateColor(){
+         let winRate = this.wins*100/this.total
+         if(winRate <= 100 && winRate > 66){
+            return "green--text"
+         }
+         if(winRate <= 65 && winRate > 33){
+            return "yellow--text"
+         }
+         if(winRate <= 33 && winRate >= 0){
+            return "red--text"
+         }
         },
         acceptRace () {
             let amountToSend = web3.utils.toWei((parseInt(this.bet)+50)+'');
