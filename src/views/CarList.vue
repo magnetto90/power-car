@@ -5,18 +5,22 @@
     align="center"
   >
 
-    <v-btn
+    <v-btn class="ma-1 white--text"
+      color="#cc0000"
       @click="sortByID"
     >Sort by ID</v-btn>
-    <v-btn
+    <v-btn class="ma-1 white--text" 
+      color="#cc0000"
       @click="sortByPrice"
     >Sort by Price</v-btn>
-    <v-btn
+    <v-btn class="ma-1 white--text"
+      color="#cc0000"
       @click="sortByBonus"
     >Sort by Bonus</v-btn>
 
     <v-pagination
       class="mt-1"
+      color="#cc0000"
       v-model="page"
       :length="8"
       @input="setCurrentPage(0)"
@@ -93,6 +97,7 @@ export default {
       }
     },
   beforeMount(){
+    this.$store.state.raceButton = true;
     for(let i = 0; i <= 79; i++){    
       Car.methods.carBonus(i).call((err, res) => {
         this.$store.state.cars[i].bonus = res

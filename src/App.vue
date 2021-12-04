@@ -8,17 +8,34 @@
       <template v-slot:img="{ props }">
         <v-img
           v-bind="props"
-          gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"
+          gradient="to top right, rgba(204,0,0,.5), rgba(0,0,0,.8)"
         ></v-img>
       </template>
 
-      <collect />
+      <v-btn
+        v-if="$store.state.raceButton"
+        class="ma-0"
+        :to="'/race'"
+        link
+        color="#20272F"
+      >
+      race
+      </v-btn>
+      <v-btn      
+        v-else
+        class="ma-0"
+        :to="'/'"
+        link
+        color="#20272F"
+      >
+      home
+      </v-btn>
       <v-spacer></v-spacer>
-      <h1 class="myFont d-none d-md-block">PowerC</h1>
+      <h1 class="myFont d-none d-md-block">Power-C.AR</h1>
       <v-spacer></v-spacer>
       
 
-
+      <collect class="mx-1"/>
       <unlock-wallet
         v-if="!$store.state.wallet.unlocked"
        />

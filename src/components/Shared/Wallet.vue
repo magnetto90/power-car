@@ -10,7 +10,7 @@
         >
             mdi-key-variant
         </v-icon>
-        {{$store.state.wallet.short}}   
+        {{$store.state.wallet.short}}
     </v-btn>
  
 </template>

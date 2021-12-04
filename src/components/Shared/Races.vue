@@ -1,5 +1,5 @@
 <template>
-    <tr v-if="bet != 0">
+    <tr v-if="bet != 0" height="90px">
         <td>{{car.id}}</td>
         <td>
             <v-lazy
@@ -23,6 +23,7 @@
             background-color="pink lighten-3"
             color="red"
             small
+            readonly
             ></v-rating>
         </td>
         <td>
@@ -47,8 +48,9 @@
                         type="number"
                         step="1"
                         min="1"
-                        solo
+                        
                         dense
+                        outlined
                     ></v-text-field>
                 </v-col>
                 <v-col
