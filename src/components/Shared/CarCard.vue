@@ -43,7 +43,7 @@
         Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
       </p>
       <p>
-        <span v-if="total>0">Win Rate: <span :class="winRateColor()" >{{(wins*100/total).toFixed(0)}}%</span></span>
+        <span :title="wins+'/'+total" v-if="total>0">Win Rate: <span :class="winRateColor()" >{{(wins*100/total).toFixed(0)}}%</span></span>
         <span v-if="bonus>0" title="This number helps you win races!!"> Bonus: +{{bonus}}</span><br>
         <span v-if="carState == 1 && $store.state.wallet.address == owner"> Price: {{carPrice}}</span>
       </p>
@@ -198,6 +198,7 @@
 
 <script>
 import Car from '@/store/car'
+import Race from '@/store/race'
 export default {
     props: ['car'],
     data() {
@@ -224,7 +225,6 @@ export default {
     
         var today = new Date();
         this.time = today.getHours();
-
         Car.methods.tokenURI(this.car.id).call((err, res) => {
           this.imagePath = res
         })
@@ -232,8 +232,12 @@ export default {
           this.bonus = res
         })
         Car.methods.carWinRate(this.car.id).call((err, res) => {
-          this.wins = res.wins
-          this.total = res.total
+          Race.methods.carWinRate(this.car.id).call((err, res) => {
+            this.wins += parseInt(res.wins)
+            this.total += parseInt(res.total)
+          })
+          this.wins += parseInt(res.wins)
+          this.total += parseInt(res.total)
         })
         Car.methods.carState(this.car.id).call((err, res) => {
           this.carState = res;

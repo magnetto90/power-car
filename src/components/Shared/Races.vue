@@ -121,8 +121,6 @@ export default {
         Race.methods.carWinRate(this.car.id).call((err, res) => {
             this.wins = res.wins
             this.total = res.total 
-          
-          
         })
     },
     methods: {

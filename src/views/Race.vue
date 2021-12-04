@@ -69,7 +69,7 @@
                     >
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn
-                        color="red lighten-2"
+                        color="white lighten-2"
                         dark
                         v-bind="attrs"
                         v-on="on"
@@ -115,11 +115,6 @@
                     </v-dialog>       
             </v-col>
         </v-row>
-
-
-
-
-    
         </v-card>
 
         <v-simple-table
