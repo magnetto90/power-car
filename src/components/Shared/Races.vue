@@ -43,26 +43,15 @@
                 >
                     <v-text-field
                         label="Car ID"
-                        
                         v-model="carTwoID"
                         type="number"
                         step="1"
                         min="1"
-                        
                         dense
                         outlined
+                        append-icon="mdi-language-go"
+                        @click:append="acceptRace"
                     ></v-text-field>
-                </v-col>
-                <v-col
-                cols="12"
-                sm="6"
-                >
-                    <v-btn
-                        @click="acceptRace"
-                        color="success"
-                    >
-                        Accept
-                    </v-btn>
                 </v-col>
             </v-row>
 
@@ -70,6 +59,7 @@
         <td
             v-else
         >
+        
             <v-btn
                 @click="cancelRace"
                 color="red"
@@ -96,7 +86,7 @@ export default {
         isActive: false,
         componentKey: 0,
         wins: 0,
-        total: 0
+        total: 0,
       }
     },
     beforeMount() {

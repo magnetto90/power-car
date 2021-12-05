@@ -102,11 +102,15 @@
                         <v-divider></v-divider>
 
                         <v-card-actions>
+                            <v-checkbox
+                            v-model="checkbox"
+                            label="Do not show this message again"
+                            ></v-checkbox>
                         <v-spacer></v-spacer>
                         <v-btn
                             color="primary"
                             text
-                            @click="dialog = false"
+                            @click="closeDialog"
                         >
                             Let's ride
                         </v-btn>
@@ -167,14 +171,21 @@ export default {
         newBet: "",
         balance: "",
         dialog: true,
+        checkbox: false
       }
     },
     beforeMount(){
+        if(sessionStorage.getItem("dialog") == "true"){
+            this.dialog = false
+            this.checkbox = true
+        }else{
+            this.dialog = true
+            this.checkbox = false
+        }
         this.$store.state.raceButton = false;
         web3.eth.requestAccounts().then(addresses => {
             Race.methods.racerBalance(addresses[0]).call((err, res) => {
                 this.balance = res.slice(0, -18)
-                console.log(res)
             })
         })
     },
@@ -197,6 +208,14 @@ export default {
             .catch(err => {
                 this.$store.commit('showSnackbar', err.message);
             });
+        },
+        closeDialog () {
+            this.dialog = false
+            if(this.checkbox){
+                sessionStorage.setItem("dialog", true)
+            }else{
+                sessionStorage.setItem("dialog", false)
+            }
         }
     },
     components: {
