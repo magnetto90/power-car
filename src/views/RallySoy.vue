@@ -1,0 +1,489 @@
+<template>
+    <div>
+        <v-card
+            class="ma-0 pa-2 stars"
+            
+        >
+        <v-row
+            class="ma-0 pa-0"
+        >
+            <v-col
+            cols="12"
+            sm="3"
+            class="ma-1 pa-0"
+            >   
+                <v-lazy
+                    v-model="isActive"
+                    :options="{
+                    threshold: .5
+                    }"
+                    transition="fade-transition"
+                >
+                    <v-img 
+                        width="100%"
+                        :src="imagePath"
+                        :key="carKey"
+                        @error="errorHandler()"
+                    ></v-img>
+                </v-lazy>         
+            </v-col>
+            <v-col
+            cols="12"
+            sm="2"
+            class="ma-1 pa-0"
+            >
+            <div class="rock pa-2 mb-5">
+                <v-text-field
+                    label="Bet"
+                    class="ma-0"
+                    v-model="newBet"
+                    type="number"
+                    step="1"
+                    min="1"
+                    solo
+                    dense
+                    outlined
+                >
+                Bet
+                </v-text-field>
+                <v-text-field
+                    label="Car ID"
+                    class="ma-0"
+                    v-model="carID"
+                    type="number"
+                    step="1"
+                    min="1"
+                    solo
+                    dense
+                    outlined
+                >
+                Car
+                </v-text-field>
+                <v-btn
+                    width="100%"
+                    color="#4d4d4d"
+                    class="mx-0 pa-0 light-green--text"
+                    @click="createRace"
+                >
+                    Create Race
+                </v-btn>  
+                <v-btn
+                    width="100%"
+                    color="#4d4d4d"
+                    class="mt-1 pa-0 light-green--text"
+                    @click="claim"
+                >
+                    Claim: {{balance}} CLO
+                </v-btn>  
+            </div>
+  
+                <v-btn
+                    width="100%"
+                    color="white"
+                    class="mt-1 pa-0"
+                    outlined
+                    @click="() => {rules = true; leaderBoard = false, admin = false, about = false}"
+                >
+                    RULES
+                </v-btn>     
+                <v-btn
+                    width="100%"
+                    color="white"
+                    class="mt-1 pa-0"
+                    outlined
+                    @click="() => {rules = false; leaderBoard = true, admin = false, about = false}"
+                >
+                    LEADER BOARD
+                </v-btn>
+                <v-btn
+                    width="100%"
+                    color="white"
+                    class="mt-1 pa-0"
+                    outlined
+                    @click="() => {rules = false; leaderBoard = false, admin = false, about = true}"
+                >
+                    ABOUT NFT
+                </v-btn>
+                <v-btn
+                    width="100%"
+                    color="white"
+                    class="mt-1 pa-0"
+                    outlined
+                    @click="() => {rules = false; leaderBoard = false, admin = true, about = false}"
+                    v-if="nftOwner == $store.state.wallet.address"
+                >
+                    ADMIN
+                </v-btn>
+            </v-col>
+            <v-col
+            cols="12"
+            sm="6"
+            class="ma-1 pa-0"
+            >
+                <div v-if="rules" class="light-green--text">
+                    <h1 class="text-center">Rules</h1>
+                    <p>                    
+                    1. Ticket price: {{ticketPrice}} CLO for each race. <br>
+                    2. Bonus: Increase the chances of wining a race.<br>
+                    3. Rally Soy has a bonus multiplier for baja trucks and other special cars.<br>
+                    4. You can cancel the race any time.<br>
+                    5. The earnings are not trasnferred automatically. Use claim button.<br>
+                    6. Seasons: The Rally Soy owner can start a Season where the car with more point acumulated during the season will win an extra amount of CLO<br>
+                    7. The winner is selected by random numbers. See the code of the contract to see how it does it.
+                    </p>
+         
+                    <v-btn class="ma-0 pa-0" icon href="https://explorer.callisto.network/address/0xf3D8eD487Bbbba0683F26d62A909b3DcE6f478E4/contracts" target="_blank">
+                        <v-icon> mdi-code-tags</v-icon> 
+                    </v-btn>
+                </div>
+                <div v-if="leaderBoard" class="light-green--text">
+                    <div v-if="seasonStarted">
+                        <h1 class="text-center">Season: {{season}}</h1>
+                        <v-row class="text-center">
+                            <v-col>CAR</v-col>
+                            <v-col>Points</v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col>
+                                <v-lazy
+                                    v-model="isActive"
+                                    :options="{
+                                    threshold: .5
+                                    }"
+                                    transition="fade-transition"
+                                >
+                                    <v-img 
+                                    height="96px"
+                                    width="196px"
+                                    :src="imagePathFirst"
+                                    :key="carKey"
+                                    @error="errorHandler()"
+                                    ></v-img>
+                                </v-lazy>
+                            </v-col>
+                            <v-col>
+                                <h1 class="text-center">{{firstPoints}}</h1>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col>
+                                <v-lazy
+                                    v-model="isActive"
+                                    :options="{
+                                    threshold: .5
+                                    }"
+                                    transition="fade-transition"
+                                >
+                                    <v-img 
+                                    height="64px"
+                                    width="130px"                                    
+                                    :src="imagePathSecond"
+                                    :key="carKey"
+                                    @error="errorHandler()"
+                                    ></v-img>
+                                </v-lazy>
+                            </v-col>
+                            <v-col>
+                                <h1 class="text-center">{{secondPoints}}</h1>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col>
+                                <v-lazy
+                                    v-model="isActive"
+                                    :options="{
+                                    threshold: .5
+                                    }"
+                                    transition="fade-transition"
+                                >
+                                    <v-img 
+                                    height="64px"
+                                    width="130px"                                      
+                                    :src="imagePathThird"
+                                    :key="carKey"
+                                    @error="errorHandler()"
+                                    ></v-img>
+                                </v-lazy>
+                            </v-col>
+                            <v-col>
+                                <h1 class="text-center">{{thirdPoints}}</h1>
+                            </v-col>
+                        </v-row>
+                        <p class="text-center">Jackpot: {{seasonBalance}}</p>
+                    </div>
+                    <div v-else>
+                        <h1 class="text-center">Season has not yet started</h1>
+                    </div>
+
+                </div>
+                <div v-if="about" class="light-green--text">
+                    <h1 class="text-center">ABOUT</h1>
+                    <p>This is Power-C.ar's first soy.finance-inspired NFT race track based on CallistoNFT protocol. The owner of this NFT will be able to create seasonal events where part of the proceeds from ticket sales will go to the owner and part to the winner of the season. If you want to buy it you can leave your offer here below.</p>
+                    <h2 class="text-center" v-if="nftPrice > 0">Price: {{nftPrice}} CLO</h2>
+                    <h2 class="text-center" v-if="nftHighestbid > 0">Highest Bid:{{nftHighestbid}} CLO</h2>
+                    <v-row class="ma-10 pa-0">
+                        
+                        <v-col class="ma-0 pa-0">
+                            <v-text-field
+                                label="Amount in CLO"
+                                class="ma-0"
+                                v-model="nftBid"
+                                type="number"
+                                step="1"
+                                min="1"
+                                solo
+                                dense
+                                outlined
+                            >
+                                <template v-slot:append>
+                                    <v-btn
+                                            width="100px"
+                                            height="30px"
+                                            color="#4d4d4d"
+                                            class="mx-0 pa-0 light-green--text"
+                                            @click="placeBid"
+                                        >
+                                            Bid
+                                        </v-btn> 
+                                </template>
+                            </v-text-field> 
+                        </v-col>
+                        
+                    </v-row>
+                    <p class="text-center">Rally-Soy total earnings: {{earnings}} CLO</p>
+                </div>
+                <div  v-if="admin" class="light-green--text">
+                    <h1 class="text-center">ADMIN PANEL</h1>
+                </div>
+            </v-col>
+        </v-row>
+        </v-card>
+
+        <v-simple-table
+            fixed-header
+            class="rock"
+        >
+            <template v-slot:default>
+            <thead>
+                <tr>
+                    <th class="text-left">
+                        ID
+                    </th>
+                    <th class="text-left">
+                        Image
+                    </th>
+                    <th class="text-left">
+                        Bonus
+                    </th>
+                    <th class="text-left">
+                        Bet
+                    </th>
+                    <th class="text-left">
+                        
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <car-tr 
+                v-for="car in $store.state.raceCars"
+                :key="car.id"
+                :car="car"
+                />
+            </tbody>
+            </template>
+        </v-simple-table>
+    <error-overlay
+        v-if="$store.state.network.id != 820 || !$store.state.web3"
+    />
+    </div>
+</template>
+
+<script>
+import Car from '@/store/car'
+import RallySoy from '@/store/rallysoy'
+export default {
+    data() {
+      return {
+        carID: "",
+        newBet: "",
+        nftBid: "",
+        nftHighestbid: "",
+        nftPriced: "",
+        balance: 0,
+        dialog: true,
+        checkbox: false,
+        ticketPrice: 0,
+        imagePath: "",
+        season: 0,
+        carKey: 0,
+        isActive: false,
+        seasonBalance: 0,
+        seasonStarted: false,
+        rules: true,
+        about: false,
+        admin: false,
+        leaderBoard: false,
+        season: 0,
+        imagePathFirst:  "",
+        imagePathSecond: "",
+        imagePathThird:  "",
+        firstPoints: "",
+        secondPoints: "",
+        thirdPoints: "",
+        nftOwner: "",
+        earnings: ""
+
+      }
+    },
+    beforeMount(){
+        if(sessionStorage.getItem("dialog") == "true"){
+            this.dialog = false
+            this.checkbox = true
+        }else{
+            this.dialog = true
+            this.checkbox = false
+        }
+
+        this.$store.state.raceButton = false;
+        web3.eth.requestAccounts().then(addresses => {
+            RallySoy.methods.racerBalance(addresses[0]).call((err, res) => {
+                if(res != '0'){this.balance = res.slice(0, -18)}
+            })
+        })
+        RallySoy.methods.ticketPrice().call((err, res) => {
+          this.ticketPrice = res.slice(0, -18)
+        })
+        RallySoy.methods.bidOf(0).call((err, res) => {
+          this.nftHighestbid = res.price.slice(0, -18)
+        })
+        RallySoy.methods.priceOf(0).call((err, res) => {
+          this.nftPrice = res.slice(0, -18)
+        })
+        RallySoy.methods.ownerOf(0).call((err, res) => {
+          this.nftOwner = res;
+        })
+        RallySoy.methods.tokenImage().call((err, res) => {
+          this.imagePath = res
+        })
+        RallySoy.methods.rallyTotalEarnings().call((err, res) => {
+          this.earnings = res.slice(0, -18)
+        })
+        RallySoy.methods.season().call((err, res) => {
+            this.season = res;
+            RallySoy.methods.seasonHistory(res).call((err, res) => {
+                if(res.seasonStarted){
+                    Car.methods.tokenURI(res.first).call((err, res) => {
+                        this.imagePathFirst = res
+                    })
+                    Car.methods.tokenURI(res.second).call((err, res) => {
+                        this.imagePathSecond = res
+                    })
+                    Car.methods.tokenURI(res.third).call((err, res) => {
+                        this.imagePathThird = res
+                    })
+                    RallySoy.methods._getSeasonPoints(this.season,res.first).call((err, res) => {
+                        this.firstPoints = res
+                    })
+                    RallySoy.methods._getSeasonPoints(this.season,res.second).call((err, res) => {
+                        this.secondPoints = res
+                    })
+                    RallySoy.methods._getSeasonPoints(this.season,res.third).call((err, res) => {
+                        this.thirdPoints = res
+                    })
+                    this.seasonStarted = res.seasonStarted
+                    this.seasonBalance = res.seasonBalance.slice(0, -18)
+                }
+            })
+        })
+    },
+    methods: {
+        errorHandler () {
+            this.carKey += 1;
+        },
+        createRace () {
+            let amountToSend = web3.utils.toWei((parseInt(this.newBet)+parseInt(this.ticketPrice))+'');
+            RallySoy.methods.createRally(this.carID).send({from: this.$store.state.wallet.address, value: amountToSend})         
+            .then(() => {
+                location.reload()
+            })
+            .catch(err => {
+                this.$store.commit('showSnackbar', err.message);
+            });
+        },
+        placeBid () {
+            let amountToSend = web3.utils.toWei(this.nftBid);
+            RallySoy.methods.setBid(this.carID, amountToSend).send({from: this.$store.state.wallet.address, value: amountToSend})         
+            .then(() => {
+                location.reload()
+            })
+            .catch(err => {
+                this.$store.commit('showSnackbar', err.message);
+            });
+        },
+        claim () {
+            RallySoy.methods.claimRaceBalance().send({from: this.$store.state.wallet.address})         
+            .then(() => {
+                location.reload()
+            })
+            .catch(err => {
+                this.$store.commit('showSnackbar', err.message);
+            });
+        },
+        closeDialog () {
+            this.dialog = false
+            if(this.checkbox){
+                sessionStorage.setItem("dialog", true)
+            }else{
+                sessionStorage.setItem("dialog", false)
+            }
+        }
+    },
+    components: {
+    'car-tr': require('@/components/Shared/RalliesSoy.vue').default,
+    'error-overlay': require('@/components/Shared/ErrorOverlay.vue').default
+  }
+}
+</script>
+
+<style scoped>
+    th{
+        background: url('../assets/RockBar.gif') repeat !important;
+        background-size: auto 100% !important;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 15px !important;
+        color: rgb(0, 255, 55) !important;
+
+    }
+    .rock{
+        background: url('../assets/RockTile.png') repeat !important;
+    }
+    .stars{
+        background-image: 
+            url('../assets/StarBig.gif'),
+            url('../assets/StarBig.gif'),
+            url('../assets/StarSmall.gif'), 
+            url('../assets/StarSmall.gif'), 
+            url('../assets/StarSmall.gif'), 
+            url('../assets/Space.png');
+        background-position: 
+            center top,
+            75% 20%, 
+            right center, 
+            75% 75%, 
+            20% 75%,
+            left top;
+        background-repeat: 
+            no-repeat, 
+            no-repeat, 
+            no-repeat, 
+            no-repeat,
+            no-repeat,
+            repeat;
+    }
+    p,h1, h2,button, td {
+    font-family: 'Press Start 2P', cursive;; 
+    }
+    .v-btn, .v-text-field{
+        border-radius: 0 !important;
+    }
+</style>

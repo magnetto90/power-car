@@ -116,63 +116,11 @@
     >
       CANCEL SELL
     </v-btn>
-    <v-btn
-      class="black--text" 
-      v-if="carState == 0 && $store.state.wallet.address == owner"
-      color="red"
-      @click="createRace()"
-      width="50%"
-      title="If you run a race you can lose your car! Or win your oponent car!"
-    >
-      RACE
-    </v-btn>
 
 
-        <v-overlay
-          :absolute="absolute"
-          :value="raceOverlay"
-          opacity="90"
-        >
-         <p>Enter your car ID to race:</p>
-        <v-text-field
-          v-model="betCar"
-          background-color="black"
-          color="yellow"
-          solo
-          class="ml-0"
-          outlined
-          hide-details
-          type="number"
-          step="1"
-          min="1"
-          dense
-        >
-        </v-text-field>
 
 
-          <v-btn
-            color="success"
-            @click="acceptRace()"
-          >
-            Confirm
-          </v-btn>
-          <v-btn
-            color="error"
-            @click="raceOverlay = false"
-          >
-            Cancel
-          </v-btn>
-          <p>*If you lose the race you lose your car.</p>
-        </v-overlay>
-          <v-btn
-          v-if="carState == 3 && $store.state.wallet.address != owner"
-      class=" black--text" 
-      color="red"
-      @click="raceOverlay = true"
-      
-    >
-      ACCEPT RACE
-    </v-btn>
+
  
 
     <v-btn
@@ -208,10 +156,8 @@ export default {
         owner: '',
         carPrice: 0,
         amount: 0,
-        betCar: 0,
         absolute: true,
         sellOverlay: false,
-        raceOverlay: false,
         progressOverlay: false,
         bonus: 0,
         wins: 0,
@@ -307,44 +253,7 @@ export default {
           this.$store.commit('showSnackbar', err.message);
           this.progressOverlay = false;
           });
-      },
-      createRace () {
-        this.progressOverlay = true;
-        Car.methods.createDragRace(this.car.id).send({from: this.$store.state.wallet.address})         
-        .then(value => {
-          sessionStorage.setItem("lastTx", value.transactionHash) 
-          location.reload()
-        })
-        .catch(err => {
-          this.$store.commit('showSnackbar', err.message);
-          this.progressOverlay = false;
-          });
-      },
-      cancelRace () {
-        this.progressOverlay = true;
-        Car.methods.cancelDragRace(this.car.id).send({from: this.$store.state.wallet.address})         
-        .then(value => {
-          sessionStorage.setItem("lastTx", value.transactionHash) 
-          location.reload()
-        })
-        .catch(err => {
-          this.$store.commit('showSnackbar', err.message);
-          this.progressOverlay = false;
-          });
-      },
-      acceptRace () {
-        this.raceOverlay = false;
-        this.progressOverlay = true;
-        Car.methods.acceptDragRace(this.car.id, this.betCar).send({from: this.$store.state.wallet.address})         
-        .then(value => {
-          sessionStorage.setItem("lastTx", value.transactionHash) 
-          location.reload()
-        })
-        .catch(err => {
-          this.$store.commit('showSnackbar', err.message);
-          this.progressOverlay = false;
-          });
-      }      
+      },  
     }
 }
 

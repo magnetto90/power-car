@@ -11,7 +11,7 @@
             class="mr-1"
         >
             mdi-key-variant
-        </v-icon> Unlock Wallet
+        </v-icon> START
     </v-btn>
 </template>
 
