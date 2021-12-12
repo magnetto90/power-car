@@ -1,5 +1,5 @@
 <template>
-    <tr v-if="bet != 0">
+    <tr v-if="carState == 1">
         <td><h1>{{car.id}}</h1></td>
         <td>
             <v-lazy
@@ -68,7 +68,6 @@ export default {
     data() {
       return {
         imagePath: '',
-        raceState: 0,
         owner: '',
         bet: 0,
         bonus: 0,
@@ -78,6 +77,7 @@ export default {
         componentKey: 0,
         wins: 0,
         total: 0,
+        carState: 0,
       }
     },
     beforeMount() {
@@ -99,8 +99,15 @@ export default {
         RallySoy.methods._getCarBonus(this.car.id).call((err, res) => {
           this.bonusM = parseInt(res)
         })
+        RallySoy.methods.carState(this.car.id).call((err, res) => {
+          this.carState = parseInt(res)
+        })
         RallySoy.methods.rallies(this.car.id).call((err, res) => {
-          this.bet = res.raceBalance.slice(0, -18)
+            if(res.raceBalance == 0){
+                this.bet = res.raceBalance
+            }else{
+                this.bet = res.raceBalance.slice(0, -18)
+            }
         })
         Car.methods.ownerOf(this.car.id).call((err, res) => {
           this.owner = res
