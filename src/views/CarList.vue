@@ -104,7 +104,7 @@ export default {
     },
   beforeMount(){
     this.$store.state.raceButton = true;
-    for(let i = 0; i <= 79; i++){    
+    for(let i = 0; i <= 84; i++){    
       Car.methods.carBonus(i).call((err, res) => {
         this.$store.state.cars[i].bonus = res
       })
