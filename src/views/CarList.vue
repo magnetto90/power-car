@@ -22,7 +22,7 @@
       class="mt-1"
       color="#cc0000"
       v-model="page"
-      :length="8"
+      :length="9"
       @input="setCurrentPage(0)"
       @next="setCurrentPage(1)"
       @previous="setCurrentPage(-1)"
@@ -75,7 +75,13 @@
       v-for="car in $store.state.cars.slice(70, 80)"
       :key="car.id"
       :car="car"
-    /></div>     
+    /></div>    
+    <div v-if="page == 9">
+      <car-card
+      v-for="car in $store.state.cars.slice(80, 85)"
+      :key="car.id"
+      :car="car"
+    /></div>   
   </div>
    <error-overlay
     v-if="$store.state.network.id != 820 || !$store.state.web3"

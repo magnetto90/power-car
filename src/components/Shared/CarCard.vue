@@ -2,9 +2,8 @@
   <v-card
     width="300px"
     height="310px"
-    :class="time <= 7 ||time >= 19 ? 'float-left mx-9 my-5 night' : 'float-left mx-9 my-5 day'"
+    :class="background"
     :style="$store.state.wallet.address == owner ? 'border: 2px solid green;' : 'border: 2px solid red;'"
-
   >
     <div align="center">   
       <v-hover
@@ -164,7 +163,8 @@ export default {
         total: 0,
         isActive: false,
         componentKey: 0,
-        time: 0
+        time: 0,
+        background: "",
       }
     },
     beforeMount(){
@@ -197,6 +197,18 @@ export default {
         Car.methods.ownerOf(this.car.id).call((err, res) => {
           this.owner = res
         })
+
+        if(this.car.id == 81){
+          this.background = 'float-left mx-9 my-5 stars'
+        }else{
+          if(this.time <= 7 ||this.time >= 19){
+            this.background = 'float-left mx-9 my-5 night'
+          }else{
+            this.background = 'float-left mx-9 my-5 day'
+          }
+        
+        }
+
     },
     methods: {
       errorHandler () {
@@ -280,6 +292,10 @@ p {
 
 .day{
         background: url( '../../assets/day.png') no-repeat center center;
+}
+
+.stars{
+        background: url( '../../assets/stars.gif') no-repeat center center;
 }
 
 
