@@ -407,7 +407,7 @@ export default {
             this.carKey += 1;
         },
         createRace () {
-            let amountToSend = web3.utils.toWei((parseInt(this.newBet)+parseInt(this.ticketPrice))+'');
+            let amountToSend = web3.utils.toWei((parseInt(this.newBet)+parseInt(this.ticketPrice))+'');+
             RallySoy.methods.createRally(this.carID).send({from: this.$store.state.wallet.address, value: amountToSend})         
             .then(() => {
                 location.reload()
@@ -417,14 +417,15 @@ export default {
             });
         },
         placeBid () {
-            let amountToSend = web3.utils.toWei(this.nftBid);
-            RallySoy.methods.setBid(this.carID, amountToSend).send({from: this.$store.state.wallet.address, value: amountToSend})         
+            let amountToSend = web3.utils.toWei(this.nftBid+"");
+            RallySoy.methods.setBid(0, amountToSend).send({from: this.$store.state.wallet.address, value: amountToSend})         
             .then(() => {
                 location.reload()
             })
             .catch(err => {
                 this.$store.commit('showSnackbar', err.message);
-            });
+            })
+            
         },
         claim () {
             RallySoy.methods.claimRaceBalance().send({from: this.$store.state.wallet.address})         
