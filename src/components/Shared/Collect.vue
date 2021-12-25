@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Car from '@/store/car'
+import Web3 from 'web3'
 export default {
     data() {
       return {
@@ -25,15 +25,16 @@ export default {
       }
     },
     beforeMount(){
+      var web3 = new Web3(window.ethereum || Web3.givenProvider);
       web3.eth.requestAccounts().then(addresses => {
-        Car.methods.getSalesBalance().call({from: addresses[0]}, (err, res) => {
+        this.$store.state.contract.methods.getSalesBalance().call({from: addresses[0]}, (err, res) => {
           this.amount = res/(10**18)
         })
       })
     },
     methods: {
       claim () {
-        Car.methods.claimSalesBalance().send({from: this.$store.state.wallet.address})         
+        this.$store.state.contract.methods.claimSalesBalance().send({from: this.$store.state.wallet.address})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()

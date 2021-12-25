@@ -61,8 +61,7 @@
 </template>
 
 <script>
-import Car from '@/store/car'
-import RallySoy from '@/store/rallysoy'
+import Web3 from 'web3'
 export default {
     props: ['car'],
     data() {
@@ -82,34 +81,29 @@ export default {
     },
     beforeMount() {
         //See if contract is loaded
-        if(Car && RallySoy){
-        this.$store.state.web3 = true
-        }else{
-        this.$store.state.web3 = false
-        }
-        RallySoy.methods.ticketPrice().call((err, res) => {
+        this.$store.state.rallyContract.methods.ticketPrice().call((err, res) => {
           this.ticketPrice = res.slice(0, -18)
         })
-        Car.methods.tokenURI(this.car.id).call((err, res) => {
+        this.$store.state.contract.methods.tokenURI(this.car.id).call((err, res) => {
           this.imagePath = res
         })
-        Car.methods.carBonus(this.car.id).call((err, res) => {
+        this.$store.state.contract.methods.carBonus(this.car.id).call((err, res) => {
           this.bonus = parseInt(res)
         })
-        RallySoy.methods._getCarBonus(this.car.id).call((err, res) => {
+        this.$store.state.rallyContract.methods._getCarBonus(this.car.id).call((err, res) => {
           this.bonusM = parseInt(res)
         })
-        RallySoy.methods.carState(this.car.id).call((err, res) => {
+        this.$store.state.rallyContract.methods.carState(this.car.id).call((err, res) => {
           this.carState = parseInt(res)
         })
-        RallySoy.methods.rallies(this.car.id).call((err, res) => {
+        this.$store.state.rallyContract.methods.rallies(this.car.id).call((err, res) => {
             if(res.raceBalance == 0){
                 this.bet = res.raceBalance
             }else{
                 this.bet = res.raceBalance.slice(0, -18)
             }
         })
-        Car.methods.ownerOf(this.car.id).call((err, res) => {
+        this.$store.state.contract.methods.ownerOf(this.car.id).call((err, res) => {
           this.owner = res
         })
     },
@@ -118,8 +112,9 @@ export default {
             this.componentKey += 1;
         },
         acceptRace () {
+            var web3 = new Web3(window.ethereum || Web3.givenProvider);
             let amountToSend = web3.utils.toWei((parseInt(this.bet)+parseInt(this.ticketPrice))+'');
-            RallySoy.methods.acceptRally(this.car.id, this.carTwoID).send({from: this.$store.state.wallet.address, value: amountToSend})         
+            this.$store.state.rallyContract.methods.acceptRally(this.car.id, this.carTwoID).send({from: this.$store.state.wallet.address, value: amountToSend})         
         .then(() => {
           location.reload()
         })
@@ -128,7 +123,7 @@ export default {
           });
         },
         cancelRace () {
-            RallySoy.methods.cancelRally(this.car.id).send({from: this.$store.state.wallet.address})         
+            this.$store.state.rallyContract.methods.cancelRally(this.car.id).send({from: this.$store.state.wallet.address})         
             .then(() => {
             location.reload()
             })

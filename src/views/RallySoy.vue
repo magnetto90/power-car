@@ -295,14 +295,13 @@
             </template>
         </v-simple-table>
     <error-overlay
-        v-if="$store.state.network.id != 820 || !$store.state.web3"
+        v-if="$store.state.network.id != 820"
     />
     </div>
 </template>
 
 <script>
-import Car from '@/store/car'
-import RallySoy from '@/store/rallysoy'
+import Web3 from 'web3'
 export default {
     data() {
       return {
@@ -347,53 +346,54 @@ export default {
         }
 
         this.$store.state.raceButton = false;
+        var web3 = new Web3(window.ethereum || Web3.givenProvider);
         web3.eth.requestAccounts().then(addresses => {
-            RallySoy.methods.racerBalance(addresses[0]).call((err, res) => {
+            this.$store.state.rallyContract.methods.racerBalance(addresses[0]).call((err, res) => {
                 if(res != '0'){this.balance = res.slice(0, -18)}
             })
         })
-        RallySoy.methods.ticketPrice().call((err, res) => {
+        this.$store.state.rallyContract.methods.ticketPrice().call((err, res) => {
           this.ticketPrice = res.slice(0, -18)
         })
-        RallySoy.methods.bidOf(0).call((err, res) => {
+        this.$store.state.rallyContract.methods.bidOf(0).call((err, res) => {
           this.nftHighestbid = res.price.slice(0, -18)
         })
-        RallySoy.methods.priceOf(0).call((err, res) => {
+        this.$store.state.rallyContract.methods.priceOf(0).call((err, res) => {
           this.nftPrice = res.slice(0, -18)
         })
-        RallySoy.methods.ownerOf(0).call((err, res) => {
+        this.$store.state.rallyContract.methods.ownerOf(0).call((err, res) => {
           this.nftOwner = res;
         })
-        RallySoy.methods.tokenImage().call((err, res) => {
+        this.$store.state.rallyContract.methods.tokenImage().call((err, res) => {
           this.imagePath = res
         })
-        RallySoy.methods.rallyTotalEarnings().call((err, res) => {
+        this.$store.state.rallyContract.methods.rallyTotalEarnings().call((err, res) => {
           this.earnings = res.slice(0, -18)
         })
-        RallySoy.methods.end().call((err, res) => {
+        this.$store.state.rallyContract.methods.end().call((err, res) => {
             
           this.end = new Date(res * 1e3).toISOString().slice(0, -5).replace("T"," ")
         })
-        RallySoy.methods.season().call((err, res) => {
+        this.$store.state.rallyContract.methods.season().call((err, res) => {
             this.season = res;
-            RallySoy.methods.seasonHistory(res).call((err, res) => {
+            this.$store.state.rallyContract.methods.seasonHistory(res).call((err, res) => {
                 if(res.seasonStarted){
-                    Car.methods.tokenURI(res.first).call((err, res) => {
+                    this.$store.state.contract.methods.tokenURI(res.first).call((err, res) => {
                         this.imagePathFirst = res
                     })
-                    Car.methods.tokenURI(res.second).call((err, res) => {
+                    this.$store.state.contract.methods.tokenURI(res.second).call((err, res) => {
                         this.imagePathSecond = res
                     })
-                    Car.methods.tokenURI(res.third).call((err, res) => {
+                    this.$store.state.contract.methods.tokenURI(res.third).call((err, res) => {
                         this.imagePathThird = res
                     })
-                    RallySoy.methods._getSeasonPoints(this.season,res.first).call((err, res) => {
+                    this.$store.state.rallyContract.methods._getSeasonPoints(this.season,res.first).call((err, res) => {
                         this.firstPoints = res
                     })
-                    RallySoy.methods._getSeasonPoints(this.season,res.second).call((err, res) => {
+                    this.$store.state.rallyContract.methods._getSeasonPoints(this.season,res.second).call((err, res) => {
                         this.secondPoints = res
                     })
-                    RallySoy.methods._getSeasonPoints(this.season,res.third).call((err, res) => {
+                    this.$store.state.rallyContract.methods._getSeasonPoints(this.season,res.third).call((err, res) => {
                         this.thirdPoints = res
                     })
                     this.seasonStarted = res.seasonStarted
@@ -407,8 +407,9 @@ export default {
             this.carKey += 1;
         },
         createRace () {
+            var web3 = new Web3(window.ethereum || Web3.givenProvider);
             let amountToSend = web3.utils.toWei((parseInt(this.newBet)+parseInt(this.ticketPrice))+'');+
-            RallySoy.methods.createRally(this.carID).send({from: this.$store.state.wallet.address, value: amountToSend})         
+            this.$store.state.rallyContract.methods.createRally(this.carID).send({from: this.$store.state.wallet.address, value: amountToSend})         
             .then(() => {
                 location.reload()
             })
@@ -417,8 +418,9 @@ export default {
             });
         },
         placeBid () {
+            var web3 = new Web3(window.ethereum || Web3.givenProvider);
             let amountToSend = web3.utils.toWei(this.nftBid+"");
-            RallySoy.methods.setBid(0, amountToSend).send({from: this.$store.state.wallet.address, value: amountToSend})         
+            this.$store.state.rallyContract.methods.setBid(0, amountToSend).send({from: this.$store.state.wallet.address, value: amountToSend})         
             .then(() => {
                 location.reload()
             })
@@ -428,7 +430,7 @@ export default {
             
         },
         claim () {
-            RallySoy.methods.claimRaceBalance().send({from: this.$store.state.wallet.address})         
+            this.$store.state.rallyContract.methods.claimRaceBalance().send({from: this.$store.state.wallet.address})         
             .then(() => {
                 location.reload()
             })

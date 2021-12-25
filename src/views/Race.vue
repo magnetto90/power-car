@@ -157,13 +157,13 @@
             </template>
         </v-simple-table>
     <error-overlay
-        v-if="$store.state.network.id != 820 || !$store.state.web3"
+        v-if="$store.state.network.id != 820"
     />
     </div>
 </template>
 
 <script>
-import Race from '@/store/race'
+import Web3 from 'web3'
 export default {
     data() {
       return {
@@ -175,6 +175,9 @@ export default {
       }
     },
     beforeMount(){
+        //this.$store.state.contract;
+        //this.$store.state.raceContract;
+        //this.$store.state.rallyContract;
         if(sessionStorage.getItem("dialog") == "true"){
             this.dialog = false
             this.checkbox = true
@@ -183,16 +186,18 @@ export default {
             this.checkbox = false
         }
         this.$store.state.raceButton = false;
+        var web3 = new Web3(window.ethereum || Web3.givenProvider);
         web3.eth.requestAccounts().then(addresses => {
-            Race.methods.racerBalance(addresses[0]).call((err, res) => {
+            this.$store.state.raceContract.methods.racerBalance(addresses[0]).call((err, res) => {
                 this.balance = res.slice(0, -18)
             })
         })
     },
     methods: {
         createRace () {
+            var web3 = new Web3(window.ethereum || Web3.givenProvider);
             let amountToSend = web3.utils.toWei((parseInt(this.newBet)+50)+'');
-            Race.methods.createDragRace(this.carID).send({from: this.$store.state.wallet.address, value: amountToSend})         
+            this.$store.state.raceContract.methods.createDragRace(this.carID).send({from: this.$store.state.wallet.address, value: amountToSend})         
             .then(() => {
                 location.reload()
             })
@@ -201,7 +206,7 @@ export default {
             });
         },
         claim () {
-            Race.methods.claimRaceBalance().send({from: this.$store.state.wallet.address})         
+            this.$store.state.raceContract.methods.claimRaceBalance().send({from: this.$store.state.wallet.address})         
             .then(() => {
                 location.reload()
             })

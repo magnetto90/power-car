@@ -84,14 +84,14 @@
     /></div>   
   </div>
    <error-overlay
-    v-if="$store.state.network.id != 820 || !$store.state.web3"
+    v-if="$store.state.network.id != 820"
   />
 </div>
 </template>
 
 
 <script>
-import Car from '@/store/car'
+import Web3 from 'web3'
 export default {
   data () {
       return {
@@ -103,14 +103,19 @@ export default {
       }
     },
   beforeMount(){
+        /*
+        Car = this.$store.state.contract;
+        Race = this.$store.state.raceContract;
+        RallySoy = this.$store.state.rallyContract;
+        */
     this.$store.state.raceButton = true;
     for(let i = 0; i <= 84; i++){    
-      Car.methods.carBonus(i).call((err, res) => {
+      this.$store.state.contract.methods.carBonus(i).call((err, res) => {
         this.$store.state.cars[i].bonus = res
       })
-      Car.methods.carState(i).call((err, res) => {
+      this.$store.state.contract.methods.carState(i).call((err, res) => {
         if(res == 1){
-          Car.methods.carSales(i).call((err, res) => {
+          this.$store.state.contract.methods.carSales(i).call((err, res) => {
             this.$store.state.cars[i].carPrice = parseInt(res.carPrice.slice(0, -18))
           })
         }else{
@@ -122,11 +127,6 @@ export default {
     //console.log(this.$store.state.cars)
 
 
-    if(Car){
-      this.$store.state.web3 = true
-    }else{
-      this.$store.state.web3 = false
-    }
     if(sessionStorage.getItem("currentPage")){
       this.page = parseInt(sessionStorage.getItem("currentPage"))
     }

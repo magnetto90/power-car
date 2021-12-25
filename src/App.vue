@@ -146,6 +146,9 @@
       'snackbar': require('@/components/Shared/Snackbar.vue').default,
       'collect': require('@/components/Shared/Collect.vue').default
       },
+      created(){
+        this.$store.dispatch('getProvider');
+      },
       beforeMount(){
         this.$store.commit('getFeeRate');
       }
