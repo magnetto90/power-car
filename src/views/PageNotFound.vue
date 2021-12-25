@@ -187,13 +187,13 @@
       </div>  
       
       <error-overlay
-      v-if="$store.state.network.id != 820 || !$store.state.web3"
+      v-if="$store.state.network.id != 820"
       />
    </div>
 </template>
 
 <script>
-import Car from '@/store/car'
+import Web3 from 'web3'
 export default {
     props: ['car'],
     data() {
@@ -278,6 +278,7 @@ export default {
       },
       buyCar () {
         this.progressOverlay = true;
+        var web3 = new Web3(window.ethereum || Web3.givenProvider);
         let amountToSend = web3.utils.toWei(this.carPrice+'', "ether"); 
         Car.methods.buyCar(404).send({from: this.$store.state.wallet.address, value: amountToSend})         
         .then(value => {
@@ -327,13 +328,6 @@ export default {
           });
       }
     },
-       mounted(){
-    if(Car){
-      this.$store.state.web3 = true
-    }else{
-      this.$store.state.web3 = false
-    }
-  },
     components: {
       'error-overlay': require('@/components/Shared/ErrorOverlay.vue').default,
     }

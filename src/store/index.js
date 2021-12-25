@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Car from './car'
+import Web3 from 'web3'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    web3: false,
+    contract: '',
+    raceContract: '',
+    rallyContract: '',
     wallet: {
       address: '',
       short: '',
@@ -255,22 +257,2135 @@ export default new Vuex.Store({
       state.snackbar.show = false
     },
     getFeeRate (state) {
-      Car.methods.feeRate().call((err, res) => {
+      state.contract.methods.feeRate().call((err, res) => {
         if(res > 0){
           state.feeRate = 100/res
         }
 
       })
-    }
+    },
+    loadContract(state){
+        var web3 = new Web3(window.ethereum || Web3.givenProvider);
+         var contract = new web3.eth.Contract(
+             [
+                 {
+                     "anonymous": false,
+                     "inputs": [
+                         {
+                             "indexed": true,
+                             "internalType": "address",
+                             "name": "owner",
+                             "type": "address"
+                         },
+                         {
+                             "indexed": true,
+                             "internalType": "address",
+                             "name": "approved",
+                             "type": "address"
+                         },
+                         {
+                             "indexed": true,
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "Approval",
+                     "type": "event"
+                 },
+                 {
+                     "anonymous": false,
+                     "inputs": [
+                         {
+                             "indexed": true,
+                             "internalType": "address",
+                             "name": "owner",
+                             "type": "address"
+                         },
+                         {
+                             "indexed": true,
+                             "internalType": "address",
+                             "name": "operator",
+                             "type": "address"
+                         },
+                         {
+                             "indexed": false,
+                             "internalType": "bool",
+                             "name": "approved",
+                             "type": "bool"
+                         }
+                     ],
+                     "name": "ApprovalForAll",
+                     "type": "event"
+                 },
+                 {
+                     "anonymous": false,
+                     "inputs": [
+                         {
+                             "indexed": true,
+                             "internalType": "address",
+                             "name": "previousOwner",
+                             "type": "address"
+                         },
+                         {
+                             "indexed": true,
+                             "internalType": "address",
+                             "name": "newOwner",
+                             "type": "address"
+                         }
+                     ],
+                     "name": "OwnershipTransferred",
+                     "type": "event"
+                 },
+                 {
+                     "anonymous": false,
+                     "inputs": [
+                         {
+                             "indexed": false,
+                             "internalType": "address",
+                             "name": "winner",
+                             "type": "address"
+                         }
+                     ],
+                     "name": "RaceWinner",
+                     "type": "event"
+                 },
+                 {
+                     "anonymous": false,
+                     "inputs": [
+                         {
+                             "indexed": true,
+                             "internalType": "address",
+                             "name": "payer",
+                             "type": "address"
+                         },
+                         {
+                             "indexed": false,
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         },
+                         {
+                             "indexed": false,
+                             "internalType": "uint256",
+                             "name": "amount",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "Received",
+                     "type": "event"
+                 },
+                 {
+                     "anonymous": false,
+                     "inputs": [
+                         {
+                             "indexed": true,
+                             "internalType": "address",
+                             "name": "carOwner",
+                             "type": "address"
+                         },
+                         {
+                             "indexed": false,
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "SaleEnded",
+                     "type": "event"
+                 },
+                 {
+                     "anonymous": false,
+                     "inputs": [
+                         {
+                             "indexed": true,
+                             "internalType": "address",
+                             "name": "payee",
+                             "type": "address"
+                         },
+                         {
+                             "indexed": false,
+                             "internalType": "uint256",
+                             "name": "amount",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "Sent",
+                     "type": "event"
+                 },
+                 {
+                     "anonymous": false,
+                     "inputs": [
+                         {
+                             "indexed": true,
+                             "internalType": "address",
+                             "name": "from",
+                             "type": "address"
+                         },
+                         {
+                             "indexed": true,
+                             "internalType": "address",
+                             "name": "to",
+                             "type": "address"
+                         },
+                         {
+                             "indexed": true,
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "Transfer",
+                     "type": "event"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "challenger",
+                             "type": "uint256"
+                         },
+                         {
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "acceptDragRace",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "address",
+                             "name": "to",
+                             "type": "address"
+                         },
+                         {
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "approve",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "buyCar",
+                     "outputs": [],
+                     "stateMutability": "payable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "cancelDragRace",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "newId",
+                             "type": "uint256"
+                         },
+                         {
+                             "internalType": "string",
+                             "name": "_tokenURI",
+                             "type": "string"
+                         },
+                         {
+                             "internalType": "uint256",
+                             "name": "_carBonus",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "carFactory",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [],
+                     "name": "claimSalesBalance",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         },
+                         {
+                             "internalType": "uint256",
+                             "name": "carPrice",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "createCarSale",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "createDragRace",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "endSale",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [],
+                     "name": "getCallistos",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [],
+                     "name": "renounceOwnership",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "address",
+                             "name": "_token",
+                             "type": "address"
+                         },
+                         {
+                             "internalType": "uint256",
+                             "name": "_amount",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "rescueERC20",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "address",
+                             "name": "from",
+                             "type": "address"
+                         },
+                         {
+                             "internalType": "address",
+                             "name": "to",
+                             "type": "address"
+                         },
+                         {
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "safeTransferFrom",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "address",
+                             "name": "from",
+                             "type": "address"
+                         },
+                         {
+                             "internalType": "address",
+                             "name": "to",
+                             "type": "address"
+                         },
+                         {
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         },
+                         {
+                             "internalType": "bytes",
+                             "name": "_data",
+                             "type": "bytes"
+                         }
+                     ],
+                     "name": "safeTransferFrom",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "address",
+                             "name": "operator",
+                             "type": "address"
+                         },
+                         {
+                             "internalType": "bool",
+                             "name": "approved",
+                             "type": "bool"
+                         }
+                     ],
+                     "name": "setApprovalForAll",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "string",
+                             "name": "newBaseURI",
+                             "type": "string"
+                         }
+                     ],
+                     "name": "setBaseURI",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "_newRate",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "setFeeRate",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "address payable",
+                             "name": "_withdrawalWallet",
+                             "type": "address"
+                         }
+                     ],
+                     "name": "setwithdrawalWallet",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "address",
+                             "name": "from",
+                             "type": "address"
+                         },
+                         {
+                             "internalType": "address",
+                             "name": "to",
+                             "type": "address"
+                         },
+                         {
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "transferFrom",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "address",
+                             "name": "newOwner",
+                             "type": "address"
+                         }
+                     ],
+                     "name": "transferOwnership",
+                     "outputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [],
+                     "stateMutability": "nonpayable",
+                     "type": "constructor"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "address",
+                             "name": "owner",
+                             "type": "address"
+                         }
+                     ],
+                     "name": "balanceOf",
+                     "outputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "",
+                             "type": "uint256"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [],
+                     "name": "baseURI_",
+                     "outputs": [
+                         {
+                             "internalType": "string",
+                             "name": "",
+                             "type": "string"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "carBonus",
+                     "outputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "",
+                             "type": "uint256"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "carSales",
+                     "outputs": [
+                         {
+                             "internalType": "address payable",
+                             "name": "carOwner",
+                             "type": "address"
+                         },
+                         {
+                             "internalType": "uint256",
+                             "name": "carPrice",
+                             "type": "uint256"
+                         },
+                         {
+                             "internalType": "uint256",
+                             "name": "amountPaid",
+                             "type": "uint256"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "carState",
+                     "outputs": [
+                         {
+                             "internalType": "enum CAR.State",
+                             "name": "",
+                             "type": "uint8"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "carWinRate",
+                     "outputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "total",
+                             "type": "uint256"
+                         },
+                         {
+                             "internalType": "uint256",
+                             "name": "wins",
+                             "type": "uint256"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "dragRaces",
+                     "outputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "carOne",
+                             "type": "uint256"
+                         },
+                         {
+                             "internalType": "address",
+                             "name": "pilotOne",
+                             "type": "address"
+                         },
+                         {
+                             "internalType": "uint256",
+                             "name": "carTwo",
+                             "type": "uint256"
+                         },
+                         {
+                             "internalType": "address",
+                             "name": "pilotTwo",
+                             "type": "address"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [],
+                     "name": "feeRate",
+                     "outputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "",
+                             "type": "uint256"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [],
+                     "name": "feesBalance",
+                     "outputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "",
+                             "type": "uint256"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "getApproved",
+                     "outputs": [
+                         {
+                             "internalType": "address",
+                             "name": "",
+                             "type": "address"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [],
+                     "name": "getBalance",
+                     "outputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "contractBalance",
+                             "type": "uint256"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [],
+                     "name": "getSalesBalance",
+                     "outputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "",
+                             "type": "uint256"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "address",
+                             "name": "owner",
+                             "type": "address"
+                         },
+                         {
+                             "internalType": "address",
+                             "name": "operator",
+                             "type": "address"
+                         }
+                     ],
+                     "name": "isApprovedForAll",
+                     "outputs": [
+                         {
+                             "internalType": "bool",
+                             "name": "",
+                             "type": "bool"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [],
+                     "name": "name",
+                     "outputs": [
+                         {
+                             "internalType": "string",
+                             "name": "",
+                             "type": "string"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [],
+                     "name": "owner",
+                     "outputs": [
+                         {
+                             "internalType": "address",
+                             "name": "",
+                             "type": "address"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "ownerOf",
+                     "outputs": [
+                         {
+                             "internalType": "address",
+                             "name": "",
+                             "type": "address"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "address",
+                             "name": "",
+                             "type": "address"
+                         }
+                     ],
+                     "name": "salesBalance",
+                     "outputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "",
+                             "type": "uint256"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "bytes4",
+                             "name": "interfaceId",
+                             "type": "bytes4"
+                         }
+                     ],
+                     "name": "supportsInterface",
+                     "outputs": [
+                         {
+                             "internalType": "bool",
+                             "name": "",
+                             "type": "bool"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [],
+                     "name": "symbol",
+                     "outputs": [
+                         {
+                             "internalType": "string",
+                             "name": "",
+                             "type": "string"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 },
+                 {
+                     "inputs": [
+                         {
+                             "internalType": "uint256",
+                             "name": "tokenId",
+                             "type": "uint256"
+                         }
+                     ],
+                     "name": "tokenURI",
+                     "outputs": [
+                         {
+                             "internalType": "string",
+                             "name": "",
+                             "type": "string"
+                         }
+                     ],
+                     "stateMutability": "view",
+                     "type": "function"
+                 }
+             ],
+             "0xE830AFDAe4Dba5b3b6c6b3506138C373Eb6CE73C"
+         );
+   
+         state.contract = contract;
+       },
+       loadRaceContract(state){
+       var web3 = new Web3(window.ethereum || Web3.givenProvider);
+       var contract = new web3.eth.Contract(
+           [
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "carOne",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "carTwo",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "acceptDragRace",
+                   "outputs": [],
+                   "stateMutability": "payable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "carOne",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "cancelDragRace",
+                   "outputs": [],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "claimRaceBalance",
+                   "outputs": [],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "carOne",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "createDragRace",
+                   "outputs": [],
+                   "stateMutability": "payable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "getCallistos",
+                   "outputs": [],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "address",
+                           "name": "newOwner",
+                           "type": "address"
+                       }
+                   ],
+                   "name": "transferOwnership",
+                   "outputs": [],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "address",
+                           "name": "_address",
+                           "type": "address"
+                       }
+                   ],
+                   "stateMutability": "nonpayable",
+                   "type": "constructor"
+               },
+               {
+                   "anonymous": false,
+                   "inputs": [
+                       {
+                           "indexed": true,
+                           "internalType": "address",
+                           "name": "previousOwner",
+                           "type": "address"
+                       },
+                       {
+                           "indexed": true,
+                           "internalType": "address",
+                           "name": "newOwner",
+                           "type": "address"
+                       }
+                   ],
+                   "name": "OwnershipTransferred",
+                   "type": "event"
+               },
+               {
+                   "anonymous": false,
+                   "inputs": [
+                       {
+                           "indexed": false,
+                           "internalType": "address",
+                           "name": "winner",
+                           "type": "address"
+                       },
+                       {
+                           "indexed": false,
+                           "internalType": "uint256",
+                           "name": "timeOne",
+                           "type": "uint256"
+                       },
+                       {
+                           "indexed": false,
+                           "internalType": "uint256",
+                           "name": "timeTwo",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "RaceWinner",
+                   "type": "event"
+               },
+               {
+                   "inputs": [],
+                   "name": "renounceOwnership",
+                   "outputs": [],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "anonymous": false,
+                   "inputs": [
+                       {
+                           "indexed": true,
+                           "internalType": "address",
+                           "name": "payee",
+                           "type": "address"
+                       },
+                       {
+                           "indexed": false,
+                           "internalType": "uint256",
+                           "name": "amount",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "Sent",
+                   "type": "event"
+               },
+               {
+                   "stateMutability": "payable",
+                   "type": "receive"
+               },
+               {
+                   "inputs": [],
+                   "name": "car_address",
+                   "outputs": [
+                       {
+                           "internalType": "address",
+                           "name": "",
+                           "type": "address"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "carState",
+                   "outputs": [
+                       {
+                           "internalType": "enum RaceForCLO.State",
+                           "name": "",
+                           "type": "uint8"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "carWinRate",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "total",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "wins",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "dragRaces",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "carOne",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "address",
+                           "name": "pilotOne",
+                           "type": "address"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "carTwo",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "address",
+                           "name": "pilotTwo",
+                           "type": "address"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "raceBalance",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "feesBalance",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "getBalance",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "contractBalance",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "leaderBoard",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "owner",
+                   "outputs": [
+                       {
+                           "internalType": "address",
+                           "name": "",
+                           "type": "address"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "raceFee",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "address",
+                           "name": "",
+                           "type": "address"
+                       }
+                   ],
+                   "name": "racerBalance",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               }
+           ],
+             "0xEF852c8cA576148b81ed54F0C6e8882feCb7db68"
+         );
+   
+         state.raceContract = contract;
+       },
+       loadRallyContract(state){
+         var web3 = new Web3(window.ethereum || Web3.givenProvider);
+         var contract = new web3.eth.Contract(
+           [
+               {
+                   "inputs": [
+                       {
+                           "internalType": "string",
+                           "name": "name_",
+                           "type": "string"
+                       },
+                       {
+                           "internalType": "string",
+                           "name": "symbol_",
+                           "type": "string"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "_defaultFee",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "address",
+                           "name": "_CARaddress",
+                           "type": "address"
+                       },
+                       {
+                           "internalType": "string",
+                           "name": "_tokenImage",
+                           "type": "string"
+                       }
+                   ],
+                   "stateMutability": "nonpayable",
+                   "type": "constructor"
+               },
+               {
+                   "anonymous": false,
+                   "inputs": [
+                       {
+                           "indexed": true,
+                           "internalType": "address",
+                           "name": "previousOwner",
+                           "type": "address"
+                       },
+                       {
+                           "indexed": true,
+                           "internalType": "address",
+                           "name": "newOwner",
+                           "type": "address"
+                       }
+                   ],
+                   "name": "OwnershipTransferred",
+                   "type": "event"
+               },
+               {
+                   "anonymous": false,
+                   "inputs": [
+                       {
+                           "indexed": false,
+                           "internalType": "address",
+                           "name": "winner",
+                           "type": "address"
+                       },
+                       {
+                           "indexed": false,
+                           "internalType": "uint256",
+                           "name": "timeOne",
+                           "type": "uint256"
+                       },
+                       {
+                           "indexed": false,
+                           "internalType": "uint256",
+                           "name": "timeTwo",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "RaceWinner",
+                   "type": "event"
+               },
+               {
+                   "anonymous": false,
+                   "inputs": [
+                       {
+                           "indexed": false,
+                           "internalType": "uint256",
+                           "name": "carOne",
+                           "type": "uint256"
+                       },
+                       {
+                           "indexed": false,
+                           "internalType": "uint256",
+                           "name": "carOnePoints",
+                           "type": "uint256"
+                       },
+                       {
+                           "indexed": false,
+                           "internalType": "uint256",
+                           "name": "carTwo",
+                           "type": "uint256"
+                       },
+                       {
+                           "indexed": false,
+                           "internalType": "uint256",
+                           "name": "carTwoPoints",
+                           "type": "uint256"
+                       },
+                       {
+                           "indexed": false,
+                           "internalType": "uint256",
+                           "name": "carThree",
+                           "type": "uint256"
+                       },
+                       {
+                           "indexed": false,
+                           "internalType": "uint256",
+                           "name": "carThreePoints",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "SeasonWinners",
+                   "type": "event"
+               },
+               {
+                   "anonymous": false,
+                   "inputs": [
+                       {
+                           "indexed": true,
+                           "internalType": "address",
+                           "name": "payee",
+                           "type": "address"
+                       },
+                       {
+                           "indexed": false,
+                           "internalType": "uint256",
+                           "name": "amount",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "Sent",
+                   "type": "event"
+               },
+               {
+                   "anonymous": false,
+                   "inputs": [
+                       {
+                           "indexed": true,
+                           "internalType": "address",
+                           "name": "from",
+                           "type": "address"
+                       },
+                       {
+                           "indexed": true,
+                           "internalType": "address",
+                           "name": "to",
+                           "type": "address"
+                       },
+                       {
+                           "indexed": true,
+                           "internalType": "uint256",
+                           "name": "tokenId",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "Transfer",
+                   "type": "event"
+               },
+               {
+                   "anonymous": false,
+                   "inputs": [
+                       {
+                           "indexed": false,
+                           "internalType": "bytes",
+                           "name": "data",
+                           "type": "bytes"
+                       }
+                   ],
+                   "name": "TransferData",
+                   "type": "event"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "tokenId",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "_getCarBonus",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "_season",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "tokenId",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "_getSeasonPoints",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "carOne",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "carTwo",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "acceptRally",
+                   "outputs": [],
+                   "stateMutability": "payable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "address",
+                           "name": "owner",
+                           "type": "address"
+                       }
+                   ],
+                   "name": "balanceOf",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "bidLock",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "_tokenId",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "bidOf",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "price",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "address payable",
+                           "name": "bidder",
+                           "type": "address"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "timestamp",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "bonusMultiplier",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "carOne",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "cancelRally",
+                   "outputs": [],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "carState",
+                   "outputs": [
+                       {
+                           "internalType": "enum RallySoy.State",
+                           "name": "",
+                           "type": "uint8"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "car_address",
+                   "outputs": [
+                       {
+                           "internalType": "address",
+                           "name": "",
+                           "type": "address"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "claimRaceBalance",
+                   "outputs": [],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "carOne",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "createRally",
+                   "outputs": [],
+                   "stateMutability": "payable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "end",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "endSeason",
+                   "outputs": [],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint32",
+                           "name": "",
+                           "type": "uint32"
+                       }
+                   ],
+                   "name": "feeLevels",
+                   "outputs": [
+                       {
+                           "internalType": "address payable",
+                           "name": "feeReceiver",
+                           "type": "address"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "feePercentage",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "getTokenImage",
+                   "outputs": [
+                       {
+                           "internalType": "string",
+                           "name": "",
+                           "type": "string"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "name",
+                   "outputs": [
+                       {
+                           "internalType": "string",
+                           "name": "",
+                           "type": "string"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "owner",
+                   "outputs": [
+                       {
+                           "internalType": "address",
+                           "name": "",
+                           "type": "address"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "tokenId",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "ownerOf",
+                   "outputs": [
+                       {
+                           "internalType": "address",
+                           "name": "",
+                           "type": "address"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "_tokenId",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "priceOf",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "address",
+                           "name": "",
+                           "type": "address"
+                       }
+                   ],
+                   "name": "racerBalance",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "rallies",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "carOne",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "carTwo",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "raceBalance",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "rallyTotalEarnings",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "season",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "seasonHistory",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "first",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "second",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "third",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "seasonBalance",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "bool",
+                           "name": "seasonStarted",
+                           "type": "bool"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "seasonTicketShare",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "_tokenId",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "_amountInWEI",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "setBid",
+                   "outputs": [
+                       {
+                           "internalType": "bool",
+                           "name": "",
+                           "type": "bool"
+                       }
+                   ],
+                   "stateMutability": "payable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "tokenId",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "_bonusMultiplier",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "setBonusMultiplier",
+                   "outputs": [],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "address",
+                           "name": "_address",
+                           "type": "address"
+                       }
+                   ],
+                   "name": "setFeeReceiver",
+                   "outputs": [],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "_tokenId",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "_amountInWEI",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "setPrice",
+                   "outputs": [
+                       {
+                           "internalType": "bool",
+                           "name": "",
+                           "type": "bool"
+                       }
+                   ],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "address",
+                           "name": "_to",
+                           "type": "address"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "_tokenId",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "silentTransfer",
+                   "outputs": [
+                       {
+                           "internalType": "bool",
+                           "name": "",
+                           "type": "bool"
+                       }
+                   ],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "standard",
+                   "outputs": [
+                       {
+                           "internalType": "string",
+                           "name": "",
+                           "type": "string"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "_amoutInWEI",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "_share",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "startSeason",
+                   "outputs": [],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "symbol",
+                   "outputs": [
+                       {
+                           "internalType": "string",
+                           "name": "",
+                           "type": "string"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "ticketBalance",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "ticketPrice",
+                   "outputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "",
+                           "type": "uint256"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "tokenImage",
+                   "outputs": [
+                       {
+                           "internalType": "string",
+                           "name": "",
+                           "type": "string"
+                       }
+                   ],
+                   "stateMutability": "view",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "address",
+                           "name": "_to",
+                           "type": "address"
+                       },
+                       {
+                           "internalType": "uint256",
+                           "name": "_tokenId",
+                           "type": "uint256"
+                       },
+                       {
+                           "internalType": "bytes",
+                           "name": "_data",
+                           "type": "bytes"
+                       }
+                   ],
+                   "name": "transfer",
+                   "outputs": [
+                       {
+                           "internalType": "bool",
+                           "name": "",
+                           "type": "bool"
+                       }
+                   ],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "address",
+                           "name": "newOwner",
+                           "type": "address"
+                       }
+                   ],
+                   "name": "transferOwnership",
+                   "outputs": [],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [
+                       {
+                           "internalType": "uint256",
+                           "name": "_tokenId",
+                           "type": "uint256"
+                       }
+                   ],
+                   "name": "withdrawBid",
+                   "outputs": [
+                       {
+                           "internalType": "bool",
+                           "name": "",
+                           "type": "bool"
+                       }
+                   ],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "inputs": [],
+                   "name": "withdrawTicketBalance",
+                   "outputs": [],
+                   "stateMutability": "nonpayable",
+                   "type": "function"
+               },
+               {
+                   "stateMutability": "payable",
+                   "type": "receive"
+               }
+           ],
+           "0xf3D8eD487Bbbba0683F26d62A909b3DcE6f478E4"
+         );
+   
+         state.rallyContract = contract;
+       },
 
   },
   actions: {    
     getNetworkId (){
+        var web3 = new Web3(window.ethereum || Web3.givenProvider);
       web3.eth.getChainId().then(id => {
         this.commit("setNetworkId",id)
       });
     },
     getAddress(){
+        var web3 = new Web3(window.ethereum || Web3.givenProvider);
       web3.eth.requestAccounts().then(addresses => {
         this.commit("showAddress",addresses[0])
       })
@@ -306,6 +2421,36 @@ export default new Vuex.Store({
         }
         // handle other "switch" errors
       }
+    },
+    getProvider(){
+        if (window.ethereum) {
+            this.commit("loadContract");
+            this.commit("loadRaceContract");
+            this.commit("loadRallyContract");
+          } else {
+            window.addEventListener('ethereum#initialized', () => {
+                this.commit("loadContract")
+                this.commit("loadRaceContract")
+                this.commit("loadRallyContract")
+            }, {
+              once: true,
+            });
+  
+            // If the event is not dispatched by the end of the timeout,
+            // the user probably doesn't have MetaMask installed.
+            setTimeout(handleEthereum, 3000); // 3 seconds
+          }
+  
+          function handleEthereum() {
+            const { ethereum } = window;
+            if (ethereum) {
+              console.log('Ethereum successfully detected!');
+              // Access the decentralized web!
+            } else {
+              alert('Please install MetaMask!');
+            }
+          }
+       
     }
   }
 })

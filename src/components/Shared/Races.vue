@@ -71,8 +71,7 @@
 </template>
 
 <script>
-import Car from '@/store/car'
-import Race from '@/store/race'
+import Web3 from 'web3'
 export default {
     props: ['car'],
     data() {
@@ -90,25 +89,19 @@ export default {
       }
     },
     beforeMount() {
-        //See if contract is loaded
-        if(Car && Race){
-        this.$store.state.web3 = true
-        }else{
-        this.$store.state.web3 = false
-        }
-        Car.methods.tokenURI(this.car.id).call((err, res) => {
+        this.$store.state.contract.methods.tokenURI(this.car.id).call((err, res) => {
           this.imagePath = res
         })
-        Car.methods.carBonus(this.car.id).call((err, res) => {
+        this.$store.state.contract.methods.carBonus(this.car.id).call((err, res) => {
           this.bonus = parseInt(res)
         })
-        Race.methods.dragRaces(this.car.id).call((err, res) => {
+        this.$store.state.raceContract.methods.dragRaces(this.car.id).call((err, res) => {
           this.bet = res.raceBalance.slice(0, -18)
         })
-        Car.methods.ownerOf(this.car.id).call((err, res) => {
+        this.$store.state.contract.methods.ownerOf(this.car.id).call((err, res) => {
           this.owner = res
         })
-        Race.methods.carWinRate(this.car.id).call((err, res) => {
+        this.$store.state.raceContract.methods.carWinRate(this.car.id).call((err, res) => {
             this.wins = res.wins
             this.total = res.total 
         })
@@ -130,8 +123,9 @@ export default {
          }
         },
         acceptRace () {
+            var web3 = new Web3(window.ethereum || Web3.givenProvider);
             let amountToSend = web3.utils.toWei((parseInt(this.bet)+50)+'');
-            Race.methods.acceptDragRace(this.car.id, this.carTwoID).send({from: this.$store.state.wallet.address, value: amountToSend})         
+            this.$store.state.raceContract.methods.acceptDragRace(this.car.id, this.carTwoID).send({from: this.$store.state.wallet.address, value: amountToSend})         
         .then(() => {
           location.reload()
         })
@@ -140,7 +134,7 @@ export default {
           });
         },
         cancelRace () {
-            Race.methods.cancelDragRace(this.car.id).send({from: this.$store.state.wallet.address})         
+            this.$store.state.raceContract.methods.cancelDragRace(this.car.id).send({from: this.$store.state.wallet.address})         
             .then(() => {
             location.reload()
             })

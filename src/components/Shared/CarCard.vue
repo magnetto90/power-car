@@ -144,8 +144,7 @@
 </template>
 
 <script>
-import Car from '@/store/car'
-import Race from '@/store/race'
+import Web3 from 'web3'
 export default {
     props: ['car'],
     data() {
@@ -168,33 +167,32 @@ export default {
       }
     },
     beforeMount(){
-    
         var today = new Date();
         this.time = today.getHours();
-        Car.methods.tokenURI(this.car.id).call((err, res) => {
+        this.$store.state.contract.methods.tokenURI(this.car.id).call((err, res) => {
           this.imagePath = res
         })
-        Car.methods.carBonus(this.car.id).call((err, res) => {
+        this.$store.state.contract.methods.carBonus(this.car.id).call((err, res) => {
           this.bonus = res
         })
-        Car.methods.carWinRate(this.car.id).call((err, res) => {
-          Race.methods.carWinRate(this.car.id).call((err, res) => {
+        this.$store.state.contract.methods.carWinRate(this.car.id).call((err, res) => {
+          this.$store.state.raceContract.methods.carWinRate(this.car.id).call((err, res) => {
             this.wins += parseInt(res.wins)
             this.total += parseInt(res.total)
           })
           this.wins += parseInt(res.wins)
           this.total += parseInt(res.total)
         })
-        Car.methods.carState(this.car.id).call((err, res) => {
+        this.$store.state.contract.methods.carState(this.car.id).call((err, res) => {
           this.carState = res;
           if(res == 1){
-            Car.methods.carSales(this.car.id).call((err, res) => {
+            this.$store.state.contract.methods.carSales(this.car.id).call((err, res) => {
               //console.log(res.carPrice.slice(0, -18))
               this.carPrice = res.carPrice.slice(0, -18)
             })
           }
         })
-        Car.methods.ownerOf(this.car.id).call((err, res) => {
+        this.$store.state.contract.methods.ownerOf(this.car.id).call((err, res) => {
           this.owner = res
         })
 
@@ -229,7 +227,7 @@ export default {
       sellCar () {
         this.sellOverlay = false;
         this.progressOverlay = true;
-         Car.methods.createCarSale(this.car.id, this.amount).send({from: this.$store.state.wallet.address})         
+         this.$store.state.contract.methods.createCarSale(this.car.id, this.amount).send({from: this.$store.state.wallet.address})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()
@@ -242,7 +240,7 @@ export default {
       },
       cancelSell () {
         this.progressOverlay = true;
-        Car.methods.endSale(this.car.id).send({from: this.$store.state.wallet.address})         
+        this.$store.state.contract.methods.endSale(this.car.id).send({from: this.$store.state.wallet.address})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()
@@ -254,9 +252,10 @@ export default {
           });
       },
       buyCar () {
+        var web3 = new Web3(window.ethereum || Web3.givenProvider);
         this.progressOverlay = true;
         let amountToSend = web3.utils.toWei(this.carPrice+'', "ether"); 
-        Car.methods.buyCar(this.car.id).send({from: this.$store.state.wallet.address, value: amountToSend})         
+        this.$store.state.contract.methods.buyCar(this.car.id).send({from: this.$store.state.wallet.address, value: amountToSend})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()
