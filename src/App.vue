@@ -21,6 +21,15 @@
       >
       race
       </v-btn>
+      <v-btn
+        v-if="$store.state.raceButton"
+        class="ml-1"
+        :to="'/rally-soy'"
+        link
+        color="#20272F"
+      >
+      rally
+      </v-btn>
       <v-btn      
         v-else
         class="ma-0"

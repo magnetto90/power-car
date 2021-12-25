@@ -78,7 +78,7 @@
     /></div>    
     <div v-if="page == 9">
       <car-card
-      v-for="car in $store.state.cars.slice(80, 85)"
+      v-for="car in $store.state.cars.slice(80, 90)"
       :key="car.id"
       :car="car"
     /></div>   
