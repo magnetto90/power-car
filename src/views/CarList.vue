@@ -109,7 +109,7 @@ export default {
         RallySoy = this.$store.state.rallyContract;
         */
     this.$store.state.raceButton = true;
-    for(let i = 0; i <= 84; i++){    
+    for(let i = 0; i <= 89; i++){    
       this.$store.state.contract.methods.carBonus(i).call((err, res) => {
         this.$store.state.cars[i].bonus = res
       })
