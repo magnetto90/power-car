@@ -43,6 +43,7 @@
                 >
                     <v-text-field
                         label="Car ID"
+                        class="go"
                         v-model="carTwoID"
                         type="number"
                         step="1"
@@ -145,3 +146,9 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+    .go{
+        min-width: 100px !important;
+    }
+</style>

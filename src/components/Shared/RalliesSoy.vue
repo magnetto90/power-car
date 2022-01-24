@@ -32,6 +32,7 @@
                 sm="6"
                 >
                     <v-text-field
+                        class="go"
                         label="Car ID"
                         v-model="carTwoID"
                         type="number"
@@ -143,5 +144,8 @@ export default {
         font-family: 'Press Start 2P', cursive;
         color: rgb(0, 255, 55) !important;
         text-align: center;
+    }
+    .go{
+        min-width: 100px !important;
     }
 </style>
