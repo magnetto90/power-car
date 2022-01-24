@@ -108,73 +108,16 @@
          >
             CANCEL SELL
          </v-btn>
-         <v-btn
-            class="black--text" 
-            v-if="carState == 0 && $store.state.wallet.address == owner"
-            color="red"
-            @click="createRace()"
-            width="50%"
-         >
-            RACE
-         </v-btn>
 
 
-            <v-overlay
-               :absolute="absolute"
-               :value="raceOverlay"
-               opacity="90"
-            >
-               <p>Enter your car ID to race:</p>
-            <v-text-field
-               v-model="betCar"
-               background-color="black"
-               color="yellow"
-               solo
-               class="ml-0"
-               outlined
-               hide-details
-               type="number"
-               step="1"
-               min="1"
-               dense
-            >
-            </v-text-field>
 
 
-               <v-btn
-                  color="success"
-                  @click="acceptRace()"
-               >
-                  Confirm
-               </v-btn>
-               <v-btn
-                  color="error"
-                  @click="raceOverlay = false"
-               >
-                  Cancel
-               </v-btn>
-               <p>*If you loose the race you loose your car.</p>
-            </v-overlay>
-               <v-btn
-               v-if="carState == 3 && $store.state.wallet.address != owner"
-            class=" black--text" 
-            color="red"
-            @click="raceOverlay = true"
-            width="100%"
-         >
-            ACCEPT RACE
-         </v-btn>
+
+
+
       
 
-         <v-btn
-            class=" black--text" 
-            v-if="carState == 3 && $store.state.wallet.address == owner"
-            color="yellow"
-            @click="cancelRace()"
-            width="100%"
-         >
-            CANCEL RACE
-         </v-btn>
+
 
          <v-overlay
             :absolute="absolute"
@@ -214,25 +157,25 @@ export default {
       }
     },
     beforeMount(){
-        Car.methods.tokenURI(404).call((err, res) => {
+        this.$store.state.contract.methods.tokenURI(404).call((err, res) => {
           this.imagePath = res
         })
-        Car.methods.carBonus(404).call((err, res) => {
+        this.$store.state.contract.methods.carBonus(404).call((err, res) => {
           this.bonus = res
         })
-        Car.methods.carWinRate(404).call((err, res) => {
+        this.$store.state.contract.methods.carWinRate(404).call((err, res) => {
           this.wins = res.wins
           this.total = res.total
         })
-        Car.methods.carState(404).call((err, res) => {
+        this.$store.state.contract.methods.carState(404).call((err, res) => {
           this.carState = res;
           if(res == 1){
-            Car.methods.carSales(404).call((err, res) => {
+            this.$store.state.contract.methods.carSales(404).call((err, res) => {
               this.carPrice = res.carPrice/(10**18)
             })
           }
         })
-        Car.methods.ownerOf(404).call((err, res) => {
+        this.$store.state.contract.methods.ownerOf(404).call((err, res) => {
           this.owner = res
         })
     },
@@ -252,7 +195,7 @@ export default {
       sellCar () {
         this.sellOverlay = false;
         this.progressOverlay = true;
-         Car.methods.createCarSale(404, this.amount).send({from: this.$store.state.wallet.address})         
+         this.$store.state.contract.methods.createCarSale(404, this.amount).send({from: this.$store.state.wallet.address})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()
@@ -265,7 +208,7 @@ export default {
       },
       cancelSell () {
         this.progressOverlay = true;
-        Car.methods.endSale(404).send({from: this.$store.state.wallet.address})         
+        this.$store.state.contract.methods.endSale(404).send({from: this.$store.state.wallet.address})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()
@@ -280,7 +223,7 @@ export default {
         this.progressOverlay = true;
         var web3 = new Web3(window.ethereum || Web3.givenProvider);
         let amountToSend = web3.utils.toWei(this.carPrice+'', "ether"); 
-        Car.methods.buyCar(404).send({from: this.$store.state.wallet.address, value: amountToSend})         
+        this.$store.state.contract.methods.buyCar(404).send({from: this.$store.state.wallet.address, value: amountToSend})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()
@@ -292,7 +235,7 @@ export default {
       },
       createRace () {
         this.progressOverlay = true;
-        Car.methods.createDragRace(404).send({from: this.$store.state.wallet.address})         
+        this.$store.state.contract.methods.createDragRace(404).send({from: this.$store.state.wallet.address})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()
@@ -304,7 +247,7 @@ export default {
       },
       cancelRace () {
         this.progressOverlay = true;
-        Car.methods.cancelRace(404).send({from: this.$store.state.wallet.address})         
+        this.$store.state.contract.methods.cancelRace(404).send({from: this.$store.state.wallet.address})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()
@@ -317,7 +260,7 @@ export default {
       acceptRace () {
         this.raceOverlay = false;
         this.progressOverlay = true;
-        Car.methods.acceptDragRace(404, this.betCar).send({from: this.$store.state.wallet.address})         
+        this.$store.state.contract.methods.acceptDragRace(404, this.betCar).send({from: this.$store.state.wallet.address})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()
