@@ -2631,7 +2631,7 @@ export default new Vuex.Store({
                 "type": "function"
             }
         ],
-                "0xdB425AaA4ab787009B73158f5775CD1474E1E358"
+                "0x4EB7bF24274f11ee2847bee93d032D6ccE6633Aa"
             );
     
             state.rentContract = contract;
