@@ -131,9 +131,8 @@
                     6. Seasons: The Rally Soy owner can start a Season where the car with more point acumulated during the season will win an extra amount of CLO<br>
                     7. The winner is selected by random numbers from 0 to 50, the car with lower number wins. Example: If CAR 071 gets a 20 and CAR 061 gets a 0, CAR 061 should win but after apllying the bonuses CAR 071 still gets a 20 and CAR 061 gets a 40.
                     </p>
-         
-
                 </div>
+
                 <div v-if="leaderBoard" class="light-green--text">
                     <div v-if="seasonStarted">
                         <h1 class="text-center">Season: {{season}}</h1>
@@ -209,12 +208,20 @@
                         </v-row>
                         <p class="text-center">Jackpot: {{seasonBalance}} CLO</p>
                         <p class="text-center">Season ends: {{end}}</p>
+                        <v-btn 
+                            v-if="endTimestamp < Date.now()"
+                            outlined
+                            @click="endSeason"
+                        >
+                            END SEASON
+                        </v-btn>
                     </div>
                     <div v-else>
                         <h1 class="text-center">Season has not yet started</h1>
                     </div>
 
                 </div>
+
                 <div v-if="about" class="light-green--text">
                     <h1 class="text-center">ABOUT</h1>
                     <p>This is Power-C.ar's first soy.finance-inspired NFT race track based on CallistoNFT protocol. The owner of this NFT will be able to create seasonal events where part of the proceeds from ticket sales will go to the owner and part to the winner of the season. If you want to buy it you can leave your offer here below.</p>
@@ -256,6 +263,12 @@
                 </div>
                 <div  v-if="admin" class="light-green--text">
                     <h1 class="text-center">ADMIN PANEL</h1>
+                    <v-textfield>
+
+                    </v-textfield>
+                    <v-textfield>
+                        
+                    </v-textfield>
                 </div>
             </v-col>
         </v-row>
@@ -333,7 +346,8 @@ export default {
         thirdPoints: "",
         nftOwner: "",
         earnings: "",
-        end: ""
+        end: "",
+        endTimestamp: ""
       }
     },
     beforeMount(){
@@ -371,6 +385,8 @@ export default {
           this.earnings = res.slice(0, -18)
         })
         this.$store.state.rallyContract.methods.end().call((err, res) => {
+
+          this.endTimestamp = res;
             
           this.end = new Date(res * 1e3).toISOString().slice(0, -5).replace("T"," ")
         })
@@ -431,6 +447,15 @@ export default {
         },
         claim () {
             this.$store.state.rallyContract.methods.claimRaceBalance().send({from: this.$store.state.wallet.address})         
+            .then(() => {
+                location.reload()
+            })
+            .catch(err => {
+                this.$store.commit('showSnackbar', err.message);
+            });
+        },
+        endSeason () {
+            this.$store.state.rallyContract.methods.endSeason().send({from: this.$store.state.wallet.address})         
             .then(() => {
                 location.reload()
             })
