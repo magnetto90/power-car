@@ -103,11 +103,6 @@ export default {
       }
     },
   beforeMount(){
-        /*
-        Car = this.$store.state.contract;
-        Race = this.$store.state.raceContract;
-        RallySoy = this.$store.state.rallyContract;
-        */
     this.$store.state.raceButton = true;
     for(let i = 0; i <= 89; i++){    
       this.$store.state.contract.methods.carBonus(i).call((err, res) => {

@@ -1,110 +1,123 @@
 <template>
     <div>
-        <v-card
-            class="ma-0 pa-2"
-        >
-        <v-row
-            class="ma-0 pa-0"
-        >
-            <v-col
-            cols="12"
-            sm="2"
-            class="ma-1 pa-0"
-            >            
-                <v-text-field
-                    label="Bet"
-                    class="ma-0"
-                    v-model="newBet"
-                    type="number"
-                    step="1"
-                    min="1"
-                    solo
-                    dense
-                    outlined
-                >
-                Bet
-                </v-text-field>
-            </v-col>
-            <v-col
-            cols="12"
-            sm="2"
-            class="ma-1 pa-0"
-            >
-                <v-text-field
-                    label="Car ID"
-                    class="ma-0"
-                    v-model="carID"
-                    type="number"
-                    step="1"
-                    min="1"
-                    solo
-                    dense
-                    outlined
-                >
-                Car
-                </v-text-field>
-            </v-col>
-            <v-col
-            cols="12"
-            sm="4"
-            class="ma-1 pa-0"
-            >
-                <v-btn
-                    color="#cc0000"
-                    class="mx-1 pa-5"
-                    @click="createRace"
-                >
-                    Create Race
-                </v-btn>        
-                <v-btn
-                    color="#cc0000"
-                    class="mx-1 pa-5"
-                    @click="claim"
-                >
-                    Claim: {{balance}} CLO
-                </v-btn>        
-            </v-col>
-        </v-row>
-        </v-card>
 
-        <v-simple-table
-            fixed-header
-        >
-            <template v-slot:default>
-            <thead>
-                <tr>
-                    <th class="text-left">
-                        ID
-                    </th>
-                    <th class="text-left">
-                        Image
-                    </th>
-                    <th class="text-left">
-                        Bonus
-                    </th>
-                    <th class="text-left">
-                        Win rate
-                    </th>
-                    <th class="text-left">
+        <div>
+            
+            <v-card
+                    class="ma-0 pa-2"
+                >
+                <h1>Available Cars</h1>
+                <v-row
+                    class="ma-0 pa-0"
+                >
+                    <car-card
+                        v-for="car in $store.state.rentCars.slice(0, 3)"
+                        :key="car.id"
+                        :car="car"
+                    />
+                </v-row>
+                <v-row
+                    class="ma-0 pa-0"
+                >
+                    <v-col
+                    cols="12"
+                    sm="2"
+                    class="ma-1 pa-0"
+                    >            
+                        <v-text-field
+                            label="Bet"
+                            class="ma-0"
+                            v-model="newBet"
+                            type="number"
+                            step="1"
+                            min="1"
+                            solo
+                            dense
+                            outlined
+                        >
                         Bet
-                    </th>
-                    <th class="text-left">
-                        
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <car-tr 
-                v-for="car in $store.state.raceCars"
-                :key="car.id"
-                :car="car"
-                />
-            </tbody>
-            </template>
-        </v-simple-table>
-    <error-overlay
-        v-if="$store.state.network.id != 820"
-    />
+                        </v-text-field>
+                    </v-col>
+                    <v-col
+                    cols="12"
+                    sm="2"
+                    class="ma-1 pa-0"
+                    >
+                        <v-text-field
+                            label="Car ID"
+                            class="ma-0"
+                            v-model="carID"
+                            type="number"
+                            step="1"
+                            min="1"
+                            solo
+                            dense
+                            outlined
+                        >
+                        Car
+                        </v-text-field>
+                    </v-col>
+                    <v-col
+                    cols="12"
+                    sm="4"
+                    class="ma-1 pa-0"
+                    >
+                        <v-btn
+                            color="#cc0000"
+                            class="mx-1 pa-5"
+                            @click="createRace"
+                        >
+                            Create Race
+                        </v-btn>        
+                        <v-btn
+                            color="#cc0000"
+                            class="mx-1 pa-5"
+                            @click="claim"
+                        >
+                            Claim: {{balance}} CLO
+                        </v-btn>        
+                    </v-col>
+                </v-row>
+                </v-card>
+                <v-simple-table
+                    fixed-header
+                >
+                    <template v-slot:default>
+                    <thead>
+                        <tr>
+                            <th class="text-left">
+                                ID
+                            </th>
+                            <th class="text-left">
+                                Image
+                            </th>
+                            <th class="text-left">
+                                Bonus
+                            </th>
+                            <th class="text-left">
+                                Win rate
+                            </th>
+                            <th class="text-left">
+                                Bet
+                            </th>
+                            <th class="text-left">
+                                
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <car-tr 
+                        v-for="car in $store.state.raceCars"
+                        :key="car.id"
+                        :car="car"
+                        />
+                    </tbody>
+                    </template>
+                </v-simple-table>
+            <error-overlay
+                v-if="$store.state.network.id != 820"
+            />
+        </div>
     </div>
 </template>
 
@@ -129,6 +142,17 @@ export default {
             })
         })
     },
+    mounted(){
+        var i = this.$store.state.rentCars.length;
+        if ( i == 0 ) return false;
+        while ( --i ) {
+            var j = Math.floor( Math.random() * ( i + 1 ) );
+            var tempi = this.$store.state.rentCars[i];
+            var tempj = this.$store.state.rentCars[j];
+            this.$store.state.rentCars[i] = tempj;
+            this.$store.state.rentCars[j] = tempi;
+        }
+    },
     methods: {
         createRace () {
             var web3 = new Web3(window.ethereum || Web3.givenProvider);
@@ -152,6 +176,7 @@ export default {
         }
     },
     components: {
+    'car-card': require('@/components/Shared/RentCarCard.vue').default,
     'car-tr': require('@/components/Shared/RentRaces.vue').default,
     'error-overlay': require('@/components/Shared/ErrorOverlay.vue').default
   }

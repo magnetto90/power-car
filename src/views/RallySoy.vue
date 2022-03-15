@@ -110,7 +110,7 @@
                     class="mt-1 pa-0"
                     outlined
                     @click="() => {rules = false; leaderBoard = false, admin = true, about = false}"
-                    v-if="nftOwner == $store.state.wallet.address"
+                    v-if="nftOwner == $store.state.wallet.address || true"
                 >
                     ADMIN
                 </v-btn>
@@ -263,12 +263,43 @@
                 </div>
                 <div  v-if="admin" class="light-green--text">
                     <h1 class="text-center">ADMIN PANEL</h1>
-                    <v-textfield>
+                    <h2 class="text-center mt-10" v-if="nftHighestbid > 0">Highest Bid: {{nftHighestbid}} CLO <v-btn @click="acceptBid">Accept Bid</v-btn></h2>
+                    <h2 class="text-center my-7">Start new season</h2>
+                    <div class="text-center">
+                        <v-text-field
+                            label="Ticket Price"
+                            class="ma-0"
+                            v-model="ticketValue"
+                            type="number"
+                            step="1"
+                            min="50"
+                            solo
+                            dense
+                            outlined
+                        >
+                            Ticket Price
+                        </v-text-field>
+                        <v-radio-group v-model="share">
+                            <h2>Percentage of ticket earnings for the jackpot</h2>
+                        <v-radio
+                            label="100%"
+                            value="1"
+ 
+                        ></v-radio>
+                        <v-radio
+                            label="50%"
+                            value="2"
+       
+                        ></v-radio>
+                         <v-radio
+                            label="10%"
+                            value="10"
+          
+                        ></v-radio>
+                        </v-radio-group>
+                        <v-btn @click="startSeason">Start Season</v-btn>
+                    </div>
 
-                    </v-textfield>
-                    <v-textfield>
-                        
-                    </v-textfield>
                 </div>
             </v-col>
         </v-row>
@@ -347,7 +378,9 @@ export default {
         nftOwner: "",
         earnings: "",
         end: "",
-        endTimestamp: ""
+        endTimestamp: "",
+        ticketValue: "",
+        share: ""
       }
     },
     beforeMount(){
@@ -437,6 +470,30 @@ export default {
             var web3 = new Web3(window.ethereum || Web3.givenProvider);
             let amountToSend = web3.utils.toWei(this.nftBid+"");
             this.$store.state.rallyContract.methods.setBid(0, amountToSend).send({from: this.$store.state.wallet.address, value: amountToSend})         
+            .then(() => {
+                location.reload()
+            })
+            .catch(err => {
+                this.$store.commit('showSnackbar', err.message);
+            })
+            
+        },
+        acceptBid () {
+            var web3 = new Web3(window.ethereum || Web3.givenProvider);
+            let amountToSend = web3.utils.toWei(this.nftHighestbid+"");
+            this.$store.state.rallyContract.methods.setPrice(0, amountToSend).send({from: this.$store.state.wallet.address})         
+            .then(() => {
+                location.reload()
+            })
+            .catch(err => {
+                this.$store.commit('showSnackbar', err.message);
+            })
+            
+        },
+        startSeason () {
+            var web3 = new Web3(window.ethereum || Web3.givenProvider);
+            let amountToSend = web3.utils.toWei(this.ticketValue+"");
+            this.$store.state.rallyContract.methods.startSeason(amountToSend, this.share).send({from: this.$store.state.wallet.address})         
             .then(() => {
                 location.reload()
             })
