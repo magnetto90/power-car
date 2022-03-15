@@ -110,7 +110,7 @@
                     class="mt-1 pa-0"
                     outlined
                     @click="() => {rules = false; leaderBoard = false, admin = true, about = false}"
-                    v-if="nftOwner == $store.state.wallet.address || true"
+                    v-if="nftOwner == $store.state.wallet.address"
                 >
                     ADMIN
                 </v-btn>
