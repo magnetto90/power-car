@@ -94,6 +94,38 @@
           </v-btn>
         </v-overlay>
 
+        <v-overlay
+          :absolute="absolute"
+          :value="transferOverlay"
+          opacity="90"
+        >
+        <p>to Address:</p>
+        <v-text-field
+          v-model="toAddress"
+          background-color="black"
+          color="yellow"
+          solo
+          class="ml-0"
+          outlined
+          hide-details
+          type="text"
+          dense
+        >
+        </v-text-field>
+          <v-btn
+            color="success"
+            @click="transferCar()"
+          >
+            Confirm
+          </v-btn>
+          <v-btn
+            color="error"
+            @click="transferOverlay = false"
+          >
+            Cancel
+          </v-btn>
+        </v-overlay>
+
 
 
       <v-btn
@@ -104,6 +136,16 @@
         width="50%"
       >
         SELL
+      </v-btn>
+
+      <v-btn
+        v-if="carState == 0 && $store.state.wallet.address == owner"
+        class="mr-0 black--text" 
+        color="yellow"
+        @click="transferOverlay = true"
+        width="50%"
+      >
+        TRANSFER
       </v-btn>
 
     <v-btn
@@ -154,8 +196,10 @@ export default {
         owner: '',
         carPrice: 0,
         amount: 0,
+        toAddress: "",
         absolute: true,
         sellOverlay: false,
+        transferOverlay: false,
         progressOverlay: false,
         bonus: 0,
         wins: 0,
@@ -230,6 +274,19 @@ export default {
          this.$store.state.contract.methods.createCarSale(this.car.id, this.amount).send({from: this.$store.state.wallet.address})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
+          location.reload()
+        })
+        .catch(err => {
+          this.$store.commit('showSnackbar', err.message);
+          this.progressOverlay = false;
+          });
+
+      },
+      transferCar () {
+        this.transferOverlay = false;
+        this.progressOverlay = true;
+         this.$store.state.contract.methods.transferFrom(this.$store.state.wallet.address, this.toAddress, this.car.id).send({from: this.$store.state.wallet.address})         
+        .then(() => {
           location.reload()
         })
         .catch(err => {

@@ -4,8 +4,6 @@ import CarList from '../views/CarList.vue'
 import PageNotFound from '../views/PageNotFound.vue'
 import Race from '../views/Race.vue'
 import RallySoy from '../views/RallySoy.vue'
-import Rent from '../views/Rent.vue'
-
 
 Vue.use(VueRouter)
 
@@ -20,12 +18,6 @@ const routes = [
     path: '/race',
     name: 'Race',
     component: Race
-  },
-
-  {
-    path: '/Rent',
-    name: 'Rent',
-    component: Rent
   },
 
   {
