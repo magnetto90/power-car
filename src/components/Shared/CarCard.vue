@@ -99,7 +99,20 @@
           :value="transferOverlay"
           opacity="90"
         >
-        <p>to Address:</p>
+        <v-btn 
+          class="float-left mb-2" 
+          shapped
+          :color="car.id == 59? 'red' : 'blue'"
+          width="100%"
+          >
+          <img v-if="car.id <= 59 && car.id >= 55" src="@/assets/MusicNote.gif" class="music-note">
+          <v-spacer></v-spacer>
+            <span v-if="hover && car.name != ''">{{car.name}}</span>
+            <span v-else>CAR {{car.id}}</span>
+          <v-spacer></v-spacer>
+        </v-btn>
+        <h5>Instructions:</h5>
+        <p>To send your car to another wallet enter the new wallet address and select confirm.</p>
         <v-text-field
           v-model="toAddress"
           background-color="black"
