@@ -5,20 +5,19 @@
     :class="background"
     :style="$store.state.wallet.address == owner ? 'border: 2px solid green;' : 'border: 2px solid red;'"
   >
-    <div align="center">   
+    <div>   
       <v-hover
         v-slot="{ hover }"
       >
         <v-btn 
           class="float-left mb-2" 
           shapped
-          :color="car.id == 59? 'red' : 'blue'"
+          color="blue"
           width="100%"
-          >
-          <img v-if="car.id <= 59 && car.id >= 55" src="@/assets/MusicNote.gif" class="music-note">
+        >
           <v-spacer></v-spacer>
-            <span v-if="hover && car.name != ''">{{car.name}}</span>
-            <span v-else>CAR {{car.id}}</span>
+          <span v-if="hover && car.name != ''">{{car.name}}</span>
+          <span v-else>CAR {{car.id}}</span>
           <v-spacer></v-spacer>
         </v-btn>
       </v-hover>
@@ -42,124 +41,117 @@
         Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
       </p>
       <p>
-        <span :title="wins+'/'+total" v-if="total>0">Win Rate: <span :class="winRateColor()" >{{(wins*100/total).toFixed(0)}}%</span></span>
         <span v-if="bonus>0" title="This number helps you win races!!"> Bonus: +{{bonus}}</span><br>
         <span v-if="carState == 1 && $store.state.wallet.address == owner"> Price: {{carPrice}}</span>
       </p>
     </div>
 
-     <v-btn
-        class="black--text" 
-        v-if="carState == 1 && $store.state.wallet.address != owner"
+    <v-btn
+      class="black--text" 
+      v-if="carState == 1 && $store.state.wallet.address != owner"
+      color="yellow"
+      @click="buyCar()"
+    >
+      BUY ({{carPrice}} CLO)
+    </v-btn>
+
+    <v-overlay
+      :absolute="absolute"
+      :value="sellOverlay"
+      opacity="90"
+    >
+      <p>Fee: {{$store.state.feeRate}}%</p>
+      <p>Set the CAR price:</p>
+      <v-text-field
+        v-model="amount"
+        background-color="black"
         color="yellow"
-        @click="buyCar()"
+        solo
+        class="ml-0"
+        outlined
+        hide-details
+        type="number"
+        step="1"
+        min="1"
+        dense
       >
-      
-        BUY ({{carPrice}} CLO)
-
-      </v-btn>
-
-        <v-overlay
-          :absolute="absolute"
-          :value="sellOverlay"
-          opacity="90"
-        >
-        <p>Fee: {{$store.state.feeRate}}%</p>
-        <p>Set the CAR price:</p>
-        <v-text-field
-          v-model="amount"
-          background-color="black"
-          color="yellow"
-          solo
-          class="ml-0"
-          outlined
-          hide-details
-          type="number"
-          step="1"
-          min="1"
-          dense
-        >
-        </v-text-field>
-          <v-btn
-            color="success"
-            @click="sellCar()"
-          >
-            Confirm
-          </v-btn>
-          <v-btn
-            color="error"
-            @click="sellOverlay = false"
-          >
-            Cancel
-          </v-btn>
-        </v-overlay>
-
-        <v-overlay
-          :absolute="absolute"
-          :value="transferOverlay"
-          opacity="90"
-        >
-        <v-btn 
-          class="float-left mb-2" 
-          shapped
-          :color="car.id == 59? 'red' : 'blue'"
-          width="100%"
-          >
-          <img v-if="car.id <= 59 && car.id >= 55" src="@/assets/MusicNote.gif" class="music-note">
-          <v-spacer></v-spacer>
-            <span v-if="hover && car.name != ''">{{car.name}}</span>
-            <span v-else>CAR {{car.id}}</span>
-          <v-spacer></v-spacer>
-        </v-btn>
-        <h5>Instructions:</h5>
-        <p>To send your car to another wallet enter the new wallet address and select confirm.</p>
-        <v-text-field
-          v-model="toAddress"
-          background-color="black"
-          color="yellow"
-          solo
-          class="ml-0"
-          outlined
-          hide-details
-          type="text"
-          dense
-        >
-        </v-text-field>
-          <v-btn
-            color="success"
-            @click="transferCar()"
-          >
-            Confirm
-          </v-btn>
-          <v-btn
-            color="error"
-            @click="transferOverlay = false"
-          >
-            Cancel
-          </v-btn>
-        </v-overlay>
-
-
-
+      </v-text-field>
       <v-btn
-        v-if="carState == 0 && $store.state.wallet.address == owner"
-        class="mr-0 black--text" 
-        color="yellow"
-        @click="sellOverlay = true"
-        width="50%"
+        color="success"
+        @click="sellCar()"
       >
-        SELL
+        Confirm
       </v-btn>
-
       <v-btn
-        v-if="carState == 0 && $store.state.wallet.address == owner"
-        class="mr-0 black--text" 
-        color="yellow"
-        @click="transferOverlay = true"
-        width="50%"
+        color="error"
+        @click="sellOverlay = false"
       >
-        TRANSFER
+        Cancel
       </v-btn>
+    </v-overlay>
+
+    <v-overlay
+      :absolute="absolute"
+      :value="transferOverlay"
+      opacity="90"
+    >
+      <v-btn 
+        class="float-left mb-2" 
+        shapped
+        :color="car.id == 59? 'red' : 'blue'"
+        width="100%"
+      >
+        <v-spacer></v-spacer>
+        <span>CAR {{car.id}}</span>
+        <v-spacer></v-spacer>
+      </v-btn>
+      <h5>Instructions:</h5>
+      <p>To send your car to another wallet enter the new wallet address and select confirm.</p>
+      <v-text-field
+        v-model="toAddress"
+        background-color="black"
+        color="yellow"
+        solo
+        class="ml-0"
+        outlined
+        hide-details
+        type="text"
+        dense
+      >
+      </v-text-field>
+      <v-btn
+        color="success"
+        @click="transferCar()"
+      >
+        Confirm
+      </v-btn>
+      <v-btn
+        color="error"
+        @click="transferOverlay = false"
+      >
+        Cancel
+      </v-btn>
+    </v-overlay>
+
+    <v-btn
+      v-if="carState == 0 && $store.state.wallet.address == owner"
+      class="mr-0 black--text" 
+      color="yellow"
+      @click="sellOverlay = true"
+      width="50%"
+    >
+      SELL
+    </v-btn>
+
+    <v-btn
+      v-if="carState == 0 && $store.state.wallet.address == owner"
+      class="mr-0 black--text" 
+      color="yellow"
+      @click="transferOverlay = true"
+      width="50%"
+    >
+      TRANSFER
+    </v-btn>
 
     <v-btn
       class=" black--text" 
@@ -170,13 +162,6 @@
     >
       CANCEL SELL
     </v-btn>
-
-
-
-
-
- 
-
     <v-btn
       class=" black--text" 
       v-if="carState == 3 && $store.state.wallet.address == owner"
@@ -187,19 +172,21 @@
       CANCEL RACE
     </v-btn>
 
-
     <v-overlay
       :absolute="absolute"
       :value="progressOverlay"
       opacity="90"
     >
-    <img src="@/assets/Fuel.gif">
+      <img src="@/assets/Fuel.gif">
     </v-overlay>
   </v-card>
 </template>
 
 <script>
 import Web3 from 'web3'
+const web3_read = new Web3("https://rpc.callisto.network/");
+const web3_write = new Web3(window.ethereum || Web3.givenProvider)
+
 export default {
     props: ['car'],
     data() {
@@ -215,41 +202,49 @@ export default {
         transferOverlay: false,
         progressOverlay: false,
         bonus: 0,
-        wins: 0,
-        total: 0,
         isActive: false,
         componentKey: 0,
         time: 0,
         background: "",
+        contract_read:  new web3_read.eth.Contract(
+          [
+            this.$store.state.contract.tokenURIABI, 
+            this.$store.state.contract.carBonusABI,
+            this.$store.state.contract.carStateABI,
+            this.$store.state.contract.ownerOfABI,
+            this.$store.state.contract.carSalesABI,
+          ], 
+            this.$store.state.contract.address
+        ),
+        contract_write:  new web3_write.eth.Contract(
+        [
+          this.$store.state.contract.createCarSaleABI, 
+          this.$store.state.contract.transferFromABI,
+          this.$store.state.contract.endSaleABI,
+          this.$store.state.contract.buyCarABI,
+          ], 
+          this.$store.state.contract.address
+      )
       }
     },
     beforeMount(){
         var today = new Date();
         this.time = today.getHours();
-        this.$store.state.contract.methods.tokenURI(this.car.id).call((err, res) => {
+        this.contract_read.methods.tokenURI(this.car.id).call((err, res) => {
           this.imagePath = res
         })
-        this.$store.state.contract.methods.carBonus(this.car.id).call((err, res) => {
+        this.contract_read.methods.carBonus(this.car.id).call((err, res) => {
           this.bonus = res
         })
-        this.$store.state.contract.methods.carWinRate(this.car.id).call((err, res) => {
-          this.$store.state.raceContract.methods.carWinRate(this.car.id).call((err, res) => {
-            this.wins += parseInt(res.wins)
-            this.total += parseInt(res.total)
-          })
-          this.wins += parseInt(res.wins)
-          this.total += parseInt(res.total)
-        })
-        this.$store.state.contract.methods.carState(this.car.id).call((err, res) => {
+        this.contract_read.methods.carState(this.car.id).call((err, res) => {
           this.carState = res;
           if(res == 1){
-            this.$store.state.contract.methods.carSales(this.car.id).call((err, res) => {
-              //console.log(res.carPrice.slice(0, -18))
-              this.carPrice = res.carPrice.slice(0, -18)
+            this.contract_read.methods.carSales(this.car.id).call((err, res) => {
+               this.carPrice = res.carPrice.slice(0, -18)
             })
           }
         })
-        this.$store.state.contract.methods.ownerOf(this.car.id).call((err, res) => {
+        this.contract_read.methods.ownerOf(this.car.id).call((err, res) => {
           this.owner = res
         })
 
@@ -261,30 +256,16 @@ export default {
           }else{
             this.background = 'float-left mx-9 my-5 day'
           }
-        
         }
-
     },
     methods: {
       errorHandler () {
         this.componentKey += 1;
       },
-      winRateColor(){
-         let winRate = this.wins*100/this.total
-         if(winRate <= 100 && winRate > 66){
-            return "green--text"
-         }
-         if(winRate <= 65 && winRate > 33){
-            return "yellow--text"
-         }
-         if(winRate <= 33 && winRate >= 0){
-            return "red--text"
-         }
-      },
       sellCar () {
         this.sellOverlay = false;
         this.progressOverlay = true;
-         this.$store.state.contract.methods.createCarSale(this.car.id, this.amount).send({from: this.$store.state.wallet.address})         
+         this.contract_write.methods.createCarSale(this.car.id, this.amount).send({from: this.$store.state.wallet.address})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()
@@ -298,7 +279,7 @@ export default {
       transferCar () {
         this.transferOverlay = false;
         this.progressOverlay = true;
-         this.$store.state.contract.methods.transferFrom(this.$store.state.wallet.address, this.toAddress, this.car.id).send({from: this.$store.state.wallet.address})         
+         this.contract_write.methods.transferFrom(this.$store.state.wallet.address, this.toAddress, this.car.id).send({from: this.$store.state.wallet.address})         
         .then(() => {
           location.reload()
         })
@@ -310,7 +291,7 @@ export default {
       },
       cancelSell () {
         this.progressOverlay = true;
-        this.$store.state.contract.methods.endSale(this.car.id).send({from: this.$store.state.wallet.address})         
+        this.contract_write.methods.endSale(this.car.id).send({from: this.$store.state.wallet.address})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()
@@ -325,7 +306,7 @@ export default {
         var web3 = new Web3(window.ethereum || Web3.givenProvider);
         this.progressOverlay = true;
         let amountToSend = web3.utils.toWei(this.carPrice+'', "ether"); 
-        this.$store.state.contract.methods.buyCar(this.car.id).send({from: this.$store.state.wallet.address, value: amountToSend})         
+        this.contract_write.methods.buyCar(this.car.id).send({from: this.$store.state.wallet.address, value: amountToSend})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()
@@ -348,11 +329,6 @@ p {
 
 .v-progress-circular {
   margin: 1rem;
-}
-
-.music-note{
- position: absolute;
- left: 0;
 }
 
 .night{

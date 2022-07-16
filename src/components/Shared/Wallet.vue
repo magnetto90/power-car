@@ -5,7 +5,6 @@
         color="#20272F"
     >
         <v-icon
-            
             color="yellow rounded-circle"
             class="mr-1"
         >

@@ -1,7 +1,6 @@
 <template>
    <div>  
       <div
-         v-if="$store.state.network.id == 820"
          align="center"
          width="100vw"
       >
@@ -33,10 +32,6 @@
             </p>
                   
       <p>
-         <span 
-           v-if="total>0"
-           :class="winRateColor()"
-         >Win Rate: {{(wins*100/total).toFixed(0)}}% </span>
         <span v-if="bonus>0"> Bonus: +{{bonus}}</span><br>
         <span v-if="carState == 1 && $store.state.wallet.address == owner">Price: {{carPrice}}</span>
       </p>
@@ -109,16 +104,6 @@
             CANCEL SELL
          </v-btn>
 
-
-
-
-
-
-
-      
-
-
-
          <v-overlay
             :absolute="absolute"
             :value="progressOverlay"
@@ -128,10 +113,6 @@
          </v-overlay>
       </v-card>
       </div>  
-      
-      <error-overlay
-      v-if="$store.state.network.id != 820"
-      />
    </div>
 </template>
 
@@ -180,18 +161,6 @@ export default {
         })
     },
     methods: {
-      winRateColor(){
-         let winRate = this.wins*100/this.total
-         if(winRate <= 100 && winRate > 66){
-            return "green--text"
-         }
-         if(winRate <= 65 && winRate > 33){
-            return "yellow--text"
-         }
-         if(winRate <= 33 && winRate >= 0){
-            return "red--text"
-         }
-      },
       sellCar () {
         this.sellOverlay = false;
         this.progressOverlay = true;
@@ -224,43 +193,6 @@ export default {
         var web3 = new Web3(window.ethereum || Web3.givenProvider);
         let amountToSend = web3.utils.toWei(this.carPrice+'', "ether"); 
         this.$store.state.contract.methods.buyCar(404).send({from: this.$store.state.wallet.address, value: amountToSend})         
-        .then(value => {
-          sessionStorage.setItem("lastTx", value.transactionHash) 
-          location.reload()
-        })
-        .catch(err => {
-          this.$store.commit('showSnackbar', err.message);
-          this.progressOverlay = false;
-          });
-      },
-      createRace () {
-        this.progressOverlay = true;
-        this.$store.state.contract.methods.createDragRace(404).send({from: this.$store.state.wallet.address})         
-        .then(value => {
-          sessionStorage.setItem("lastTx", value.transactionHash) 
-          location.reload()
-        })
-        .catch(err => {
-          this.$store.commit('showSnackbar', err.message);
-          this.progressOverlay = false;
-          });
-      },
-      cancelRace () {
-        this.progressOverlay = true;
-        this.$store.state.contract.methods.cancelRace(404).send({from: this.$store.state.wallet.address})         
-        .then(value => {
-          sessionStorage.setItem("lastTx", value.transactionHash) 
-          location.reload()
-        })
-        .catch(err => {
-          this.$store.commit('showSnackbar', err.message);
-          this.progressOverlay = false;
-          });
-      },
-      acceptRace () {
-        this.raceOverlay = false;
-        this.progressOverlay = true;
-        this.$store.state.contract.methods.acceptDragRace(404, this.betCar).send({from: this.$store.state.wallet.address})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()

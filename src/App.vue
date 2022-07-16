@@ -1,50 +1,21 @@
 <template>
-  <v-app id="inspire">
+  <v-app 
+    id="inspire"
+    style="background: black"
+  >
     <v-app-bar
       app
       hide-on-scroll
       short
+      class="bar"
      >
-      <template v-slot:img="{ props }">
-        <v-img
-          v-bind="props"
-          gradient="to top right, rgba(204,0,0,.5), rgba(0,0,0,.8)"
-        ></v-img>
-      </template>
+      <collect class="mx-1"/>
 
-      <v-btn
-        v-if="$store.state.raceButton"
-        class="ma-0"
-        :to="'/race'"
-        link
-        color="#20272F"
-      >
-      race
-      </v-btn>
-      <v-btn
-        v-if="$store.state.raceButton"
-        class="ml-1"
-        :to="'/rally-soy'"
-        link
-        color="#20272F"
-      >
-      rally
-      </v-btn>
-      <v-btn      
-        v-else
-        class="ma-0"
-        :to="'/'"
-        link
-        color="#20272F"
-      >
-      home
-      </v-btn>
       <v-spacer></v-spacer>
       <h1 class="myFont d-none d-md-block">Power-C.AR</h1>
       <v-spacer></v-spacer>
       
 
-      <collect class="mx-1"/>
       <unlock-wallet
         v-if="!$store.state.wallet.unlocked"
        />
@@ -61,15 +32,15 @@
 
 
   <v-footer app fixed padless color="black">
-<v-btn class="d-none d-md-flex" icon href="https://twitter.com/PowercNFT" target="_blank">
-        <v-icon>mdi-twitter</v-icon> 
-      </v-btn>
-      <v-btn class="d-none d-md-flex" icon href="https://explorer.callisto.network/address/0xE830AFDAe4Dba5b3b6c6b3506138C373Eb6CE73C/contracts" target="_blank">
-        <v-icon>mdi-code-tags</v-icon> 
-      </v-btn>
-      <v-btn class="d-none d-md-flex" icon href="https://t.me/powercarNTF" target="_blank">
-        <v-icon>mdi-send</v-icon> 
-      </v-btn>
+    <v-btn class="d-none d-md-flex" icon href="https://twitter.com/PowercNFT" target="_blank">
+      <v-icon>mdi-twitter</v-icon> 
+    </v-btn>
+    <v-btn class="d-none d-md-flex" icon href="https://explorer.callisto.network/address/0xE830AFDAe4Dba5b3b6c6b3506138C373Eb6CE73C/contracts" target="_blank">
+      <v-icon>mdi-code-tags</v-icon> 
+    </v-btn>
+    <v-btn class="d-none d-md-flex" icon href="https://t.me/powercarNTF" target="_blank">
+      <v-icon>mdi-send</v-icon> 
+    </v-btn>
 
     <v-dialog
       v-model="dialog"
@@ -95,7 +66,8 @@
         <v-card-text>
           1. 90 were minted. <br>
           2. Bonus: Increase the chances of wining a race. Higher bonus is better.<br>
-          3. Fee, at the beginning, for selling a car is 5%, it will never be higher, it is written in the smart contract. It can only decrease.
+          3. Fee, at the beginning, for selling a car is 5%, it will never be higher, it is written in the smart contract. It can only decrease.<br>
+          <a href="https://powercar-legacy.netlify.app/#/">Legacy WebSite</a>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -112,8 +84,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-spacer></v-spacer>
-    <p class="d-none d-md-flex my-2">* Attention!, do not buy from a Ledger wallet. CAR NFTs are not supported.</p>
     <v-spacer></v-spacer>
       <v-btn
         class="mx-2 my-2 d-none d-md-flex"
@@ -154,7 +124,12 @@
 </script>
 
 <style>
-.myFont {
-  font-family: 'Press Start 2P', cursive;; 
-}
+  .myFont {
+    font-family: 'Press Start 2P', cursive;; 
+  }
+
+  .bar{
+    background: rgb(255,0,0);
+    background: linear-gradient(180deg, rgba(255,0,0,1) 0%, rgba(0,0,0,1) 100%);
+  }
 </style>
