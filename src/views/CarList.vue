@@ -16,70 +16,15 @@
         @click="sortByBonus"
       >Sort by Bonus</v-btn>
 
-      <v-pagination
-        class="mt-1"
-        color="#cc0000"
-        v-model="page"
-        :length="9"
-        @input="setCurrentPage(0)"
-        @next="setCurrentPage(1)"
-        @previous="setCurrentPage(-1)"
-      ></v-pagination>  
+      <div>
+        <car-card
+          v-for="car in $store.state.cars"
+          :key="car.id"
+          :car="car"
+        />
+      </div>
 
-      <div v-if="page == 1">
-        <car-card
-        v-for="car in $store.state.cars.slice(0, 10)"
-        :key="car.id"
-        :car="car"
-      /></div> 
-      <div v-if="page == 2">
-        <car-card
-        v-for="car in $store.state.cars.slice(10, 20)"
-        :key="car.id"
-        :car="car"
-      /></div> 
-      <div v-if="page == 3">
-        <car-card
-        v-for="car in $store.state.cars.slice(20, 30)"
-        :key="car.id"
-        :car="car"
-      /></div> 
-      <div v-if="page == 4">
-        <car-card
-        v-for="car in $store.state.cars.slice(30, 40)"
-        :key="car.id"
-        :car="car"
-      /></div>
-      <div v-if="page == 5">
-        <car-card
-        v-for="car in $store.state.cars.slice(40, 50)"
-        :key="car.id"
-        :car="car"
-      /></div> 
-      <div v-if="page == 6">
-        <car-card
-        v-for="car in $store.state.cars.slice(50, 60)"
-        :key="car.id"
-        :car="car"
-      /></div>
-      <div v-if="page == 7">
-        <car-card
-        v-for="car in $store.state.cars.slice(60, 70)"
-        :key="car.id"
-        :car="car"
-      /></div>
-      <div v-if="page == 8">
-        <car-card
-        v-for="car in $store.state.cars.slice(70, 80)"
-        :key="car.id"
-        :car="car"
-      /></div>    
-      <div v-if="page == 9">
-        <car-card
-        v-for="car in $store.state.cars.slice(80, 90)"
-        :key="car.id"
-        :car="car"
-      /></div>   
+
     </div>
   </div>
 </template>
@@ -179,4 +124,6 @@ export default {
   }
 };
 </script>
+
+
 

@@ -10,7 +10,7 @@
         v-slot="{ hover }"
       >
         <v-btn 
-          class="float-left mb-2" 
+          class="mb-2" 
           shapped
           color="blue"
           width="100%"
@@ -25,9 +25,9 @@
       <v-lazy
         v-model="isActive"
         :options="{
-          threshold: .5
+          threshold: 1
         }"
-        transition="fade-transition"
+        transition="slide-x-reverse-transition"
       >
         <v-img 
           width="80%"
@@ -46,10 +46,16 @@
     </div>
 
     <v-btn
+      style="visibility: hidden;"
+      v-if="carState == 0 && $store.state.wallet.address != owner"
+
+    >
+    </v-btn>
+
+    <v-btn
       class="black--text" 
       v-if="carState == 1 && $store.state.wallet.address != owner"
       color="yellow"
-      width="100%"
       @click="buyCar()"
     >
       BUY ({{carPrice}} CLO)
@@ -60,6 +66,16 @@
       :value="sellOverlay"
       opacity="90"
     >
+      <v-btn 
+        class="float-left mb-2" 
+        shapped
+        color="blue"
+        width="100%"
+      >
+        <v-spacer></v-spacer>
+        <span>CAR {{car.id}}</span>
+        <v-spacer></v-spacer>
+      </v-btn>
       <p>Fee: {{$store.state.feeRate}}%</p>
       <p>Set the CAR price:</p>
       <v-text-field
@@ -98,7 +114,7 @@
       <v-btn 
         class="float-left mb-2" 
         shapped
-        :color="car.id == 59? 'red' : 'blue'"
+        color="blue"
         width="100%"
       >
         <v-spacer></v-spacer>
@@ -230,9 +246,12 @@ export default {
     beforeMount(){
         var today = new Date();
         this.time = today.getHours();
+        this.imagePath = "https://raw.githubusercontent.com/ESNJS/power-car/assets/SerieC-"+this.car.id+".gif"
+        /*
         this.contract_read.methods.tokenURI(this.car.id).call((err, res) => {
           this.imagePath = res
         })
+        */
         this.contract_read.methods.carBonus(this.car.id).call((err, res) => {
           this.bonus = res
         })
@@ -249,12 +268,12 @@ export default {
         })
 
         if(this.car.id == 81){
-          this.background = 'float-left mx-3 my-3 stars'
+          this.background = 'car-card stars'
         }else{
           if(this.time <= 7 ||this.time >= 19){
-            this.background = 'float-left mx-3 my-3 night'
+            this.background = 'car-card night'
           }else{
-            this.background = 'float-left mx-3 my-3 day'
+            this.background = 'car-card day'
           }
         }
     },
@@ -323,8 +342,13 @@ export default {
 
 <style>
 p {
-  margin: 0;
+  margin: 0 !important;
   padding: 0;
+}
+
+.car-card{
+  margin: 10px;
+  display: inline-block;
 }
 
 .night{
