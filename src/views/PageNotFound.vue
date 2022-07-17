@@ -109,7 +109,7 @@
             :value="progressOverlay"
             opacity="90"
          >
-         <img src="@/assets/fuel.gif">
+         <img src="@/assets/Fuel.gif">
          </v-overlay>
       </v-card>
       </div>  
