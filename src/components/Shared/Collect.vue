@@ -26,7 +26,7 @@ export default {
         amount: 0,
         contract_read:  new web3_read.eth.Contract(
           [
-            this.$store.state.contract.getSalesBalanceABI, 
+            this.$store.state.contract.salesBalanceABI, 
           ], 
             this.$store.state.contract.address
         ),
@@ -40,14 +40,14 @@ export default {
     },
     beforeMount(){
       web3_write.eth.requestAccounts().then(addresses => {
-        contract_read.methods.getSalesBalance().call({from: addresses[0]}, (err, res) => {
+        this.contract_read.methods.salesBalance(addresses[0]).call({from: addresses[0]}, (err, res) => {
           this.amount = res/(10**18)
         })
       })
     },
     methods: {
       claim () {
-        contract_write.methods.claimSalesBalance().send({from: this.$store.state.wallet.address})         
+        this.contract_write.methods.claimSalesBalance().send({from: this.$store.state.wallet.address})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()
@@ -59,5 +59,4 @@ export default {
       },
     }
 }
-
 </script>

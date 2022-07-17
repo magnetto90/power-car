@@ -1,7 +1,7 @@
 <template>
   <v-card
-    width="300px"
-    height="310px"
+    width="270px"
+    height="279px"
     :class="background"
     :style="$store.state.wallet.address == owner ? 'border: 2px solid green;' : 'border: 2px solid red;'"
   >
@@ -30,14 +30,13 @@
         transition="fade-transition"
       >
         <v-img 
-          width="75%"
+          width="80%"
           :src="imagePath"
           :key="componentKey"
           @error="errorHandler()"
         ></v-img>
       </v-lazy>
-      
-      <p :title="owner" v-if="owner != '0x8C3a198929E8796a09f017d11B56f684679A4721'">
+      <p :title="owner">
         Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
       </p>
       <p>
@@ -50,6 +49,7 @@
       class="black--text" 
       v-if="carState == 1 && $store.state.wallet.address != owner"
       color="yellow"
+      width="100%"
       @click="buyCar()"
     >
       BUY ({{carPrice}} CLO)
@@ -206,7 +206,7 @@ export default {
         componentKey: 0,
         time: 0,
         background: "",
-        contract_read:  new web3_read.eth.Contract(
+        contract_read: new web3_read.eth.Contract(
           [
             this.$store.state.contract.tokenURIABI, 
             this.$store.state.contract.carBonusABI,
@@ -216,7 +216,7 @@ export default {
           ], 
             this.$store.state.contract.address
         ),
-        contract_write:  new web3_write.eth.Contract(
+        contract_write: new web3_write.eth.Contract(
         [
           this.$store.state.contract.createCarSaleABI, 
           this.$store.state.contract.transferFromABI,
@@ -249,12 +249,12 @@ export default {
         })
 
         if(this.car.id == 81){
-          this.background = 'float-left mx-9 my-5 stars'
+          this.background = 'float-left mx-3 my-3 stars'
         }else{
           if(this.time <= 7 ||this.time >= 19){
-            this.background = 'float-left mx-9 my-5 night'
+            this.background = 'float-left mx-3 my-3 night'
           }else{
-            this.background = 'float-left mx-9 my-5 day'
+            this.background = 'float-left mx-3 my-3 day'
           }
         }
     },
@@ -265,7 +265,7 @@ export default {
       sellCar () {
         this.sellOverlay = false;
         this.progressOverlay = true;
-         this.contract_write.methods.createCarSale(this.car.id, this.amount).send({from: this.$store.state.wallet.address})         
+        this.contract_write.methods.createCarSale(this.car.id, this.amount).send({from: this.$store.state.wallet.address})         
         .then(value => {
           sessionStorage.setItem("lastTx", value.transactionHash) 
           location.reload()
@@ -327,20 +327,16 @@ p {
   padding: 0;
 }
 
-.v-progress-circular {
-  margin: 1rem;
-}
-
 .night{
       background: url( '../../assets/night.png') no-repeat center center;
 }
 
 .day{
-        background: url( '../../assets/day.png') no-repeat center center;
+      background: url( '../../assets/day.png') no-repeat center center;
 }
 
 .stars{
-        background: url( '../../assets/stars.gif') no-repeat center center;
+      background: url( '../../assets/stars.gif') no-repeat center center;
 }
 
 

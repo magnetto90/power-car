@@ -194,7 +194,7 @@ export default new Vuex.Store({
             "stateMutability": "view",
             "type": "function"
         },
-        getSalesBalanceABI: {
+        salesBalanceABI: {
             "inputs": [
                 {
                     "internalType": "address",
