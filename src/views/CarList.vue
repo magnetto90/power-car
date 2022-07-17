@@ -1,5 +1,8 @@
 <template>
   <div>
+    <error-overlay
+      v-if="$store.state.errorOverlay"
+    />
     <div
       align="center"
     >
@@ -63,31 +66,12 @@ export default {
             this.$store.state.cars[i].carPrice = parseInt(res.carPrice.slice(0, -18))
           })
         }else{
-          this.$store.state.cars[i].carPrice = 100**12
+          this.$store.state.cars[i].carPrice = 0
         }
       })
     }
-
-    if(sessionStorage.getItem("currentPage")){
-      this.page = parseInt(sessionStorage.getItem("currentPage"))
-    }
   },
   methods: {
-    setCurrentPage(){
-      sessionStorage.setItem("currentPage", this.page)
-      this.fisherYates(this.random)
-    },
-    fisherYates ( myArray ) {
-      var i = myArray.length;
-      if ( i == 0 ) return false;
-      while ( --i ) {
-        var j = Math.floor( Math.random() * ( i + 1 ) );
-        var tempi = myArray[i];
-        var tempj = myArray[j];
-        myArray[i] = tempj;
-        myArray[j] = tempi;
-      }
-    },
     sortByID () {
       if(this.ByID){
         this.$store.state.cars.sort((a, b) => a.id <= b.id ? 1 : -1);
@@ -99,13 +83,16 @@ export default {
     },
     sortByPrice () {
       if(this.ByPrice){
-        this.$store.state.cars.sort((a, b) => a.carPrice <= b.carPrice ? 1 : -1);
+        this.$store.state.cars.sort(function(a, b) {
+          return (a.carPrice===0)-(b.carPrice===0) || +(a.carPrice>b.carPrice)||-(a.carPrice<b.carPrice);
+        });
         this.ByPrice = false
       }else{
-        this.$store.state.cars.sort((a, b) => a.carPrice >= b.carPrice ? 1 : -1);
+        this.$store.state.cars.sort(function(a, b) {
+          return (a.carPrice===0)-(b.carPrice===0) || -(a.carPrice>b.carPrice)||+(a.carPrice<b.carPrice);
+        });
         this.ByPrice = true
       }
-
     },
     sortByBonus () {
       if(this.ByBonus){
@@ -120,7 +107,6 @@ export default {
   },
   components: {
     'car-card': require('@/components/Shared/CarCard.vue').default,
-    'error-overlay': require('@/components/Shared/ErrorOverlay.vue').default
   }
 };
 </script>

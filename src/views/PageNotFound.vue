@@ -109,7 +109,7 @@
             :value="progressOverlay"
             opacity="90"
          >
-         <img src="@/assets/Fuel.gif">
+         <img src="@/assets/fuel.gif">
          </v-overlay>
       </v-card>
       </div>  
@@ -202,14 +202,8 @@ export default {
           this.progressOverlay = false;
           });
       }
-    },
-    components: {
-      'error-overlay': require('@/components/Shared/ErrorOverlay.vue').default,
-    }
-   
-    }
-
-
+    }   
+}
 </script>
 
 <style>

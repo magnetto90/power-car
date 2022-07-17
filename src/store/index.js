@@ -388,12 +388,11 @@ export default new Vuex.Store({
       })
     },
   },
-  actions: {    
-    getNetworkId (){
+  actions: { 
+    async getNetworkId (){
         var web3 = new Web3(window.ethereum || Web3.givenProvider);
-        web3.eth.getChainId().then(id => {
+        let id = await web3.eth.getChainId()
         this.commit("setNetworkId",id)
-      });
     },
     getAddress(){
         var web3 = new Web3(window.ethereum || Web3.givenProvider);
@@ -401,7 +400,7 @@ export default new Vuex.Store({
         this.commit("showAddress",addresses[0])
       })
     },
-    async addChain(){
+    async switchChain(){
       try {
         await ethereum.request({
           method: 'wallet_switchEthereumChain',

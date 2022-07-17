@@ -8,17 +8,16 @@
       hide-on-scroll
       short
       class="bar"
-     >
+    >
       <collect class="mx-1"/>
 
       <v-spacer></v-spacer>
       <h1 class="myFont d-none d-md-block">Power-C.AR</h1>
       <v-spacer></v-spacer>
-      
 
       <unlock-wallet
         v-if="!$store.state.wallet.unlocked"
-       />
+      />
       <wallet
         v-else
       />
@@ -91,7 +90,7 @@
         outlined
         rounded
         small
-        @click="$store.dispatch('addChain')"
+        @click="$store.dispatch('switchChain')"
       >
         Add Network
       </v-btn>
@@ -119,6 +118,7 @@
       },
       beforeMount(){
         this.$store.commit('getFeeRate');
+        this.$store.dispatch('getNetworkId');
       }
   }
 </script>
@@ -130,6 +130,8 @@
 
   .bar{
     background: rgb(255,0,0);
-    background: linear-gradient(180deg, rgba(255,0,0,1) 0%, rgba(0,0,0,1) 100%);
+    background: linear-gradient(180deg, rgba(255,0,0,1) 0%, rgba(0,0,0,1) 50%);
   }
+
+  body{background: black}
 </style>

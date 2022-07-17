@@ -46,16 +46,19 @@ export default {
       })
     },
     methods: {
-      claim () {
-        this.contract_write.methods.claimSalesBalance().send({from: this.$store.state.wallet.address})         
-        .then(value => {
-          sessionStorage.setItem("lastTx", value.transactionHash) 
-          location.reload()
-        })
-        .catch(err => {
-          console.log(err)
-          this.$store.commit('showSnackbar', err.message);
+      async claim () {
+        await this.$store.dispatch('switchChain')
+        await this.$store.dispatch('getNetworkId')
+        if(this.$store.state.network_id == 820){
+          this.contract_write.methods.claimSalesBalance().send({from: this.$store.state.wallet.address})         
+          .then(() => {
+            location.reload()
+          })
+          .catch(err => {
+            console.log(err)
+            this.$store.commit('showSnackbar', err.message);
           });
+        }
       },
     }
 }

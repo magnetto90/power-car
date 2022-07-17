@@ -21,7 +21,9 @@
           <v-spacer></v-spacer>
         </v-btn>
       </v-hover>
-
+      <p :title="owner">
+        Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
+      </p>
       <v-lazy
         v-model="isActive"
         :options="{
@@ -36,9 +38,6 @@
           @error="errorHandler()"
         ></v-img>
       </v-lazy>
-      <p :title="owner">
-        Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
-      </p>
       <p>
         <span v-if="bonus>0" title="This number helps you win races!!"> Bonus: +{{bonus}}</span><br>
         <span v-if="carState == 1 && $store.state.wallet.address == owner"> Price: {{carPrice}}</span>
@@ -48,7 +47,6 @@
     <v-btn
       style="visibility: hidden;"
       v-if="carState == 0 && $store.state.wallet.address != owner"
-
     >
     </v-btn>
 
@@ -193,7 +191,7 @@
       :value="progressOverlay"
       opacity="90"
     >
-      <img src="@/assets/Fuel.gif">
+      <img src="@/assets/fuel.gif">
     </v-overlay>
   </v-card>
 </template>
@@ -281,59 +279,71 @@ export default {
       errorHandler () {
         this.componentKey += 1;
       },
-      sellCar () {
-        this.sellOverlay = false;
-        this.progressOverlay = true;
-        this.contract_write.methods.createCarSale(this.car.id, this.amount).send({from: this.$store.state.wallet.address})         
-        .then(value => {
-          sessionStorage.setItem("lastTx", value.transactionHash) 
-          location.reload()
-        })
-        .catch(err => {
-          this.$store.commit('showSnackbar', err.message);
-          this.progressOverlay = false;
+      async sellCar () {
+        await this.$store.dispatch('switchChain')
+        await this.$store.dispatch('getNetworkId')
+        if(this.$store.state.network_id == 820){
+          this.sellOverlay = false;
+          this.progressOverlay = true;
+          this.contract_write.methods.createCarSale(this.car.id, this.amount).send({from: this.$store.state.wallet.address})         
+          .then(() => {
+            location.reload()
+          })
+          .catch(err => {
+            this.$store.commit('showSnackbar', err.message);
+            this.progressOverlay = false;
+            });
+        }
+      },
+      async transferCar () {
+        await this.$store.dispatch('switchChain')
+        await this.$store.dispatch('getNetworkId')
+        if(this.$store.state.network_id == 820){
+          this.transferOverlay = false;
+          this.progressOverlay = true;
+          this.contract_write.methods.transferFrom(this.$store.state.wallet.address, this.toAddress, this.car.id).send({from: this.$store.state.wallet.address})         
+          .then(() => {
+            location.reload()
+          })
+          .catch(err => {
+            this.$store.commit('showSnackbar', err.message);
+            this.progressOverlay = false;
+            });
+        }
+      },
+      async cancelSell () {
+        await this.$store.dispatch('switchChain')
+        await this.$store.dispatch('getNetworkId')
+        if(this.$store.state.network_id == 820){
+          this.progressOverlay = true;
+          this.contract_write.methods.endSale(this.car.id).send({from: this.$store.state.wallet.address})         
+          .then(() => {
+            location.reload()
+          })
+          .then(value => { console.log(value) })
+          .catch(err => {
+            this.$store.commit('showSnackbar', err.message);
+            this.progressOverlay = false;
+            });
+        }
+      },
+      async buyCar () {
+        await this.$store.dispatch('switchChain')
+        await this.$store.dispatch('getNetworkId')
+        if(this.$store.state.network_id == 820){
+          var web3 = new Web3(window.ethereum || Web3.givenProvider);
+          this.progressOverlay = true;
+          let amountToSend = web3.utils.toWei(this.carPrice+'', "ether"); 
+          this.contract_write.methods.buyCar(this.car.id).send({from: this.$store.state.wallet.address, value: amountToSend})         
+          .then(() => {
+            location.reload()
+          })
+          .catch(err => {
+            this.$store.commit('showSnackbar', err.message);
+            this.progressOverlay = false;
           });
+        }
 
-      },
-      transferCar () {
-        this.transferOverlay = false;
-        this.progressOverlay = true;
-         this.contract_write.methods.transferFrom(this.$store.state.wallet.address, this.toAddress, this.car.id).send({from: this.$store.state.wallet.address})         
-        .then(() => {
-          location.reload()
-        })
-        .catch(err => {
-          this.$store.commit('showSnackbar', err.message);
-          this.progressOverlay = false;
-          });
-
-      },
-      cancelSell () {
-        this.progressOverlay = true;
-        this.contract_write.methods.endSale(this.car.id).send({from: this.$store.state.wallet.address})         
-        .then(value => {
-          sessionStorage.setItem("lastTx", value.transactionHash) 
-          location.reload()
-        })
-        .then(value => { console.log(value) })
-        .catch(err => {
-          this.$store.commit('showSnackbar', err.message);
-          this.progressOverlay = false;
-          });
-      },
-      buyCar () {
-        var web3 = new Web3(window.ethereum || Web3.givenProvider);
-        this.progressOverlay = true;
-        let amountToSend = web3.utils.toWei(this.carPrice+'', "ether"); 
-        this.contract_write.methods.buyCar(this.car.id).send({from: this.$store.state.wallet.address, value: amountToSend})         
-        .then(value => {
-          sessionStorage.setItem("lastTx", value.transactionHash) 
-          location.reload()
-        })
-        .catch(err => {
-          this.$store.commit('showSnackbar', err.message);
-          this.progressOverlay = false;
-          });
       },  
     }
 }

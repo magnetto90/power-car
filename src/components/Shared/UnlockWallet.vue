@@ -22,8 +22,6 @@ export default {
         }
         window.ethereum.on('chainChanged', () => {
             this.$store.dispatch('getNetworkId');
-            this.$store.commit('showSnackbar', 'Atencion, se cambio de Red!');
-            location.reload()
         });
     },
     methods: 
