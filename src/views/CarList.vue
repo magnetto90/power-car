@@ -6,16 +6,13 @@
     <div
       align="center"
     >
-      <v-btn class="ma-1 white--text"
-        color="#cc0000"
+      <v-btn class="sort-btn"
         @click="sortByID"
       >Sort by ID</v-btn>
-      <v-btn class="ma-1 white--text" 
-        color="#cc0000"
+      <v-btn class="sort-btn"
         @click="sortByPrice"
       >Sort by Price</v-btn>
-      <v-btn class="ma-1 white--text"
-        color="#cc0000"
+      <v-btn class="sort-btn"
         @click="sortByBonus"
       >Sort by Bonus</v-btn>
 
@@ -26,8 +23,6 @@
           :car="car"
         />
       </div>
-
-
     </div>
   </div>
 </template>
@@ -56,13 +51,13 @@ export default {
     }
   },
   beforeMount(){
-    for(let i = 0; i <= 89; i++){    
-      this.contract_read.methods.carBonus(i).call((err, res) => {
+    for(let i in this.$store.state.cars){ 
+      this.contract_read.methods.carBonus(this.$store.state.cars[i].id).call((err, res) => {
         this.$store.state.cars[i].bonus = res
       })
-      this.contract_read.methods.carState(i).call((err, res) => {
+      this.contract_read.methods.carState(this.$store.state.cars[i].id).call((err, res) => {
         if(res == 1){
-          this.contract_read.methods.carSales(i).call((err, res) => {
+          this.contract_read.methods.carSales(this.$store.state.cars[i].id).call((err, res) => {
             this.$store.state.cars[i].carPrice = parseInt(res.carPrice.slice(0, -18))
           })
         }else{
@@ -110,6 +105,14 @@ export default {
   }
 };
 </script>
+
+<style>
+  .sort-btn{
+    color: white;
+    background-color: red !important;
+    margin: 5px;
+  }
+</style>
 
 
 

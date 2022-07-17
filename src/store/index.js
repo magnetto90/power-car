@@ -335,7 +335,8 @@ export default new Vuex.Store({
       {id: "087", name: ""},
       {id: "088", name: ""},
       {id: "089", name: ""},
-      /*{id: "090", name: ""},
+      /*
+      {id: "090", name: ""},
       {id: "091", name: ""},
       {id: "092", name: ""},
       {id: "093", name: ""},
@@ -344,8 +345,8 @@ export default new Vuex.Store({
       {id: "096", name: ""},
       {id: "097", name: ""},
       {id: "098", name: ""},
-      {id: "099", name: ""}
-      {id: "404", name: "Car not found"}*/
+      */
+      {id: "404", name: "Car not found"}
     ]
   },
   mutations: {
