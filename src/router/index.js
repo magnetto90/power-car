@@ -2,9 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import CarList from '../views/CarList.vue'
 import PageNotFound from '../views/PageNotFound.vue'
-import VueMeta from 'vue-meta'
 
-Vue.use(VueMeta)
 Vue.use(VueRouter)
 
 const routes = [
