@@ -102,6 +102,15 @@
 
 <script>
   export default {
+    metaInfo: {
+      meta: [
+        { property: "og:title", content: "Power Car"},
+        { property: "og:type", content: "nft"},
+        { property: "og:url", content: "https://power-c.ar/#/"},
+        { property: "og:image", content: "https://github.com/ESNJS/power-car/blob/assets/SmallCarTemplate0-G-export.gif"},
+        { property: "og:description", content: "Firts NFT Collection on Callisto Network"},
+      ]
+    },
     data () {
       return {
         dialog: false,
