@@ -8,6 +8,8 @@
       hide-on-scroll
       short
       class="bar"
+      elevation="0"
+      color="rgba(0,0,0,0)"
     >
       <collect class="mx-1"/>
       <v-spacer></v-spacer>
@@ -29,7 +31,7 @@
      
 
 
-  <v-footer app fixed padless color="black">
+  <v-footer app fixed padless class="footer" color="rgba(0,0,0,0)">
     <v-btn class="d-none d-md-flex" icon href="https://twitter.com/PowercNFT" target="_blank">
       <v-icon>mdi-twitter</v-icon> 
     </v-btn>
@@ -138,7 +140,12 @@
 
   .bar{
     background: rgb(255,0,0);
-    background: linear-gradient(180deg, rgba(255,0,0,1) 0%, rgba(0,0,0,1) 50%);
+    background: linear-gradient(180deg, rgba(255,0,0,1) 0%, rgba(0,0,0,0) 90%);
+  }
+
+  .footer{
+    background: rgb(255,0,0);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 25%, rgba(255,0,0,0) 75%);    
   }
 
   body{
