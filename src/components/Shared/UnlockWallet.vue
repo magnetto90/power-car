@@ -1,9 +1,7 @@
 <template>
-    <v-btn
-        @click="unlockWallet"
-        class="rigth pa-2"
-        color="#20272F"
-        
+    <button
+        @click="unlockWallet()"
+        class="nes-btn is-error"        
     >
         <v-icon
             color="yellow rounded-circle"
@@ -11,7 +9,7 @@
         >
             mdi-key-variant
         </v-icon> START
-    </v-btn>
+    </button>
 </template>
 
 <script>

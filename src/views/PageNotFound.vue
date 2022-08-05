@@ -4,8 +4,8 @@
          align="center"
          width="100vw"
       >
-      <h1 class="myFont mt-10">Page Not Found</h1>
-      <h2 class="myFont">...but you found a car.</h2>
+      <h1 class="mt-10">Page Not Found</h1>
+      <h2 >...but you found a car.</h2>
         <v-card
           align="center"
           width="270px"

@@ -6,15 +6,15 @@
     <div
       align="center"
     >
-      <v-btn class="sort-btn"
+      <button class="nes-btn is-error"
         @click="sortByID"
-      >Sort by ID</v-btn>
-      <v-btn class="sort-btn"
+      >Sort by ID</button>
+      <button class="nes-btn is-error"
         @click="sortByPrice"
-      >Sort by Price</v-btn>
-      <v-btn class="sort-btn"
+      >Sort by Price</button>
+      <button class="nes-btn is-error"
         @click="sortByBonus"
-      >Sort by Bonus</v-btn>
+      >Sort by Bonus</button>
 
       <div>
         <car-card

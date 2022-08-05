@@ -10,9 +10,8 @@
       class="bar"
     >
       <collect class="mx-1"/>
-
       <v-spacer></v-spacer>
-      <h1 class="myFont d-none d-md-block">Power-C.AR</h1>
+      <h1 class="d-none d-md-block">Power-C.AR</h1>
       <v-spacer></v-spacer>
 
       <unlock-wallet
@@ -94,7 +93,6 @@
       >
         Add Network
       </v-btn>
-
   </v-footer>
   </v-app>
   
@@ -125,8 +123,17 @@
 </script>
 
 <style>
-  .myFont {
-    font-family: 'Press Start 2P', cursive;; 
+  * {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 11px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  h2 {
+    font-size: 20px;
   }
 
   .bar{
@@ -134,5 +141,9 @@
     background: linear-gradient(180deg, rgba(255,0,0,1) 0%, rgba(0,0,0,1) 50%);
   }
 
-  body{background: black}
+  body{
+    background: black
+  }
+
+  @import "../node_modules/nes.css/css/nes.css"
 </style>
