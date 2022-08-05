@@ -8,11 +8,12 @@
       hide-on-scroll
       short
       class="bar"
+      elevation="0"
+      color="rgba(0,0,0,0)"
     >
       <collect class="mx-1"/>
-
       <v-spacer></v-spacer>
-      <h1 class="myFont d-none d-md-block">Power-C.AR</h1>
+      <h1 class="d-none d-md-block">Power-C.AR</h1>
       <v-spacer></v-spacer>
 
       <unlock-wallet
@@ -30,7 +31,7 @@
      
 
 
-  <v-footer app fixed padless color="black">
+  <v-footer app fixed padless class="footer" color="rgba(0,0,0,0)">
     <v-btn class="d-none d-md-flex" icon href="https://twitter.com/PowercNFT" target="_blank">
       <v-icon>mdi-twitter</v-icon> 
     </v-btn>
@@ -94,7 +95,6 @@
       >
         Add Network
       </v-btn>
-
   </v-footer>
   </v-app>
   
@@ -125,14 +125,32 @@
 </script>
 
 <style>
-  .myFont {
-    font-family: 'Press Start 2P', cursive;; 
+  * {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 11px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  h2 {
+    font-size: 20px;
   }
 
   .bar{
     background: rgb(255,0,0);
-    background: linear-gradient(180deg, rgba(255,0,0,1) 0%, rgba(0,0,0,1) 50%);
+    background: linear-gradient(180deg, rgba(255,0,0,1) 0%, rgba(0,0,0,0) 90%);
   }
 
-  body{background: black}
+  .footer{
+    background: rgb(255,0,0);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 25%, rgba(255,0,0,0) 75%);    
+  }
+
+  body{
+    background: black
+  }
+
+  @import "../node_modules/nes.css/css/nes.css"
 </style>

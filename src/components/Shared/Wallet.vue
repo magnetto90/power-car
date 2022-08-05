@@ -1,8 +1,7 @@
 <template>
 
-    <v-btn
-        class="rigth  pa-2"
-        color="#20272F"
+    <button
+        class="nes-btn is-error"
     >
         <v-icon
             color="yellow rounded-circle"
@@ -11,7 +10,7 @@
             mdi-key-variant
         </v-icon>
         {{$store.state.wallet.short}}
-    </v-btn>
+    </button>
  
 </template>
 

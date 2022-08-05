@@ -4,8 +4,8 @@
          align="center"
          width="100vw"
       >
-      <h1 class="myFont mt-10">Page Not Found</h1>
-      <h2 class="myFont">...but you found a car.</h2>
+      <h1 class="mt-10">Page Not Found</h1>
+      <h2 >...but you found a car.</h2>
         <v-card
           align="center"
           width="270px"
@@ -52,64 +52,34 @@
       </p>
     </div>
 
-    <v-btn
-      style="visibility: hidden;"
-      v-if="carState == 0 && $store.state.wallet.address != owner"
-    >
-    </v-btn>
-
-    <v-btn
-      class="black--text" 
+    <button
       v-if="carState == 1 && $store.state.wallet.address != owner"
-      color="yellow"
+      class="nes-btn is-warning" 
       @click="buyCar()"
     >
       BUY ({{carPrice}} CLO)
-    </v-btn>
+    </button>
 
     <v-overlay
       :absolute="absolute"
       :value="sellOverlay"
       opacity="90"
     >
-      <v-btn 
-        class="float-left mb-2" 
-        shapped
-        color="blue"
-        width="100%"
-      >
-        <v-spacer></v-spacer>
-        <span>CAR {{car.id}}</span>
-        <v-spacer></v-spacer>
-      </v-btn>
       <p>Fee: {{$store.state.feeRate}}%</p>
       <p>Set the CAR price:</p>
-      <v-text-field
-        v-model="amount"
-        background-color="black"
-        color="yellow"
-        solo
-        class="ml-0"
-        outlined
-        hide-details
-        type="number"
-        step="1"
-        min="1"
-        dense
-      >
-      </v-text-field>
-      <v-btn
-        color="success"
+      <input v-model="amount" type="text" id="dark_field" class="nes-input is-dark">
+      <button
+        class="nes-btn is-success" 
         @click="sellCar()"
       >
         Confirm
-      </v-btn>
-      <v-btn
-        color="error"
+      </button>
+      <button
+        class="nes-btn is-error" 
         @click="sellOverlay = false"
       >
         Cancel
-      </v-btn>
+      </button>
     </v-overlay>
 
     <v-overlay
@@ -117,83 +87,49 @@
       :value="transferOverlay"
       opacity="90"
     >
-      <v-btn 
-        class="float-left mb-2" 
-        shapped
-        color="blue"
-        width="100%"
-      >
-        <v-spacer></v-spacer>
-        <span>CAR {{car.id}}</span>
-        <v-spacer></v-spacer>
-      </v-btn>
       <h5>Instructions:</h5>
       <p>To send your car to another wallet enter the new wallet address and select confirm.</p>
-      <v-text-field
-        v-model="toAddress"
-        background-color="black"
-        color="yellow"
-        solo
-        class="ml-0"
-        outlined
-        hide-details
-        type="text"
-        dense
-      >
-      </v-text-field>
-      <v-btn
-        color="success"
+      <input v-model="toAddress" type="text" id="dark_field" class="nes-input is-dark">
+      <button
+        class="nes-btn is-success" 
         @click="transferCar()"
       >
         Confirm
-      </v-btn>
-      <v-btn
-        color="error"
+      </button>
+      <button
+        class="nes-btn is-error" 
         @click="transferOverlay = false"
       >
         Cancel
-      </v-btn>
+      </button>
     </v-overlay>
 
-    <v-btn
+    <button
       v-if="carState == 0 && $store.state.wallet.address == owner"
-      class="mr-0 black--text" 
-      color="yellow"
+      class="nes-btn is-warning" 
       @click="sellOverlay = true"
       width="50%"
     >
       SELL
-    </v-btn>
+    </button>
 
-    <v-btn
+    <button
       v-if="carState == 0 && $store.state.wallet.address == owner"
-      class="mr-0 black--text" 
-      color="yellow"
+      class="nes-btn is-warning" 
       @click="transferOverlay = true"
       width="50%"
     >
       TRANSFER
-    </v-btn>
+    </button>
 
-    <v-btn
-      class=" black--text" 
+    <button
       v-if="carState == 1 && $store.state.wallet.address == owner"
-      color="yellow"
+      class="nes-btn is-warning" 
       @click="cancelSell()"
       width="100%"
     >
       CANCEL SELL
-    </v-btn>
-    <v-btn
-      class=" black--text" 
-      v-if="carState == 3 && $store.state.wallet.address == owner"
-      color="yellow"
-      @click="cancelRace()"
-      width="100%"
-    >
-      CANCEL RACE
-    </v-btn>
-
+    </button>
     <v-overlay
       :absolute="absolute"
       :value="progressOverlay"

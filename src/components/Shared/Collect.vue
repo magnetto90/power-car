@@ -1,8 +1,8 @@
 <template>
-    <v-btn
-        class="left pa-2"
-        color="#20272F"
+    <button
+        class="nes-btn is-error"
         @click="claim()"
+
     >
         <v-icon
             
@@ -11,8 +11,8 @@
         >
             mdi-cash
         </v-icon>
-        <span class="d-none d-md-flex" ></span> {{amount.toFixed(0)}} CLO
-    </v-btn>
+        {{amount.toFixed(0)}} CLO
+    </button>
  
 </template>
 
