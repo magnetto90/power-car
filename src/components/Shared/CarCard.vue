@@ -9,17 +9,14 @@
       <v-hover
         v-slot="{ hover }"
       >
-        <v-btn 
-          class="mb-2" 
-          shapped
-          color="blue"
-          width="100%"
+        <button 
+          class="nes-btn is-primary plate" 
         >
           <v-spacer></v-spacer>
           <span v-if="hover && car.name != ''">{{car.name}}</span>
           <span v-else>CAR {{car.id}}</span>
           <v-spacer></v-spacer>
-        </v-btn>
+        </button>
       </v-hover>
       <p :title="owner">
         Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
@@ -38,8 +35,12 @@
           @error="errorHandler()"
         ></v-img>
       </v-lazy>
+      <v-img 
+          width="80%"
+          :src="bonusImg"
+          class="ma-1"
+      ></v-img>
       <p>
-        <span v-if="bonus>0" title="This number helps you win races!!"> Bonus: +{{bonus}}</span><br>
         <span v-if="carState == 1 && $store.state.wallet.address == owner"> Price: {{carPrice}}</span>
       </p>
     </div>
@@ -165,6 +166,7 @@ export default {
         componentKey: 0,
         time: 0,
         background: "",
+        bonusImg: "",
         contract_read: new web3_read.eth.Contract(
           [
             this.$store.state.contract.tokenURIABI, 
@@ -197,6 +199,7 @@ export default {
         */
         this.contract_read.methods.carBonus(this.car.id).call((err, res) => {
           this.bonus = res
+          this.bonusImg = "https://raw.githubusercontent.com/ESNJS/power-car/assets/p"+this.bonus+".png"
         })
         this.contract_read.methods.carState(this.car.id).call((err, res) => {
           this.carState = res;
@@ -302,8 +305,12 @@ p {
 }
 
 .car-card{
-  margin: 10px;
+  margin: 5px;
   display: inline-block;
+}
+
+.plate {
+  width: 90%;
 }
 
 .night{
