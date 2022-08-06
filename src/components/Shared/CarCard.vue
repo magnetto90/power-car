@@ -53,13 +53,18 @@
       dummy
     </button>
 
-    <button
-      class="nes-btn is-warning" 
-      v-if="carState == 1 && $store.state.wallet.address != owner"
-      @click="buyCar()"
+    <v-hover
+      v-slot="{ hover }"
     >
-      BUY ({{carPrice}} CLO)
-    </button>
+      <button
+        class="nes-btn is-warning" 
+        v-if="carState == 1 && $store.state.wallet.address != owner"
+        @click="buyCar()"
+      >
+        <span v-if="hover">BUY ({{parseInt(carPrice * cloPrice)}} USD)</span>
+        <span v-else>BUY ({{carPrice}} CLO)</span>
+      </button>
+    </v-hover>
 
     <v-overlay
       :absolute="absolute"
@@ -147,6 +152,8 @@ import Web3 from 'web3'
 const web3_read = new Web3("https://rpc.callisto.network/");
 const web3_write = new Web3(window.ethereum || Web3.givenProvider)
 
+const axios = require('axios');
+
 export default {
     props: ['car'],
     data() {
@@ -167,6 +174,7 @@ export default {
         time: 0,
         background: "",
         bonusImg: "",
+        cloPrice: 0,
         contract_read: new web3_read.eth.Contract(
           [
             this.$store.state.contract.tokenURIABI, 
@@ -222,6 +230,19 @@ export default {
             this.background = 'car-card day'
           }
         }
+
+        axios
+        .get('https://api.coingecko.com/api/v3/coins/callisto')
+        .then(res => {
+          //console.log(`statusCode: ${res.status}`);
+          this.cloPrice = res.data.market_data.current_price.usd;
+        })
+        .catch(error => {
+          console.error(error);
+          //retry if error
+          //getPrice(tokenSymbol);
+        });
+
     },
     methods: {
       errorHandler () {
