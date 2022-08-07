@@ -11,11 +11,11 @@
       >Sort by Price</button>
       <button class="nes-btn is-error"
         @click="sortByBonus"
-      >Sort by Bonus</button>
+      >Sort by Power</button>
       <button 
         :class="!$store.state.my_tokens ? 'nes-btn is-error' : 'nes-btn is-success'"
         @click="onlyMyTokens"
-      >My Tokens</button>
+      >My Cars</button>
       <div>
         <car-card
           v-for="car in $store.state.cars"
