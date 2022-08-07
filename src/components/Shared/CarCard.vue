@@ -4,6 +4,7 @@
     height="279px"
     :class="background"
     :style="$store.state.wallet.address == owner ? 'border: 2px solid green;' : 'border: 2px solid red;'"
+    v-if="!$store.state.my_tokens || $store.state.wallet.address === this.owner"
   >
     <div>   
       <v-hover
@@ -326,7 +327,7 @@ p {
 }
 
 .car-card{
-  margin: 5px;
+  margin: 5px !important;
   display: inline-block;
 }
 

@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    my_tokens: false,
     contract: {
         address: "0xE830AFDAe4Dba5b3b6c6b3506138C373Eb6CE73C",
         buyCarABI: {

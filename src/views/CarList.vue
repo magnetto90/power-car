@@ -1,8 +1,5 @@
 <template>
   <div>
-    <error-overlay
-      v-if="$store.state.errorOverlay"
-    />
     <div
       align="center"
     >
@@ -15,7 +12,10 @@
       <button class="nes-btn is-error"
         @click="sortByBonus"
       >Sort by Bonus</button>
-
+      <button 
+        :class="!$store.state.my_tokens ? 'nes-btn is-error' : 'nes-btn is-success'"
+        @click="onlyMyTokens"
+      >My Tokens</button>
       <div>
         <car-card
           v-for="car in $store.state.cars"
@@ -67,6 +67,9 @@ export default {
     }
   },
   methods: {
+    onlyMyTokens () {
+      this.$store.state.my_tokens = !this.$store.state.my_tokens
+    },
     sortByID () {
       if(this.ByID){
         this.$store.state.cars.sort((a, b) => a.id <= b.id ? 1 : -1);
