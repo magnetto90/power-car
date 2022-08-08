@@ -35,8 +35,6 @@ const web3_read = new Web3("https://rpc.callisto.network/");
 export default {
   data () {
     return {
-      page: 1,
-      random: [],
       ByID: true,
       ByPrice: false,
       ByBonus: false,
@@ -108,14 +106,3 @@ export default {
   }
 };
 </script>
-
-<style>
-  .sort-btn{
-    color: white;
-    background-color: red !important;
-    margin: 5px;
-  }
-</style>
-
-
-

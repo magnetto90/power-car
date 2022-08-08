@@ -4,7 +4,6 @@
     v-if="!$store.state.my_tokens || $store.state.wallet.address === this.owner"
   >
     <div>   
-
       <v-img 
         width="75%"
         :src="bonusImg"
@@ -159,7 +158,6 @@ export default {
         bonus: 0,
         isActive: false,
         componentKey: 0,
-        time: 0,
         background: "",
         bonusImg: "",
         cloPrice: 0,
@@ -185,34 +183,32 @@ export default {
       }
     },
     beforeMount(){
-        var today = new Date();
-        this.time = today.getHours();
-        this.imagePath = "https://raw.githubusercontent.com/ESNJS/power-car/assets/SerieC-"+this.car.id+".gif"
-        /*
-        this.contract_read.methods.tokenURI(this.car.id).call((err, res) => {
-          this.imagePath = res
-        })
-        */
-        this.contract_read.methods.carBonus(this.car.id).call((err, res) => {
-          this.bonus = res
-          this.bonusImg = "https://raw.githubusercontent.com/ESNJS/power-car/assets/p"+this.bonus+".png"
-        })
-        this.contract_read.methods.carState(this.car.id).call((err, res) => {
-          this.carState = res;
-          if(res == 1){
-            this.contract_read.methods.carSales(this.car.id).call((err, res) => {
-               this.carPrice = res.carPrice.slice(0, -18)
-            })
-          }
-        })
-        this.contract_read.methods.ownerOf(this.car.id).call((err, res) => {
-          this.owner = res
-        })
+      this.imagePath = "https://raw.githubusercontent.com/ESNJS/power-car/assets/SerieC-"+this.car.id+".gif"
+      /*
+      this.contract_read.methods.tokenURI(this.car.id).call((err, res) => {
+        this.imagePath = res
+      })
+      */
+      this.contract_read.methods.carBonus(this.car.id).call((err, res) => {
+        this.bonus = res
+        this.bonusImg = "https://raw.githubusercontent.com/ESNJS/power-car/assets/p"+this.bonus+".png"
+      })
+      this.contract_read.methods.carState(this.car.id).call((err, res) => {
+        this.carState = res;
+        if(res == 1){
+          this.contract_read.methods.carSales(this.car.id).call((err, res) => {
+              this.carPrice = res.carPrice.slice(0, -18)
+          })
+        }
+      })
+      this.contract_read.methods.ownerOf(this.car.id).call((err, res) => {
+        this.owner = res
+      })
 
         if(this.car.id == 81){
           this.background = 'car-card starsrace'
         }else{
-            this.background = 'car-card trackrace'
+          this.background = 'car-card trackrace'
         }
 
         axios
@@ -304,40 +300,33 @@ export default {
 </script>
 
 <style>
-p {
-  margin: 0 !important;
-  padding: 0;
+  .car-card{
+    margin: 0px !important;
+    display: inline-block;
+    width: 300px;
+    height: 300px;
 
-}
+  }
 
-.car-card{
-  margin: 0px !important;
-  display: inline-block;
-  width: 300px;
-  height: 300px;
+  .plate {
+    width: 32%;
+    margin: 0;
+    background: linear-gradient(90deg, rgba(0,0,255,1) 15%, rgba(255,255,255,1) 15%);
+    color: black !important;
+    text-align: right;
+    padding-top: 2px;
+    padding-right: 1px;
+    margin-left: 100px;
+    margin-bottom: 15px;
 
-}
+  }
 
-.plate {
-  width: 32%;
-  margin: 0;
-  background: linear-gradient(90deg, rgba(0,0,255,1) 15%, rgba(255,255,255,1) 15%);
-  color: black !important;
-  text-align: right;
-  padding-top: 2px;
-  padding-right: 1px;
-  margin-left: 100px;
-  margin-bottom: 15px;
+  .trackrace{
+        background: url( '../../assets/trackrace.png') no-repeat center center;
+  }
 
-}
-
-.trackrace{
-      background: url( '../../assets/trackrace.png') no-repeat center center;
-}
-
-.starsrace{
-      background: url( '../../assets/trackrace.gif') no-repeat center center;
-}
-
+  .starsrace{
+        background: url( '../../assets/trackrace.gif') no-repeat center center;
+  }
 </style>
 
