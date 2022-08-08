@@ -148,9 +148,5 @@
     background: linear-gradient(0deg, rgba(0,0,0,1) 25%, rgba(255,0,0,0) 75%);    
   }
 
-  body{
-    background: black
-  }
-
   @import "../node_modules/nes.css/css/nes.css"
 </style>

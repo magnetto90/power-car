@@ -1,27 +1,17 @@
 <template>
-  <v-card
-    width="270px"
-    height="279px"
+  <div
     :class="background"
-    :style="$store.state.wallet.address == owner ? 'border: 2px solid green;' : 'border: 2px solid red;'"
     v-if="!$store.state.my_tokens || $store.state.wallet.address === this.owner"
   >
     <div>   
-      <v-hover
-        v-slot="{ hover }"
-      >
-        <button 
-          class="nes-btn is-primary plate" 
-        >
-          <v-spacer></v-spacer>
-          <span v-if="hover && car.name != ''">{{car.name}}</span>
-          <span v-else>CAR {{car.id}}</span>
-          <v-spacer></v-spacer>
-        </button>
-      </v-hover>
-      <p :title="owner">
-        Owner: {{owner.substring(0, 4)+"..."+owner.substring(owner.length -4, owner.length)}}
-      </p>
+
+      <v-img 
+        width="75%"
+        :src="bonusImg"
+        class="ma-0"
+      ></v-img>
+      <div class="plate">
+        CAR {{car.id}}</div>
       <v-lazy
         v-model="isActive"
         :options="{
@@ -30,17 +20,14 @@
         transition="slide-x-reverse-transition"
       >
         <v-img 
-          width="80%"
+          width="75%"
           :src="imagePath"
           :key="componentKey"
           @error="errorHandler()"
+          class="mb-3"
         ></v-img>
       </v-lazy>
-      <v-img 
-          width="80%"
-          :src="bonusImg"
-          class="ma-1"
-      ></v-img>
+
       <p>
         <span v-if="carState == 1 && $store.state.wallet.address == owner"> Price: {{carPrice}}</span>
       </p>
@@ -145,7 +132,7 @@
     >
       <img src="@/assets/Fuel.gif">
     </v-overlay>
-  </v-card>
+  </div>
 </template>
 
 <script>
@@ -223,13 +210,9 @@ export default {
         })
 
         if(this.car.id == 81){
-          this.background = 'car-card stars'
+          this.background = 'car-card starsrace'
         }else{
-          if(this.time <= 7 ||this.time >= 19){
-            this.background = 'car-card night'
-          }else{
-            this.background = 'car-card day'
-          }
+            this.background = 'car-card trackrace'
         }
 
         axios
@@ -324,29 +307,37 @@ export default {
 p {
   margin: 0 !important;
   padding: 0;
+
 }
 
 .car-card{
-  margin: 5px !important;
+  margin: 0px !important;
   display: inline-block;
+  width: 300px;
+  height: 300px;
+
 }
 
 .plate {
-  width: 90%;
+  width: 32%;
+  margin: 0;
+  background: linear-gradient(90deg, rgba(0,0,255,1) 15%, rgba(255,255,255,1) 15%);
+  color: black !important;
+  text-align: right;
+  padding-top: 2px;
+  padding-right: 1px;
+  margin-left: 100px;
+  margin-bottom: 15px;
+
 }
 
-.night{
-      background: url( '../../assets/night.png') no-repeat center center;
+.trackrace{
+      background: url( '../../assets/trackrace.png') no-repeat center center;
 }
 
-.day{
-      background: url( '../../assets/day.png') no-repeat center center;
+.starsrace{
+      background: url( '../../assets/trackrace.gif') no-repeat center center;
 }
-
-.stars{
-      background: url( '../../assets/stars.gif') no-repeat center center;
-}
-
 
 </style>
 

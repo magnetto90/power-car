@@ -307,17 +307,10 @@ p {
   display: inline-block;
 }
 
-.night{
-      background: url( '../assets/night.png') no-repeat center center;
+.trackrace{
+      background: url( '../assets/trackrace.png') no-repeat center center;
 }
 
-.day{
-      background: url( '../assets/day.png') no-repeat center center;
-}
-
-.stars{
-      background: url( '../assets/stars.gif') no-repeat center center;
-}
 
 
 </style>
